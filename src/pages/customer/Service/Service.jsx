@@ -4,6 +4,7 @@ import { faStar } from '@fortawesome/free-solid-svg-icons';
 import axios from 'axios';
 import Cookies from 'js-cookie'; // Import thư viện js-cookie
 import { Link } from 'react-router-dom';
+import Detail from '../Detail/Detail';
 
 import Navigation from '../../../components/Navigation';
 import Footer from '../../../components/Footer';
@@ -14,10 +15,16 @@ function Service() {
   const [allPackageServices, setAllPackageServices] = useState([]);
   const [loggedIn, setLoggedIn] = useState(false);
   const [selectedService, setSelectedService] = useState(null);
+  const [isDetailModalVisible, setDetailModalVisible] = useState(false);
 
   const handleOrderClick = (service) => {
     localStorage.setItem('selectedService', JSON.stringify(service));
     window.scrollTo(0, 0);
+  };
+
+  const handleViewServiceDetailClick = (service) => {
+    setSelectedService(service);
+    setDetailModalVisible(true);
   };
 
   useEffect(() => {
@@ -67,13 +74,15 @@ function Service() {
     return services.map((service, index) => (
       <div className="menu_card" key={index}>
         <div className="menu_image">
-          <img src={service.image} alt={service.serviceName} />
+          <img
+            src={service.image}
+            alt={service.serviceName}
+            onClick={() => handleViewServiceDetailClick(service)}
+          />
         </div>
 
         <div className="menu_info">
-          <h2>
-            <a href="#">{service.serviceName}</a>
-          </h2>
+          <h2 onClick={() => handleViewServiceDetailClick(service)}>{service.serviceName}</h2>
           <h3>{formatPriceWithDot(service.price)} VND</h3>
           <div className="menu_icon">{renderStars(service.rating)}</div>
           <Link
@@ -192,6 +201,10 @@ function Service() {
           <div className="gallary_image_box">{renderPackageService(allPackageServices)}</div>
         </div>
       </div>
+
+      {isDetailModalVisible && (
+        <Detail selectedService={selectedService} onClose={() => setDetailModalVisible(false)} />
+      )}
 
       <div className="review" id="Review">
         <h1>

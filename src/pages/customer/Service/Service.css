@@ -180,10 +180,7 @@
   color: var(--primary-color-2);
   margin-top: 20px;
   padding: 0 20px;
-}
-
-.menu .menu_box .menu_card .menu_info h2 a {
-  color: var(--primary-color-2);
+  cursor: pointer;
 }
 
 .menu .menu_box .menu_card .menu_info h3 {

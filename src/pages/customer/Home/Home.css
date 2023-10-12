@@ -270,7 +270,7 @@
 
 .service-usage .title span {
   font-size: 7.3rem;
-  background: var(--linear-gradient-color-1);
+  background: var(--primary-color-1);
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
@@ -306,7 +306,7 @@
 }
 
 .service-item h2 {
-  background: var(--linear-gradient-color-1);
+  background: var(--primary-color-1);
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;

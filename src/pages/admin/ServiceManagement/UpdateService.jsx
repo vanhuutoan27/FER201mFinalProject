@@ -79,29 +79,30 @@ function AdminUpdateService({ selectedService, onClose }) {
         {selectedService && (
           <Form>
             <Row>
-              <Form.Group className="mb-3 service-image-container">
-                <div className="service-image-virtual"></div>
-                <label htmlFor="imageUpload" className="image-upload-label">
-                  <img
-                    src={updatedService.image}
-                    alt="Service Image"
-                    className="service-image"
-                    onClick={() => {
-                      document.getElementById('imageUpload');
-                    }}
+              <Col>
+                <Form.Group className="mb-3 service-image-container">
+                  <div className="service-image-virtual"></div>
+                  <label htmlFor="imageUpload" className="image-upload-label">
+                    <img
+                      src={updatedService.image}
+                      alt="Service Image"
+                      className="service-image"
+                      onClick={() => {
+                        document.getElementById('imageUpload');
+                      }}
+                    />
+                  </label>
+                  <input
+                    type="file"
+                    id="imageUpload"
+                    accept="image/*"
+                    style={{ display: 'none' }}
+                    onChange={handleFileChange}
                   />
-                </label>
-                <input
-                  type="file"
-                  id="imageUpload"
-                  accept="image/*"
-                  style={{ display: 'none' }}
-                  onChange={handleFileChange}
-                />
-              </Form.Group>
+                </Form.Group>
+              </Col>
 
-              <Col sm={4}></Col>
-              <Col sm={8}>
+              <Col>
                 <Form.Group className="mb-3 form-id">
                   <Form.Label>ID</Form.Label>
                   <Form.Control
@@ -114,12 +115,7 @@ function AdminUpdateService({ selectedService, onClose }) {
                     readOnly
                   />
                 </Form.Group>
-              </Col>
-            </Row>
 
-            <Row>
-              <Col sm={4}></Col>
-              <Col sm={8}>
                 <Form.Group className="mb-3 form-name">
                   <Form.Label>Name</Form.Label>
                   <Form.Control
@@ -130,12 +126,7 @@ function AdminUpdateService({ selectedService, onClose }) {
                     }
                   />
                 </Form.Group>
-              </Col>
-            </Row>
 
-            <Row>
-              <Col sm={4}></Col>
-              <Col sm={8}>
                 <Form.Group className="mb-3 form-desc">
                   <Form.Label>Description</Form.Label>
                   <Form.Control

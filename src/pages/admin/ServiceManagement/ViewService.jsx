@@ -21,12 +21,13 @@ function AdminViewService({ selectedService, onClose }) {
         {selectedService && (
           <Form>
             <Row>
-              <Form.Group className="mb-3 service-image-container">
-                <div className="service-image-virtual"></div>
-                <img src={selectedService.image} alt="Service Image" className="service-image" />
-              </Form.Group>
-              <Col sm={4}></Col>
-              <Col sm={8}>
+              <Col>
+                <Form.Group className="mb-3 service-image-container">
+                  {/* <div className="service-image-virtual"></div> */}
+                  <img src={selectedService.image} alt="Service Image" className="service-image" />
+                </Form.Group>
+              </Col>
+              <Col>
                 <Form.Group className="mb-3 form-id">
                   <Form.Label>ID</Form.Label>
                   <Form.Control
@@ -39,22 +40,12 @@ function AdminViewService({ selectedService, onClose }) {
                     readOnly
                   />
                 </Form.Group>
-              </Col>
-            </Row>
 
-            <Row>
-              <Col sm={4}></Col>
-              <Col sm={8}>
                 <Form.Group className="mb-3 form-name">
                   <Form.Label>Name</Form.Label>
                   <Form.Control type="text" value={selectedService.serviceName} readOnly />
                 </Form.Group>
-              </Col>
-            </Row>
 
-            <Row>
-              <Col sm={4}></Col>
-              <Col sm={8}>
                 <Form.Group className="mb-3 form-desc">
                   <Form.Label>Description</Form.Label>
                   <Form.Control

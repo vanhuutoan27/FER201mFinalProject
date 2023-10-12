@@ -23,13 +23,15 @@ function ViewUser({ selectedUser, onClose }) {
         {selectedUser && (
           <Form>
             <Row>
-              <Form.Group className="mb-3 service-image-container">
-                <div className="service-image-virtual"></div>
-                <img src={selectedUser.avatar} alt="User Image" className="user-avatar" />
-              </Form.Group>
-              <Col sm={4}></Col>
               <Col sm={4}>
-                <Form.Group className="mb-3 form-user-id">
+                <Form.Group className="mb-3 service-image-container">
+                  {/* <div className="service-image-virtual"></div> */}
+                  <img src={selectedUser.avatar} alt="User Image" className="service-image" />
+                </Form.Group>
+              </Col>
+
+              <Col sm={4}>
+                <Form.Group className="mb-3">
                   <Form.Label>ID</Form.Label>
                   <Form.Control
                     type="text"
@@ -41,62 +43,50 @@ function ViewUser({ selectedUser, onClose }) {
                     readOnly
                   />
                 </Form.Group>
+
+                <Form.Group className="mb-3">
+                  <Form.Label>First Name</Form.Label>
+                  <Form.Control type="text" value={selectedUser.firstName} readOnly />
+                </Form.Group>
               </Col>
+
               <Col sm={4}>
-                <Form.Group className="mb-3 form-date-created">
+                <Form.Group className="mb-3">
                   <Form.Label>Date Created</Form.Label>
                   <Form.Control type="text" value={formatDate(selectedUser.dateCreated)} readOnly />
                 </Form.Group>
-              </Col>
-            </Row>
 
-            <Row>
-              <Col sm={4}></Col>
-              <Col sm={8}>
+                <Form.Group className="mb-3">
+                  <Form.Label>Last Name</Form.Label>
+                  <Form.Control type="text" value={selectedUser.lastName} readOnly />
+                </Form.Group>
+              </Col>
+
+              <Col sm={6}>
                 <Form.Group className="mb-3 form-name">
                   <Form.Label>Email</Form.Label>
                   <Form.Control type="email" value={selectedUser.email} readOnly />
                 </Form.Group>
               </Col>
-            </Row>
 
-            <Row>
-              <Col sm={4}></Col>
-              <Col sm={4}>
-                <Form.Group className="mb-3 form-firstname">
-                  <Form.Label>First Name</Form.Label>
-                  <Form.Control type="text" value={selectedUser.firstName} readOnly />
-                </Form.Group>
-              </Col>
-              <Col sm={4}>
-                <Form.Group className="mb-3 form-lastname">
-                  <Form.Label>Last Name</Form.Label>
-                  <Form.Control type="text" value={selectedUser.lastName} readOnly />
-                </Form.Group>
-              </Col>
-            </Row>
-
-            <Row>
-              <Col>
+              <Col sm={6}>
                 <Form.Group className="mb-3">
-                  <Form.Label>Password</Form.Label>
-                  <Form.Control type="text" value={selectedUser.password} readOnly />
+                  <Form.Label>Phone</Form.Label>
+                  <Form.Control type="text" value={selectedUser.phone} readOnly />
                 </Form.Group>
               </Col>
 
-              <Col>
+              <Col sm={6}>
                 <Form.Group className="mb-3">
                   <Form.Label>Date of Birth</Form.Label>
                   <Form.Control type="text" value={formatDate(selectedUser.dob)} readOnly />
                 </Form.Group>
               </Col>
-            </Row>
 
-            <Row>
-              <Col>
+              <Col sm={6}>
                 <Form.Group className="mb-3">
-                  <Form.Label>Phone</Form.Label>
-                  <Form.Control type="text" value={selectedUser.phone} readOnly />
+                  <Form.Label>Password</Form.Label>
+                  <Form.Control type="text" value={selectedUser.password} readOnly />
                 </Form.Group>
               </Col>
 

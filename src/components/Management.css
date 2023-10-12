@@ -297,7 +297,7 @@ button:active {
 
 /*  */
 .modal-dialog {
-  margin-top: 20px;
+  margin-top: 10px;
 }
 
 .modal-content {
@@ -348,12 +348,13 @@ button:active {
 }
 
 .service-image-container {
-  display: flex;
+  /* display: flex; */
+  display: inline-block;
 }
 
-.service-image-container > img {
+/* .service-image-container > img {
   width: 40%;
-}
+} */
 
 .service-image,
 .service-image-virtual {
@@ -364,32 +365,30 @@ button:active {
 }
 
 .service-image {
-  width: 100%;
+  width: 90%;
   background-color: #eee;
 }
 
-.service-image-virtual {
+/* .service-image-virtual {
   height: 40vh;
   background-color: red;
-}
+} */
 
 .image-upload-label {
-  width: 40%;
+  /* width: 40%; */
   cursor: pointer;
+  padding: 0;
 }
 
-.image-upload-label img {
-  margin-top: 5px;
-}
 
-.mb-3.form-user-id {
+/* .mb-3.form-user-id {
   position: absolute;
   top: 0px;
   left: 360px;
   width: 23%;
-}
+} */
 
-.mb-3.form-id {
+/* .mb-3.form-id {
   position: absolute;
   top: 0px;
   left: 360px;
@@ -408,7 +407,7 @@ button:active {
   top: 160px;
   left: 360px;
   width: 48%;
-}
+} */
 
 /* .mb-3.form-id {
   position: absolute;
@@ -417,7 +416,7 @@ button:active {
   width: 23%;
 } */
 
-.mb-3.form-date-created {
+/* .mb-3.form-date-created {
   position: absolute;
   top: 0;
   left: 560px;
@@ -436,7 +435,7 @@ button:active {
   top: 160px;
   left: 560px;
   width: 23%;
-}
+} */
 
 .custom-select option {
   background-color: #eee;

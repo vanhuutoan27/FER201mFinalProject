@@ -61,9 +61,6 @@ function Navigation() {
               </a>
               <ul className="sub-nav">
                 <li>
-                  <a href="">About</a>
-                </li>
-                <li>
                   <a href="">News</a>
                 </li>
                 <li>

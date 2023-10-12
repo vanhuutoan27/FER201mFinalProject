@@ -76,28 +76,29 @@ function UpdateUser({ selectedUser, onClose }) {
         {selectedUser && (
           <Form>
             <Row>
-              <Form.Group className="mb-3 service-image-container">
-                <div className="service-image-virtual"></div>
-                <label htmlFor="imageUpload" className="image-upload-label">
-                  <img
-                    src={updatedUser.avatar}
-                    alt="User Image"
-                    className="service-image"
-                    onClick={() => {
-                      document.getElementById('imageUpload');
-                    }}
+              <Col sm={4}>
+                <Form.Group className="mb-3 service-image-container">
+                  {/* <div className="service-image-virtual"></div> */}
+                  <label htmlFor="imageUpload" className="image-upload-label">
+                    <img
+                      src={updatedUser.avatar}
+                      alt="User Image"
+                      className="service-image"
+                      onClick={() => {
+                        document.getElementById('imageUpload');
+                      }}
+                    />
+                  </label>
+                  <input
+                    type="file"
+                    id="imageUpload"
+                    accept="image/*"
+                    style={{ display: 'none' }}
+                    onChange={handleFileChange}
                   />
-                </label>
-                <input
-                  type="file"
-                  id="imageUpload"
-                  accept="image/*"
-                  style={{ display: 'none' }}
-                  onChange={handleFileChange}
-                />
-              </Form.Group>
+                </Form.Group>
+              </Col>
 
-              <Col sm={4}></Col>
               <Col sm={4}>
                 <Form.Group className="mb-3 form-user-id">
                   <Form.Label>ID</Form.Label>
@@ -111,32 +112,7 @@ function UpdateUser({ selectedUser, onClose }) {
                     readOnly
                   />
                 </Form.Group>
-              </Col>
-              <Col sm={4}>
-                <Form.Group className="mb-3 form-date-created">
-                  <Form.Label>Date Created</Form.Label>
-                  <Form.Control type="text" value={formatDate(updatedUser.dateCreated)} readOnly />
-                </Form.Group>
-              </Col>
-            </Row>
 
-            <Row>
-              <Col sm={4}></Col>
-              <Col sm={8}>
-                <Form.Group className="mb-3 form-name">
-                  <Form.Label>Email</Form.Label>
-                  <Form.Control
-                    type="email"
-                    value={updatedUser.email}
-                    onChange={(e) => setUpdatedUser({ ...updatedUser, email: e.target.value })}
-                  />
-                </Form.Group>
-              </Col>
-            </Row>
-
-            <Row>
-              <Col sm={4}></Col>
-              <Col sm={4}>
                 <Form.Group className="mb-3 form-firstname">
                   <Form.Label>First Name</Form.Label>
                   <Form.Control
@@ -146,7 +122,13 @@ function UpdateUser({ selectedUser, onClose }) {
                   />
                 </Form.Group>
               </Col>
+
               <Col sm={4}>
+                <Form.Group className="mb-3 form-date-created">
+                  <Form.Label>Date Created</Form.Label>
+                  <Form.Control type="text" value={formatDate(updatedUser.dateCreated)} readOnly />
+                </Form.Group>
+
                 <Form.Group className="mb-3 form-lastname">
                   <Form.Label>Last Name</Form.Label>
                   <Form.Control
@@ -156,21 +138,30 @@ function UpdateUser({ selectedUser, onClose }) {
                   />
                 </Form.Group>
               </Col>
-            </Row>
 
-            <Row>
-              <Col>
-                <Form.Group className="mb-3">
-                  <Form.Label>Password</Form.Label>
+              <Col sm={6}>
+                <Form.Group className="mb-3 form-name">
+                  <Form.Label>Email</Form.Label>
                   <Form.Control
-                    type="text"
-                    value={updatedUser.password}
-                    onChange={(e) => setUpdatedUser({ ...updatedUser, password: e.target.value })}
+                    type="email"
+                    value={updatedUser.email}
+                    onChange={(e) => setUpdatedUser({ ...updatedUser, email: e.target.value })}
                   />
                 </Form.Group>
               </Col>
 
-              <Col>
+              <Col sm={6}>
+                <Form.Group className="mb-3">
+                  <Form.Label>Phone</Form.Label>
+                  <Form.Control
+                    type="text"
+                    value={updatedUser.phone}
+                    onChange={(e) => setUpdatedUser({ ...updatedUser, phone: e.target.value })}
+                  ></Form.Control>
+                </Form.Group>
+              </Col>
+
+              <Col sm={6}>
                 <Form.Group className="mb-3">
                   <Form.Label>Date of Birth</Form.Label>
                   <Form.Control
@@ -180,17 +171,15 @@ function UpdateUser({ selectedUser, onClose }) {
                   />
                 </Form.Group>
               </Col>
-            </Row>
 
-            <Row>
-              <Col>
+              <Col sm={6}>
                 <Form.Group className="mb-3">
-                  <Form.Label>Phone</Form.Label>
+                  <Form.Label>Password</Form.Label>
                   <Form.Control
                     type="text"
-                    value={updatedUser.phone}
-                    onChange={(e) => setUpdatedUser({ ...updatedUser, phone: e.target.value })}
-                  ></Form.Control>
+                    value={updatedUser.password}
+                    onChange={(e) => setUpdatedUser({ ...updatedUser, password: e.target.value })}
+                  />
                 </Form.Group>
               </Col>
 

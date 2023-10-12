@@ -223,7 +223,7 @@ function Order() {
                     3
                   </Link>
                   <Link to="" className="progress-label">
-                    Confirmation
+                    Completion
                   </Link>
                 </li>
               </ul>
