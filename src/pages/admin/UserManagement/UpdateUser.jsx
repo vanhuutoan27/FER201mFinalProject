@@ -1,0 +1,227 @@
+/* eslint-disable jsx-a11y/img-redundant-alt */
+import React, { useState, useEffect } from 'react';
+import { Modal, Form } from 'react-bootstrap';
+import Row from 'react-bootstrap/Row';
+import Col from 'react-bootstrap/Col';
+import { storage } from '../../../firebase';
+import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
+import axios from 'axios';
+
+function UpdateUser({ selectedUser, onClose }) {
+  const [updatedUser, setUpdatedUser] = useState(selectedUser);
+  const [isLoading, setIsLoading] = useState(false);
+
+  // Hàm để định dạng ngày tháng năm
+  const formatDate = (dateString) => {
+    const date = new Date(dateString);
+    const day = date.getDate();
+    const month = date.getMonth() + 1;
+    const year = date.getFullYear();
+    return `${day < 10 ? '0' : ''}${day}/${month < 10 ? '0' : ''}${month}/${year}`;
+  };
+
+  const handleSave = async () => {
+    setIsLoading(true);
+
+    try {
+      // Send the request to update the user through axios
+      await axios.put(
+        `https://localhost:7088/api/CustomerManagements/${updatedUser.customerId}`,
+        updatedUser
+      );
+      alert('User updated successfully');
+      onClose();
+      window.location.reload();
+    } catch (error) {
+      alert('Error updating user');
+      console.error('Error updating user', error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    if (selectedUser) {
+      setUpdatedUser({ ...selectedUser });
+    }
+  }, [selectedUser]);
+
+  const handleFileChange = async (e) => {
+    const file = e.target.files[0];
+
+    const metadata = {
+      contentType: 'image/png',
+    };
+
+    const storageRef = ref(storage, `/images/${file.name}`);
+
+    try {
+      // Upload the image to Firebase Storage
+      const snapshot = await uploadBytes(storageRef, file, metadata);
+      // Get the URL of the image from Firebase
+      const downloadURL = await getDownloadURL(snapshot.ref);
+      // Update the image URL in updatedUser state
+      setUpdatedUser({ ...updatedUser, avatar: downloadURL });
+    } catch (error) {
+      console.error('Error uploading image to Firebase', error);
+    }
+  };
+
+  return (
+    <Modal show={!!selectedUser} onHide={onClose} size="lg">
+      <Modal.Header closeButton>
+        <Modal.Title>Update User</Modal.Title>
+      </Modal.Header>
+      <Modal.Body>
+        {selectedUser && (
+          <Form>
+            <Row>
+              <Form.Group className="mb-3 service-image-container">
+                <div className="service-image-virtual"></div>
+                <label htmlFor="imageUpload" className="image-upload-label">
+                  <img
+                    src={updatedUser.avatar}
+                    alt="User Image"
+                    className="service-image"
+                    onClick={() => {
+                      document.getElementById('imageUpload');
+                    }}
+                  />
+                </label>
+                <input
+                  type="file"
+                  id="imageUpload"
+                  accept="image/*"
+                  style={{ display: 'none' }}
+                  onChange={handleFileChange}
+                />
+              </Form.Group>
+
+              <Col sm={4}></Col>
+              <Col sm={4}>
+                <Form.Group className="mb-3 form-user-id">
+                  <Form.Label>ID</Form.Label>
+                  <Form.Control
+                    type="text"
+                    value={`C${
+                      updatedUser.customerId < 10
+                        ? '00' + updatedUser.customerId
+                        : '0' + updatedUser.customerId
+                    }`}
+                    readOnly
+                  />
+                </Form.Group>
+              </Col>
+              <Col sm={4}>
+                <Form.Group className="mb-3 form-date-created">
+                  <Form.Label>Date Created</Form.Label>
+                  <Form.Control type="text" value={formatDate(updatedUser.dateCreated)} readOnly />
+                </Form.Group>
+              </Col>
+            </Row>
+
+            <Row>
+              <Col sm={4}></Col>
+              <Col sm={8}>
+                <Form.Group className="mb-3 form-name">
+                  <Form.Label>Email</Form.Label>
+                  <Form.Control
+                    type="email"
+                    value={updatedUser.email}
+                    onChange={(e) => setUpdatedUser({ ...updatedUser, email: e.target.value })}
+                  />
+                </Form.Group>
+              </Col>
+            </Row>
+
+            <Row>
+              <Col sm={4}></Col>
+              <Col sm={4}>
+                <Form.Group className="mb-3 form-firstname">
+                  <Form.Label>First Name</Form.Label>
+                  <Form.Control
+                    type="text"
+                    value={updatedUser.firstName}
+                    onChange={(e) => setUpdatedUser({ ...updatedUser, firstName: e.target.value })}
+                  />
+                </Form.Group>
+              </Col>
+              <Col sm={4}>
+                <Form.Group className="mb-3 form-lastname">
+                  <Form.Label>Last Name</Form.Label>
+                  <Form.Control
+                    type="text"
+                    value={updatedUser.lastName}
+                    onChange={(e) => setUpdatedUser({ ...updatedUser, lastName: e.target.value })}
+                  />
+                </Form.Group>
+              </Col>
+            </Row>
+
+            <Row>
+              <Col>
+                <Form.Group className="mb-3">
+                  <Form.Label>Password</Form.Label>
+                  <Form.Control
+                    type="text"
+                    value={updatedUser.password}
+                    onChange={(e) => setUpdatedUser({ ...updatedUser, password: e.target.value })}
+                  />
+                </Form.Group>
+              </Col>
+
+              <Col>
+                <Form.Group className="mb-3">
+                  <Form.Label>Date of Birth</Form.Label>
+                  <Form.Control
+                    type="date"
+                    value={updatedUser.dob}
+                    onChange={(e) => setUpdatedUser({ ...updatedUser, dob: e.target.value })}
+                  />
+                </Form.Group>
+              </Col>
+            </Row>
+
+            <Row>
+              <Col>
+                <Form.Group className="mb-3">
+                  <Form.Label>Phone</Form.Label>
+                  <Form.Control
+                    type="text"
+                    value={updatedUser.phone}
+                    onChange={(e) => setUpdatedUser({ ...updatedUser, phone: e.target.value })}
+                  ></Form.Control>
+                </Form.Group>
+              </Col>
+
+              <Col>
+                <Form.Group className="mb-3">
+                  <Form.Label>Status</Form.Label>
+                  <Form.Control
+                    as="select"
+                    value={updatedUser.status}
+                    onChange={(e) => setUpdatedUser({ ...updatedUser, status: e.target.value })}
+                    className="custom-select"
+                  >
+                    <option value="Active">Active</option>
+                    <option value="Inactive">Inactive</option>
+                  </Form.Control>
+                </Form.Group>
+              </Col>
+            </Row>
+          </Form>
+        )}
+      </Modal.Body>
+      <Modal.Footer>
+        <button className="button-modal" onClick={onClose}>
+          Close
+        </button>
+        <button className="button-modal" onClick={handleSave} disabled={isLoading}>
+          {isLoading ? 'Saving...' : 'Save'}
+        </button>
+      </Modal.Footer>
+    </Modal>
+  );
+}
+
+export default UpdateUser;

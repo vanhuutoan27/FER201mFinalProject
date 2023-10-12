@@ -1,0 +1,403 @@
+/*==================== POPULAR ==================== */
+.popular-header .title {
+  margin-top: 100px;
+  text-align: center;
+  font-size: 5rem;
+  font-weight: 700;
+  line-height: normal;
+  letter-spacing: -1.44px;
+}
+
+.popular-header .title > a {
+  background: var(--linear-gradient-color-0);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.popular-1 {
+  display: flex;
+  margin: 50px 50px 0 50px;
+}
+
+.popular-2 {
+  display: flex;
+  flex-direction: row-reverse;
+  margin: 80px 50px 0 50px;
+}
+
+.popular-1 .info {
+  width: 50%;
+  margin-top: 25px;
+}
+
+.popular-2 .info {
+  width: 50%;
+  margin-top: 25px;
+  margin-left: auto;
+}
+
+.popular-1 .title,
+.popular-2 .title {
+  color: var(--primary-color-2);
+  font-size: 4.2rem;
+  font-weight: 700;
+  line-height: 1.19;
+  margin-top: 50px;
+}
+
+.popular-1 .desc,
+.popular-2 .desc {
+  color: var(--primary-color-4);
+  font-size: 1.4rem;
+  font-weight: 400;
+  line-height: 1.4;
+  margin-top: 10px;
+}
+
+.popular-1 img {
+  margin-left: auto;
+  width: 40%;
+}
+
+.popular-2 img {
+  width: 40%;
+}
+
+/*==================== SERVICE PACKAGE ====================*/
+.service-package .info {
+  position: relative;
+  margin-top: 50px;
+  padding-top: 80px;
+  padding-bottom: 200px;
+}
+
+.service-package .title {
+  color: #fff;
+  text-align: center;
+  font-size: 4.2rem;
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+.service-package .desc {
+  text-align: justify;
+  width: 60%;
+  margin-left: 20%;
+  transform: translateX(0%);
+  color: #fff;
+  font-size: 1.6rem;
+  font-weight: 300;
+  line-height: 1.4;
+  margin-top: 20px;
+}
+
+.service-package .desc span {
+  font-weight: 600;
+  color: var(--primary-color-1);
+}
+
+.service-package a {
+  position: absolute;
+  left: 38%;
+}
+
+/*==================== YOUR CHOICE ==================== */
+.your-choice-content {
+  display: flex;
+  flex-direction: row-reverse;
+  margin: 120px 50px 0 50px;
+}
+
+.your-choice-content .info {
+  width: 50%;
+  margin-top: 70px;
+  margin-left: auto;
+}
+
+.your-choice-content .title {
+  color: var(--primary-color-2);
+  font-size: 4.2rem;
+  font-weight: 700;
+  line-height: 1.19;
+}
+
+.your-choice-content .desc {
+  color: var(--primary-color-4);
+  font-size: 1.2rem;
+  font-weight: 400;
+  line-height: 1.4;
+  margin-top: 10px;
+}
+
+.your-choice-content img {
+  left: calc((100vw - 1110px) / 2 + 50px);
+  top: 350px;
+  width: 450px;
+  height: 383px;
+}
+
+/*==================== START BOOKING ====================*/
+.start-booking,
+.service-package {
+  background-color: var(--primary-color-2);
+  margin-top: 120px;
+}
+
+.booking {
+  display: flex;
+  padding: 30px;
+}
+
+.booking .info {
+  margin-top: 50px;
+  width: 45%;
+  padding: 40px 0;
+}
+
+.booking .title {
+  color: #fff;
+  font-size: 4.6rem;
+  font-weight: 700;
+  line-height: 1.19;
+}
+
+.booking .desc {
+  color: #fff;
+  font-size: 1.6rem;
+  font-weight: 400;
+  line-height: 1.4;
+  margin-top: 10px;
+}
+
+.booking > .info > .cta {
+  min-width: 170px;
+  margin-top: 40px;
+}
+
+.booking img {
+  margin-left: auto;
+  height: 350px;
+}
+
+/*==================== PROCESS SERVICE ====================*/
+.process-service {
+  margin-top: 120px;
+}
+
+.process-header {
+  text-align: center;
+  background: var(--linear-gradient-color-0);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  cursor: pointer;
+}
+
+.process-header .title {
+  font-size: 5rem;
+  font-weight: 700;
+  line-height: normal;
+  letter-spacing: -1.44px;
+}
+
+.process-header .sub-title {
+  color: var(--primary-color-4);
+  font-size: 1.6rem;
+  font-weight: 400;
+  line-height: 1.67;
+  letter-spacing: -0.36px;
+  margin-top: -8px;
+}
+
+.process-all {
+  display: flex;
+  margin-top: 40px;
+}
+
+.process-step {
+  border: 5px solid var(--primary-color-2);
+  box-shadow: 3px 2px 10px -2px #888;
+  border-radius: 15px;
+  margin: 0 16px;
+  width: 22%;
+}
+
+.home-process-info {
+  display: flex;
+  flex-direction: column;
+  padding: 12px;
+}
+
+.process-name {
+  color: var(--primary-color-2);
+  font-size: 1.8rem;
+  font-weight: 600;
+  line-height: 1.2;
+  margin-top: 10px;
+  cursor: pointer;
+}
+
+.process-desc {
+  color: var(--primary-color-4);
+  margin: 8px 0;
+  font-size: 1.2rem;
+  line-height: 1.2;
+  /* text-align: justify; */
+}
+
+.process-img {
+  border-radius: 15px;
+}
+
+/*==================== ONE MILLIONS ====================*/
+.service-usage {
+  display: flex;
+  margin: 50px 120px 0 120px;
+}
+
+.service-usage .info {
+  width: 50%;
+  margin-top: 25px;
+}
+
+.service-usage .title {
+  color: var(--primary-color-4);
+  font-size: 4.2rem;
+  font-weight: 700;
+  line-height: 1.19;
+}
+
+.service-usage .title span {
+  font-size: 7.3rem;
+  background: var(--linear-gradient-color-1);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.one-millions {
+  margin-top: 120px;
+}
+
+.one-millions .info {
+  margin-top: 0px;
+}
+
+.one-millions.service-usage {
+  margin-left: 200px;
+  margin-right: 200px;
+}
+
+.service-datas {
+  margin-top: 15px;
+  margin-left: auto;
+}
+
+.service-item + .service-item {
+  margin-top: 40px;
+}
+
+.data-icon {
+  color: #ffc889;
+  font-size: 4rem;
+  font-weight: 700;
+  margin-right: 8px;
+}
+
+.service-item h2 {
+  background: var(--linear-gradient-color-1);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  font-size: 4rem;
+  font-weight: 700;
+  margin-bottom: 8px;
+}
+
+.service-item h3 {
+  color: var(--primary-color-4);
+  font-size: 2.7rem;
+  font-weight: 500;
+}
+
+/*==================== FEEDBACK ====================*/
+.feedback {
+  margin-top: 120px;
+  display: flex;
+  flex-direction: column;
+}
+
+.feedback h2 {
+  color: var(--primary-color-2);
+  font-size: 5rem;
+  font-weight: 700;
+  line-height: normal;
+  letter-spacing: -1.44px;
+  text-align: center;
+}
+
+.feedback-content {
+  margin-top: 120px;
+  display: flex;
+  margin-top: 40px;
+}
+
+.feedback-box {
+  background-color: #fff;
+  box-shadow: 0px 2px 5px 0px #888;
+  border-radius: 15px;
+  margin: 0 16px;
+  width: calc(100% / 3);
+}
+
+.feedback-msg {
+  padding: 40px 20px 0 20px;
+}
+
+.feedback-msg img {
+  margin-bottom: 20px;
+}
+
+.feedback-msg p {
+  font-size: 1.4rem;
+  line-height: 1.2;
+}
+
+.feedback-msg hr {
+  margin-top: 20px;
+}
+
+.feedback-info {
+  display: flex;
+  padding: 20px 20px 40px 20px;
+}
+
+.feedback-info img {
+  width: 70px;
+  border-radius: 999px;
+  margin-left: 20px;
+}
+
+.feedback-user {
+  display: flex;
+  flex-direction: column;
+  margin-left: 30px;
+  margin-top: 15px;
+}
+
+.feedback-name {
+  color: var(--primary-color-2);
+  font-size: 1.8rem;
+  font-weight: 600;
+}
+
+.feedback-desc {
+  margin: 8px 4px;
+  font-size: 1rem;
+  line-height: 1.2;
+}
+
+.nav-active {
+  background-color: #555;
+}
