@@ -47,7 +47,6 @@ function App() {
     axiosInstance
       .get('https://localhost:7088/api/CustomerManagements/Launch')
       .then((response) => {
-        // Handle the response data here
         setUser(response.data);
       })
       .catch((error) => {
