@@ -181,6 +181,7 @@
   margin-top: 20px;
   padding: 0 20px;
   cursor: pointer;
+  line-height: 1.1;
 }
 
 .menu .menu_box .menu_card .menu_info h3 {

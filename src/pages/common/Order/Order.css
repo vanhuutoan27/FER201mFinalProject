@@ -11,7 +11,8 @@
   margin-bottom: 100px;
 }
 
-.OrderPage .btn {
+.OrderPage .btn,
+.OrderCompletionPage .btn {
   &:active {
     background-color: var(--primary-color-1);
     color: var(--primary-color-2);
@@ -45,6 +46,53 @@
 
 .hidden {
   display: none;
+}
+
+.OrderCompletionPage {
+  .completion-section {
+    width: 100%;
+    height: 100vh;
+    background-color: var(--primary-color-2);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .completion-section img {
+    margin-top: 50px;
+    width: 60%;
+    position: relative;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+
+  .info-section {
+    width: 65%;
+  }
+
+  .main-info-section h2 {
+    margin-top: 20px;
+    font-size: 5rem;
+    text-transform: capitalize;
+    text-align: center;
+    color: var(--primary-color-1);
+  }
+
+  .btn-action-completion {
+    display: flex;
+    gap: 50px;
+    justify-content: center;
+    margin-top: 30px;
+  }
+
+  .btn-action-completion .btn:first-of-type {
+    background-color: #fff;
+    border: 2px solid var(--primary-color-2);
+  }
+
+  .footer {
+    margin-top: 0;
+  }
 }
 
 .step-wizard-list {

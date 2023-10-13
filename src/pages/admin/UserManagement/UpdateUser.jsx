@@ -202,7 +202,7 @@ function UpdateUser({ selectedUser, onClose }) {
         )}
       </Modal.Body>
       <Modal.Footer>
-        <button className="button-modal" onClick={onClose}>
+        <button className="button-modal close-btn" onClick={onClose}>
           Close
         </button>
         <button className="button-modal" onClick={handleSave} disabled={isLoading}>

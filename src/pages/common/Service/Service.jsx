@@ -4,7 +4,7 @@ import { faStar } from '@fortawesome/free-solid-svg-icons';
 import axios from 'axios';
 import Cookies from 'js-cookie'; // Import thư viện js-cookie
 import { Link } from 'react-router-dom';
-import Detail from '../Detail/Detail';
+import Detail from '../../common/Detail/Detail';
 
 import Navigation from '../../../components/Navigation';
 import Footer from '../../../components/Footer';

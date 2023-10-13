@@ -86,6 +86,9 @@ function Navigation() {
                         <a href="/admin-dashboard">Admin</a>
                       </li>
                       <li>
+                        <a href="/staff-dashboard">Staff</a>
+                      </li>
+                      <li>
                         <a href="#">Profile</a>
                       </li>
                       <li>

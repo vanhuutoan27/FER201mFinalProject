@@ -34,7 +34,7 @@ function Detail({ selectedService, onClose }) {
           {selectedService && (
             <Form>
               <Row>
-                <Col>
+                <Col sm={4}>
                   <Form.Group className="mb-3 service-image-container">
                     {/* <div className="service-image-virtual"></div> */}
                     <img
@@ -46,25 +46,12 @@ function Detail({ selectedService, onClose }) {
                   </Form.Group>
                 </Col>
                 <Col>
-                  <Form.Group className="mb-3 form-id">
-                    <Form.Label>ID</Form.Label>
-                    <Form.Control
-                      type="text"
-                      value={`S${
-                        selectedService.serviceId < 10
-                          ? '00' + selectedService.serviceId
-                          : '0' + selectedService.serviceId
-                      }`}
-                      readOnly
-                    />
-                  </Form.Group>
-
-                  <Form.Group className="mb-3 form-name">
+                  <Form.Group className="mb-3">
                     <Form.Label>Name</Form.Label>
                     <Form.Control type="text" value={selectedService.serviceName} readOnly />
                   </Form.Group>
 
-                  <Form.Group className="mb-3 form-desc">
+                  <Form.Group className="mb-3">
                     <Form.Label>Description</Form.Label>
                     <Form.Control
                       as="textarea"
@@ -77,6 +64,13 @@ function Detail({ selectedService, onClose }) {
               </Row>
 
               <Row>
+                <Col>
+                  <Form.Group className="mb-3">
+                    <Form.Label>Feedback</Form.Label>
+                    <Form.Control type="text" value={selectedService.rating} readOnly />
+                  </Form.Group>
+                </Col>
+
                 <Col>
                   <Form.Group className="mb-3">
                     <Form.Label>Price (VND)</Form.Label>

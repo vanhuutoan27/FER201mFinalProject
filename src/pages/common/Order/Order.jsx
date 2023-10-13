@@ -1,4 +1,4 @@
-import React, { useContext, useState, useEffect } from 'react';
+import React, { useContext, useState } from 'react';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import axios from 'axios';
@@ -28,7 +28,7 @@ function Order() {
   const subTotalString = selectedService.price;
   const subTotalWithoutCurrency = subTotalString.replace(/\D/g, '');
   const subTotal = parseFloat(subTotalWithoutCurrency);
-  const tax = 15000;
+  const tax = 0;
   const total = subTotal + tax;
 
   const formatPriceWithDot = (price) => {
@@ -38,27 +38,9 @@ function Order() {
     return price;
   };
 
-  useEffect(() => {
-    const accessToken = Cookies.get('accessToken');
-    if (accessToken) {
-      setHasSession(true);
-    }
-  }, []);
-
-  const { email = '', password = '' } = session.user || {};
-
   function generateRandomCode() {
     return Math.floor(100000 + Math.random() * 900000);
   }
-
-  useEffect(() => {
-    const interval = setInterval(() => {
-      const newRandomCode = generateRandomCode();
-      setRandomCode(newRandomCode);
-    }, 5 * 60 * 1000);
-
-    return () => clearInterval(interval);
-  }, []);
 
   const handlePaymentMethodChange = (e) => {
     const selectedMethod = e.target.value;
@@ -145,7 +127,6 @@ function Order() {
       fullName: Yup.string().required('Full Name is required'),
       phoneNumber: Yup.string().required('Phone Number is required'),
       address: Yup.string().required('Address is required'),
-      // paymentMethod: Yup.string().required('Payment Method is required'),
     }),
 
     onSubmit: (values) => {
@@ -174,7 +155,7 @@ function Order() {
             showConfirmButton: false,
             timer: 1500,
           }).then(() => {
-            window.location.href = '';
+            window.location.href = '/order-completion';
           });
         })
         .catch((error) => {

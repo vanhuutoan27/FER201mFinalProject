@@ -3,8 +3,7 @@ import axios from 'axios';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPen, faEye } from '@fortawesome/free-solid-svg-icons';
 
-import AdminNavigation from '../../../components/admin/AdminNavigation/AdminNavigation';
-// import CreateUser from './CreateUser';
+import AdminNavigation from '../../../components/AdminNavigation';
 import ViewUser from './ViewUser';
 import UpdateUser from './UpdateUser';
 
