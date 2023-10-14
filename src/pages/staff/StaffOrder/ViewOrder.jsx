@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { Modal, Form } from 'react-bootstrap';
-
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
+import axios from 'axios';
 
 function ViewOrder({ selectedOrder, onClose }) {
   const [isLoading, setIsLoading] = useState(false);
@@ -20,6 +20,23 @@ function ViewOrder({ selectedOrder, onClose }) {
       return price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.');
     }
     return price;
+  };
+
+  const handleAccept = () => {
+    setIsLoading(true);
+
+    axios
+      .post('https://localhost:7088/api/StaffManagements/updateTotalOrders', {
+        orderId: selectedOrder.orderId,
+      })
+      .then((response) => {
+        // Handle the success response, you can update the UI or do something else
+        setIsLoading(false);
+        onClose();
+      })
+      .catch((error) => {
+        setIsLoading(false);
+      });
   };
 
   return (
@@ -133,7 +150,7 @@ function ViewOrder({ selectedOrder, onClose }) {
           Close
         </button>
 
-        <button className="button-modal" onClick={onClose} disabled={isLoading}>
+        <button className="button-modal" onClick={handleAccept} disabled={isLoading}>
           {isLoading ? 'Accepting...' : 'Accept'}
         </button>
       </Modal.Footer>

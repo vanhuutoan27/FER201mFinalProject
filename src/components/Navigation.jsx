@@ -19,16 +19,13 @@ function Navigation() {
     // Xóa session và thực hiện các thao tác khác (xóa access token, vv.)
     session.setUser(null);
     localStorage.removeItem('accessToken');
-    Cookies.remove('accessToken'); // Xóa cookie khi đăng xuất
-    // Chuyển hướng người dùng đến trang đăng nhập
+    Cookies.remove('accessToken');
     window.location.href = '/';
   };
 
   useEffect(() => {
-    // Kiểm tra nếu có cookie accessToken
     const accessToken = Cookies.get('accessToken');
     if (accessToken) {
-      // Thực hiện các thao tác khác cần thiết khi người dùng đã đăng nhập
       console.log('Logged in with accessToken:', user);
     }
   }, [user]);
@@ -86,7 +83,7 @@ function Navigation() {
                         <a href="/admin-dashboard">Admin</a>
                       </li>
                       <li>
-                        <a href="/staff-dashboard">Staff</a>
+                        <a href="/staff-profile">Staff</a>
                       </li>
                       <li>
                         <a href="#">Profile</a>

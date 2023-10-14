@@ -1,41 +1,61 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import axios from 'axios';
+import { Link } from 'react-router-dom';
+import { Session } from '../App';
+import Cookies from 'js-cookie';
 
 import './VerticalNavigation.css';
 
 function AdminNavbar() {
+  const session = useContext(Session);
+  const user = session.user;
+
+  const [orderCount, setOrderCount] = useState(0);
+  const [staffCount, setStaffCount] = useState(0);
   const [customerCount, setCustomerCount] = useState(0);
-  const [packageServiceCount, setPackageServiceCount] = useState(0);
   const [serviceCount, setServiceCount] = useState(0);
-  const [adminInfo, setAdminInfo] = useState({ name: '', email: '' });
+  const [packageServiceCount, setPackageServiceCount] = useState(0);
 
   const location = useLocation();
 
+  const handleLogout = (e) => {
+    e.preventDefault();
+    session.setUser(null);
+    localStorage.removeItem('accessToken');
+    Cookies.remove('accessToken');
+    window.location.href = '/';
+  };
+
   useEffect(() => {
+    const accessToken = Cookies.get('accessToken');
+    if (accessToken) {
+      console.log('Logged in with accessToken:', user);
+    }
+  }, [user]);
+
+  useEffect(() => {
+    axios
+      .get('https://localhost:7088/api/OrderManagements')
+      .then((response) => {
+        const orders = response.data;
+        setOrderCount(orders.length);
+      })
+      .catch((error) => console.log(error));
+
+    axios
+      .get('https://localhost:7088/api/StaffManagements')
+      .then((response) => {
+        const staffs = response.data;
+        setStaffCount(staffs.length);
+      })
+      .catch((error) => console.log(error));
+
     axios
       .get('https://localhost:7088/api/CustomerManagements')
       .then((response) => {
         const customers = response.data;
         setCustomerCount(customers.length);
-
-        const admin = customers.find((customer) => customer.email === 'admin1@gmail.com');
-        if (admin) {
-          setAdminInfo({
-            firstName: admin.firstName,
-            lastName: admin.lastName,
-            email: admin.email,
-            avatar: admin.avatar,
-          });
-        }
-      })
-      .catch((error) => console.log(error));
-
-    axios
-      .get('https://localhost:7088/api/PackageServiceManagements')
-      .then((response) => {
-        const packageServices = response.data;
-        setPackageServiceCount(packageServices.length);
       })
       .catch((error) => console.log(error));
 
@@ -46,6 +66,14 @@ function AdminNavbar() {
         setServiceCount(services.length);
       })
       .catch((error) => console.log(error));
+
+    axios
+      .get('https://localhost:7088/api/PackageServiceManagements')
+      .then((response) => {
+        const packageServices = response.data;
+        setPackageServiceCount(packageServices.length);
+      })
+      .catch((error) => console.log(error));
   }, []);
 
   return (
@@ -54,15 +82,15 @@ function AdminNavbar() {
         {/* ADMIN HEADER */}
         <div className="vertical-nav-header">
           <div className="vertical-account">
-            <a href="#">
-              <img className="vertical-avatar" alt="admin-avatar" src={adminInfo.avatar} />
+            <a href="#!">
+              <img className="vertical-avatar" src={user.avatar} alt="" />
             </a>
             <div className="vertical-info">
               <div className="vertical-name">
-                {adminInfo.firstName}
-                {adminInfo.lastName}
+                {user.firstName}
+                {user.lastName}
               </div>
-              <div className="vertical-mail">{adminInfo.email}</div>
+              <div className="vertical-mail">{user.email}</div>
             </div>
             <div className="interface-essential-wrapper"></div>
           </div>
@@ -72,7 +100,7 @@ function AdminNavbar() {
 
         {/* ADMIN BODY */}
         <div className="vertical-nav-body">
-          <a href="admin-dashboard">
+          <Link to="/admin-dashboard">
             <div
               className={`frame-1 ${
                 location.pathname === '/admin-dashboard' ? 'frame-selected' : ''
@@ -80,19 +108,9 @@ function AdminNavbar() {
             >
               <div className="frame-content">Dashboard</div>
             </div>
-          </a>
+          </Link>
 
-          <a href="admin-overview">
-            <div
-              className={`frame-1 ${
-                location.pathname === '/admin-overview' ? 'frame-selected' : ''
-              }`}
-            >
-              <div className="frame-content">Overview</div>
-            </div>
-          </a>
-
-          <a href="admin-analysis">
+          <Link to="/admin-analysis">
             <div
               className={`frame-1 ${
                 location.pathname === '/admin-analysis' ? 'frame-selected' : ''
@@ -100,22 +118,41 @@ function AdminNavbar() {
             >
               <div className="frame-content">Analysis</div>
             </div>
-          </a>
+          </Link>
 
-          <a href="admin-feedback">
-            <div
-              className={`frame-1 ${
-                location.pathname === '/admin-feedback' ? 'frame-selected' : ''
-              }`}
-            >
-              <div className="frame-content">Feedbacks</div>
-            </div>
-          </a>
-
-          {/* <div className="admin-management">MANAGEMENT</div> */}
           <hr />
 
-          <a href="admin-user-management">
+          <Link to="/admin-order-management">
+            <div
+              className={`frame-2 ${
+                location.pathname === '/admin-order-management' ? 'frame-selected' : ''
+              }`}
+            >
+              <div className="div">
+                <div className="frame-content">Order</div>
+              </div>
+              <div className="frame-data">
+                <div className="frame-data-content">{orderCount}</div>
+              </div>
+            </div>
+          </Link>
+
+          <Link to="/admin-staff-management">
+            <div
+              className={`frame-2 ${
+                location.pathname === '/admin-staff-management' ? 'frame-selected' : ''
+              }`}
+            >
+              <div className="div">
+                <div className="frame-content">Staff</div>
+              </div>
+              <div className="frame-data">
+                <div className="frame-data-content">{staffCount}</div>
+              </div>
+            </div>
+          </Link>
+
+          <Link to="/admin-user-management">
             <div
               className={`frame-2 ${
                 location.pathname === '/admin-user-management' ? 'frame-selected' : ''
@@ -128,22 +165,9 @@ function AdminNavbar() {
                 <div className="frame-data-content">{customerCount}</div>
               </div>
             </div>
-          </a>
+          </Link>
 
-          <a href="admin-package-service-management">
-            <div
-              className={`frame-2 ${
-                location.pathname === '/admin-package-service-management' ? 'frame-selected' : ''
-              }`}
-            >
-              <div className="div">
-                <div className="frame-content">Package Service</div>
-              </div>
-              <div className="frame-data">{packageServiceCount}</div>
-            </div>
-          </a>
-
-          <a href="admin-service-management">
+          <Link to="/admin-service-management">
             <div
               className={`frame-2 ${
                 location.pathname === '/admin-service-management' ? 'frame-selected' : ''
@@ -156,13 +180,32 @@ function AdminNavbar() {
                 <div className="frame-data-content">{serviceCount}</div>
               </div>
             </div>
-          </a>
+          </Link>
+
+          <Link to="/admin-package-service-management">
+            <div
+              className={`frame-2 ${
+                location.pathname === '/admin-package-service-management' ? 'frame-selected' : ''
+              }`}
+            >
+              <div className="div">
+                <div className="frame-content">Package Service</div>
+              </div>
+              <div className="frame-data">{packageServiceCount}</div>
+            </div>
+          </Link>
 
           <div className="boundary" />
 
           {/* ADMIN FOOTER */}
           <a href="/">
-            <div className="vertical-nav-footer">
+            <div className="vertical-nav-footer home">
+              <div className="frame-content">Home</div>
+            </div>
+          </a>
+
+          <a href="#!" onClick={handleLogout}>
+            <div className="vertical-nav-footer logout">
               <div className="frame-content">Logout</div>
             </div>
           </a>

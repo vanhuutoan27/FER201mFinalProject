@@ -1,67 +1,15 @@
-import React, { useEffect, useState } from 'react';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faEye } from '@fortawesome/free-solid-svg-icons';
-import axios from 'axios';
+import React from 'react';
 
 import StaffNavigation from '../../../components/StaffNavigation';
-import ViewOrder from './ViewOrder';
 
-import '../../../components/Management.css';
-
-function StaffOrder() {
-  const [allOrders, setAllOrders] = useState([]);
-  const [allTasks, setAllTasks] = useState([]);
-  const [selectedOrder, setSelectedOrder] = useState(null);
-  const itemsPerPage = 6;
-  const [currentPage, setCurrentPage] = useState(1);
-  const startIndex = (currentPage - 1) * itemsPerPage;
-  const endIndex = startIndex + itemsPerPage;
-  const displayedOrders = allOrders.slice(startIndex, endIndex);
-  const [isOrderDetailModalVisible, setOrderDetailModalVisible] = useState(false);
-
-  useEffect(() => {
-    axios
-      .get('https://localhost:7088/api/OrderManagements')
-      .then((response) => setAllOrders(response.data))
-      .catch((error) => console.log(error));
-
-    axios
-      .put('https://localhost:7088/api/StaffManagements')
-      .then((response) => setAllTasks(response.data))
-      .catch((error) => console.log(error));
-  }, []);
-
-  const handleViewOrderDetailClick = (order) => {
-    setSelectedOrder(order);
-    setOrderDetailModalVisible(true);
-  };
-
-  const handlePageChange = (pageNumber) => {
-    setCurrentPage(pageNumber);
-  };
-
-  const formatDate = (dateString) => {
-    const date = new Date(dateString);
-    const day = date.getDate();
-    const month = date.getMonth() + 1;
-    const year = date.getFullYear();
-    return `${day < 10 ? '0' : ''}${day}/${month < 10 ? '0' : ''}${month}/${year}`;
-  };
-
-  const formatPriceWithDot = (price) => {
-    if (!isNaN(price)) {
-      return price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.');
-    }
-    return price;
-  };
-
+function StaffTask() {
   return (
-    <div className="StaffOrderPage">
+    <div className="StaffTaskPage">
       <div className="staff-nav">
         <StaffNavigation />
       </div>
 
-      <div className="table-content">
+      {/* <div className="table-content">
         <div className="table-widget">
           <caption>
             <h2>All Orders Available</h2>
@@ -137,16 +85,16 @@ function StaffOrder() {
             </tfoot>
           </table>
         </div>
-      </div>
+      </div> */}
 
-      {isOrderDetailModalVisible && (
+      {/* {isOrderDetailModalVisible && (
         <ViewOrder
           selectedOrder={selectedOrder}
           onClose={() => setOrderDetailModalVisible(false)}
         />
-      )}
+      )} */}
     </div>
   );
 }
 
-export default StaffOrder;
+export default StaffTask;

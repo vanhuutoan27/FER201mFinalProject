@@ -184,6 +184,7 @@
   padding: 12px;
   position: relative;
   width: 100%;
+  transition: 0.2s ease-in-out;
 }
 
 .vertical-nav-body a {
@@ -248,7 +249,23 @@
   width: fit-content;
 }
 
-.vertical-nav .vertical-nav-footer {
+.vertical-nav .vertical-nav-footer.home {
+  background-color: var(--primary-color-2);
+  color: #fff;
+  align-items: center;
+  align-self: stretch;
+  border-radius: 10px;
+  display: flex;
+  flex: 0 0 auto;
+  gap: 12px;
+  position: relative;
+  padding: 12px;
+  width: 100%;
+  margin-top: 12px;
+  transition: 0.2s ease-in-out;
+}
+
+.vertical-nav .vertical-nav-footer.logout {
   background-color: #c70039;
   color: #fff;
   align-items: center;
@@ -261,4 +278,5 @@
   padding: 12px;
   width: 100%;
   margin-top: 12px;
+  transition: 0.2s ease-in-out;
 }

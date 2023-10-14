@@ -14,7 +14,7 @@ import PackageServiceManagement from './pages/admin/PackageServiceManagement/Pac
 import ServiceManagement from './pages/admin/ServiceManagement/ServiceManagement';
 
 // STAFF
-import StaffDashboard from './pages/staff/StaffDashboard/StaffDashboard';
+import StaffTask from './pages/staff/StaffTask/StaffTask';
 import StaffProfile from './pages/staff/StaffProfile/StaffProfile';
 import StaffCalendar from './pages/staff/StaffCalendar/StaffCalendar';
 import StaffOrder from './pages/staff/StaffOrder/StaffOrder';
@@ -38,6 +38,18 @@ export const Session = createContext(null);
 function App() {
   const [user, setUser] = useState(null);
 
+  const admin = ['admin1@gmail.com', 'vanhuutoan@gmail.com'];
+  const staff = [
+    'admin1@gmail.com',
+    'vanhuutoan@gmail.com',
+    'phamhoaiduy@gmail.com',
+    'nguyentanloc@gmail.com',
+    'phamhoangthuyan@gmail.com',
+  ];
+
+  const isAdmin = admin.includes(user?.email);
+  const isStaff = staff.includes(user?.email);
+
   const [data, setData] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
 
@@ -48,7 +60,7 @@ function App() {
     // Create a custom Axios instance with headers
     const axiosInstance = axios.create({
       headers: {
-        Authorization: `Bearer ${accessToken}`, // Attach the access token as a Bearer token
+        Authorization: `Bearer ${accessToken}`,
       },
     });
 
@@ -59,16 +71,13 @@ function App() {
         setUser(response.data);
       })
       .catch((error) => {
-        // Handle errors here
         console.error(error);
       });
 
-    // Simulate an API call or data loading
     setTimeout(() => {
-      // Set data and loading state to false when data is ready
       setData(/* your data */);
       setIsLoading(false);
-    }, 500); // Simulate a 2-second delay
+    }, 500);
   }, []);
 
   return (
@@ -79,26 +88,30 @@ function App() {
         ) : (
           <Routes>
             {/* ROUTES FOR ADMIN */}
-            {user?.email === 'admin1@gmail.com' ? (
+            {isAdmin && (
               <>
                 <Route path="/admin-dashboard" element={<AdminDashboard />} />
-                <Route path="/admin-overview" element={<AdminDashboard />} />
                 <Route path="/admin-analysis" element={<AdminDashboard />} />
-                <Route path="/admin-feedback" element={<AdminDashboard />} />
+                <Route path="/admin-order-management" element={<AdminDashboard />} />
+                <Route path="/admin-staff-management" element={<AdminDashboard />} />
                 <Route path="/admin-user-management" element={<UserManagement />} />
+                <Route path="/admin-service-management" element={<ServiceManagement />} />
                 <Route
                   path="/admin-package-service-management"
                   element={<PackageServiceManagement />}
                 />
-                <Route path="/admin-service-management" element={<ServiceManagement />} />
               </>
-            ) : null}
+            )}
 
             {/* ROUTES FOR STAFF */}
-            <Route path="/staff-dashboard" element={<StaffDashboard />} />
-            <Route path="/staff-profile" element={<StaffProfile />} />
-            <Route path="/staff-calendar" element={<StaffCalendar />} />
-            <Route path="/staff-order" element={<StaffOrder />} />
+            {isStaff && (
+              <>
+                <Route path="/staff-profile" element={<StaffProfile />} />
+                <Route path="/staff-order" element={<StaffOrder />} />
+                <Route path="/staff-task" element={<StaffTask />} />
+                <Route path="/staff-calendar" element={<StaffCalendar />} />
+              </>
+            )}
 
             {/* ROUTES FOR CUSTOMER */}
             <Route path="/profile" element={<Profile />} />
@@ -114,8 +127,8 @@ function App() {
             <Route path="/order" element={<Order />} />
             <Route path="/order-completion" element={<Completion />} />
 
-            {/* Redirect to login for non-admin users */}
-            {user?.email !== 'admin1@gmail.com' && <Route path="*" element={<Navigate to="/" />} />}
+            {/* Redirect to login for non-admin or non-staff users */}
+            {(!isAdmin || !isStaff) && <Route path="*" element={<Navigate to="/" />} />}
           </Routes>
         )}
       </div>
