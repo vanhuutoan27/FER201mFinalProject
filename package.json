@@ -67,6 +67,7 @@
     ]
   },
   "devDependencies": {
+    "@mui/material": "^5.14.13",
     "webpack": "^5.88.2",
     "webpack-cli": "^5.1.4"
   }
