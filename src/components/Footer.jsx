@@ -2,6 +2,8 @@ import React from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowRight } from '@fortawesome/free-solid-svg-icons';
 
+import Button from '@mui/material/Button';
+
 function Footer() {
   return (
     <div>
@@ -14,17 +16,18 @@ function Footer() {
             <p className="sub-title">
               Get started for free. Add your whole team as your needs grow.
             </p>
-            <a href="" className="btn cta">
-              Try 4Stu Free <FontAwesomeIcon icon={faArrowRight} className="custom-icon" />
-            </a>
+            <Button href="#!" variant="contained" className="btn cta">
+              Try 4Stu Free
+            </Button>
           </div>
           <div className="content">
             <div className="footer__addr">
               <img src="../assets/images/4Stu-Logo.svg" alt="" />
               <h2>Contact</h2>
-              <a className="btn" href="mailto:huutoanvan1@gmail.com">
+
+              <Button href="mailto:huutoanvan1@gmail.com" variant="contained" className="btn">
                 Email Us
-              </a>
+              </Button>
             </div>
 
             <ul className="footer__nav">

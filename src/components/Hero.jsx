@@ -1,6 +1,6 @@
 import React from 'react';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faArrowRight } from '@fortawesome/free-solid-svg-icons';
+
+import Button from '@mui/material/Button';
 
 function Hero() {
   return (
@@ -13,9 +13,10 @@ function Hero() {
             <p className="desc">
               Here we have all the cleaning, sanitation, water delivery services you need.
             </p>
-            <a href="service" className="btn hero-cta cta">
-              Start Booking NOW <FontAwesomeIcon icon={faArrowRight} className="custom-icon" />
-            </a>
+
+            <Button href="/service" variant="contained" className="btn hero-cta cta">
+              Start Order NOW
+            </Button>
           </div>
 
           <img

@@ -1,48 +1,33 @@
-import React, { useContext, useEffect, useState } from 'react';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faEye } from '@fortawesome/free-solid-svg-icons';
+import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import { Session } from '../../../App';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faPen, faEye } from '@fortawesome/free-solid-svg-icons';
 
-import StaffNavigation from '../../../components/StaffNavigation';
+import AdminNavigation from '../../../components/AdminNavigation';
 import ViewOrder from './ViewOrder';
 
 import '../../../components/Management.css';
 
-function StaffOrder() {
-  const session = useContext(Session);
-  const user = session.user;
+function OrderManagement() {
   const [allOrders, setAllOrders] = useState([]);
   const [selectedOrder, setSelectedOrder] = useState(null);
-  const [staffEmail, setStaffEmail] = useState('');
+  const [updatingOrder, setUpdatingOrder] = useState(null);
   const itemsPerPage = 6;
   const [currentPage, setCurrentPage] = useState(1);
-  const startIndex = (currentPage - 1) * itemsPerPage;
-  const endIndex = startIndex + itemsPerPage;
-  const displayedOrders = allOrders.slice(startIndex, endIndex);
-  const [isOrderDetailModalVisible, setOrderDetailModalVisible] = useState(false);
 
   useEffect(() => {
     axios
       .get('https://localhost:7088/api/OrderManagements')
       .then((response) => setAllOrders(response.data))
       .catch((error) => console.log(error));
-
-    axios
-      .get('https://localhost:7088/api/StaffManagements')
-      .then((response) => {
-        const staffData = response.data;
-        if (staffData.length > 0) {
-          setStaffEmail(staffData[0].email);
-          console.log('staffEmail:', staffData[0].email);
-        }
-      })
-      .catch((error) => console.log(error));
   }, []);
 
-  const handleViewOrderDetailClick = (order) => {
+  const handleViewServiceClick = (order) => {
     setSelectedOrder(order);
-    setOrderDetailModalVisible(true);
+  };
+
+  const handleUpdateServiceClick = (order) => {
+    setUpdatingOrder(order);
   };
 
   const handlePageChange = (pageNumber) => {
@@ -57,24 +42,30 @@ function StaffOrder() {
     return `${day < 10 ? '0' : ''}${day}/${month < 10 ? '0' : ''}${month}/${year}`;
   };
 
-  return (
-    <div className="StaffOrderPage">
-      <div className="staff-nav">
-        <StaffNavigation />
-      </div>
+  const startIndex = (currentPage - 1) * itemsPerPage;
+  const endIndex = startIndex + itemsPerPage;
+  const displayedOrders = allOrders.slice(startIndex, endIndex);
 
+  return (
+    <div className="order-management-content">
+      <div className="admin-navbar">
+        <AdminNavigation />
+      </div>
       <div className="table-content">
         <div className="table-widget">
           <caption>
-            <h2>All Orders Available</h2>
+            <h2>All Orders</h2>
+            <span className="table-row-count">({allOrders.length} Orders)</span>
           </caption>
           <table>
             <thead>
               <tr>
                 <th>ID</th>
                 <th>Date Created</th>
+                <th>Date Shipping</th>
+                <th>Date Complete</th>
                 <th>Service</th>
-                <th>Address</th>
+                <th>Staff</th>
                 <th>Status</th>
                 <th>Action</th>
               </tr>
@@ -84,20 +75,30 @@ function StaffOrder() {
                 <tr key={index}>
                   <td>
                     <span className={`serviceID`}>
-                      O{order.serviceId < 10 ? '00' + order.orderId : '0' + order.orderId}
+                      O{order.orderId < 10 ? '00' + order.orderId : '0' + order.orderId}
                     </span>
                   </td>
 
                   <td>
-                    <span className="service-name">{formatDate(order.dateCreated)}</span>
+                    <span className="customer-name">{formatDate(order.dateCreated)}</span>
                   </td>
 
                   <td>
-                    <span className="service-name">{order.serviceName}</span>
+                    <span className="service-name">{order.dateShipping}</span>
                   </td>
 
                   <td>
-                    <span className="service-name">{order.address}</span>
+                    <span className="service-name">{order.dateComplete}</span>
+                  </td>
+
+                  <td>
+                    <span className="service-price">
+                      {order.firstName} {order.lastName}
+                    </span>
+                  </td>
+
+                  <td>
+                    <span className="service-time">{formatDate(order.dateCreated)}</span>
                   </td>
 
                   <td>
@@ -107,10 +108,16 @@ function StaffOrder() {
                   </td>
                   <td>
                     <button
-                      className="admin-btn-action view btn"
-                      onClick={() => handleViewOrderDetailClick(order)}
+                      className="admin-btn-action view"
+                      onClick={() => handleViewServiceClick(order)}
                     >
                       <FontAwesomeIcon icon={faEye} />
+                    </button>
+                    <button
+                      className="admin-btn-action edit"
+                      onClick={() => handleUpdateServiceClick(order)}
+                    >
+                      <FontAwesomeIcon icon={faPen} />
                     </button>
                   </td>
                 </tr>
@@ -141,14 +148,11 @@ function StaffOrder() {
         </div>
       </div>
 
-      {isOrderDetailModalVisible && (
-        <ViewOrder
-          selectedOrder={selectedOrder}
-          onClose={() => setOrderDetailModalVisible(false)}
-        />
+      {selectedOrder && (
+        <ViewOrder selectedOrder={selectedOrder} onClose={() => setSelectedOrder(null)} />
       )}
     </div>
   );
 }
 
-export default StaffOrder;
+export default OrderManagement;

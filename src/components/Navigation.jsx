@@ -1,9 +1,11 @@
-import { useContext, useEffect } from 'react';
+import React, { useContext, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCaretDown } from '@fortawesome/free-solid-svg-icons';
 import { Session } from '../App';
 import Cookies from 'js-cookie';
+
+import Button from '@mui/material/Button';
 
 function Navigation() {
   // Lấy ra user trong session
@@ -102,9 +104,9 @@ function Navigation() {
               </div>
             ) : (
               // Nếu không có người dùng đăng nhập, hiển thị nút đăng nhập
-              <a href="/login" className="btn action-btn">
+              <Button href="/login" variant="contained" className="btn action-btn">
                 Login
-              </a>
+              </Button>
             )}
           </div>
         </nav>

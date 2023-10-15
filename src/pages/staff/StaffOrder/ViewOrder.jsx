@@ -1,10 +1,13 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { Modal, Form } from 'react-bootstrap';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import axios from 'axios';
+import { Session } from '../../../App';
 
 function ViewOrder({ selectedOrder, onClose }) {
+  const session = useContext(Session);
+  const user = session.user;
   const [isLoading, setIsLoading] = useState(false);
 
   const formatDate = (dateString) => {
@@ -22,21 +25,53 @@ function ViewOrder({ selectedOrder, onClose }) {
     return price;
   };
 
-  const handleAccept = () => {
+  const updateOrderStatus = async () => {
     setIsLoading(true);
 
-    axios
-      .post('https://localhost:7088/api/StaffManagements/updateTotalOrders', {
-        orderId: selectedOrder.orderId,
-      })
-      .then((response) => {
-        // Handle the success response, you can update the UI or do something else
-        setIsLoading(false);
-        onClose();
-      })
-      .catch((error) => {
-        setIsLoading(false);
-      });
+    try {
+      const updatedStatus = 'Processing';
+      const updatedOrder = { ...selectedOrder, status: updatedStatus };
+
+      const response = await axios.get('https://localhost:7088/api/StaffManagements');
+      const staffList = response.data;
+
+      const staffEmail = staffList.find((staff) => staff.email === user.email);
+
+      if (staffEmail) {
+        // Tìm thấy nhân viên với email trùng khớp
+        const staffId = staffEmail.staffId;
+        const orderId = selectedOrder.orderId;
+
+        console.log('OrderId:', orderId);
+        console.log('StaffId:', staffId);
+
+        // Thực hiện yêu cầu POST để gán OrderId và StaffId vào StaffOrderManagements
+        const postResponse = await axios.post('https://localhost:7088/api/StaffOrderManagements', {
+          OrderId: orderId,
+          StaffId: staffId,
+        });
+
+        // Xử lý phản hồi từ máy chủ nếu cần
+        console.log(postResponse.data);
+      } else {
+        alert('User is not authorized to accept this order.');
+      }
+
+      // Tiếp theo, cập nhật trạng thái đơn hàng
+      await axios.put(
+        `https://localhost:7088/api/OrderManagements/${selectedOrder.orderId}`,
+        updatedOrder
+      );
+
+      alert('Order status updated to Processing successfully');
+      onClose();
+      window.location.reload();
+    } catch (error) {
+      alert('Error updating order');
+      console.error('Error updating order status', error);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -150,7 +185,7 @@ function ViewOrder({ selectedOrder, onClose }) {
           Close
         </button>
 
-        <button className="button-modal" onClick={handleAccept} disabled={isLoading}>
+        <button className="button-modal" onClick={updateOrderStatus} disabled={isLoading}>
           {isLoading ? 'Accepting...' : 'Accept'}
         </button>
       </Modal.Footer>

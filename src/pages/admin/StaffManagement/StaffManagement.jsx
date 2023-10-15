@@ -1,54 +1,40 @@
-import React, { useContext, useEffect, useState } from 'react';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faEye } from '@fortawesome/free-solid-svg-icons';
+import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import { Session } from '../../../App';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faPen, faEye } from '@fortawesome/free-solid-svg-icons';
 
-import StaffNavigation from '../../../components/StaffNavigation';
-import ViewOrder from './ViewOrder';
+import AdminNavigation from '../../../components/AdminNavigation';
+import ViewStaff from './ViewStaff';
 
 import '../../../components/Management.css';
 
-function StaffOrder() {
-  const session = useContext(Session);
-  const user = session.user;
-  const [allOrders, setAllOrders] = useState([]);
-  const [selectedOrder, setSelectedOrder] = useState(null);
-  const [staffEmail, setStaffEmail] = useState('');
+function StaffManagement() {
+  const [allStaffs, setAllStaffs] = useState([]);
+  const [selectedStaff, setSelectedStaff] = useState(null);
+  const [updatingStaff, setUpdatingStaff] = useState(null);
   const itemsPerPage = 6;
   const [currentPage, setCurrentPage] = useState(1);
-  const startIndex = (currentPage - 1) * itemsPerPage;
-  const endIndex = startIndex + itemsPerPage;
-  const displayedOrders = allOrders.slice(startIndex, endIndex);
-  const [isOrderDetailModalVisible, setOrderDetailModalVisible] = useState(false);
 
   useEffect(() => {
     axios
-      .get('https://localhost:7088/api/OrderManagements')
-      .then((response) => setAllOrders(response.data))
-      .catch((error) => console.log(error));
-
-    axios
       .get('https://localhost:7088/api/StaffManagements')
-      .then((response) => {
-        const staffData = response.data;
-        if (staffData.length > 0) {
-          setStaffEmail(staffData[0].email);
-          console.log('staffEmail:', staffData[0].email);
-        }
-      })
+      .then((response) => setAllStaffs(response.data))
       .catch((error) => console.log(error));
   }, []);
 
-  const handleViewOrderDetailClick = (order) => {
-    setSelectedOrder(order);
-    setOrderDetailModalVisible(true);
+  const handleViewServiceClick = (staff) => {
+    setSelectedStaff(staff);
+  };
+
+  const handleUpdateServiceClick = (staff) => {
+    setUpdatingStaff(staff);
   };
 
   const handlePageChange = (pageNumber) => {
     setCurrentPage(pageNumber);
   };
 
+  // Hàm để định dạng ngày tháng năm
   const formatDate = (dateString) => {
     const date = new Date(dateString);
     const day = date.getDate();
@@ -57,60 +43,78 @@ function StaffOrder() {
     return `${day < 10 ? '0' : ''}${day}/${month < 10 ? '0' : ''}${month}/${year}`;
   };
 
-  return (
-    <div className="StaffOrderPage">
-      <div className="staff-nav">
-        <StaffNavigation />
-      </div>
+  const startIndex = (currentPage - 1) * itemsPerPage;
+  const endIndex = startIndex + itemsPerPage;
+  const displayedServices = allStaffs.slice(startIndex, endIndex);
 
+  return (
+    <div className="user-management-content">
+      <div className="admin-navbar">
+        <AdminNavigation />
+      </div>
       <div className="table-content">
         <div className="table-widget">
           <caption>
-            <h2>All Orders Available</h2>
+            <h2>All Staffs</h2>
+            <span className="table-row-count">({allStaffs.length} Staffs)</span>
+            {/* <CreateUser /> */}
           </caption>
           <table>
             <thead>
               <tr>
                 <th>ID</th>
+                <th>Email</th>
+                <th>Phone</th>
+                <th>Full Name</th>
                 <th>Date Created</th>
-                <th>Service</th>
-                <th>Address</th>
                 <th>Status</th>
                 <th>Action</th>
               </tr>
             </thead>
             <tbody>
-              {displayedOrders.map((order, index) => (
+              {displayedServices.map((staff, index) => (
                 <tr key={index}>
                   <td>
                     <span className={`serviceID`}>
-                      O{order.serviceId < 10 ? '00' + order.orderId : '0' + order.orderId}
+                      S{staff.staffId < 10 ? '00' + staff.staffId : '0' + staff.staffId}
                     </span>
                   </td>
 
                   <td>
-                    <span className="service-name">{formatDate(order.dateCreated)}</span>
+                    <span className="customer-name">{staff.email}</span>
                   </td>
 
                   <td>
-                    <span className="service-name">{order.serviceName}</span>
+                    <span className="service-name">{staff.phone}</span>
                   </td>
 
                   <td>
-                    <span className="service-name">{order.address}</span>
+                    <span className="service-price">
+                      {staff.firstName} {staff.lastName}
+                    </span>
+                  </td>
+
+                  <td>
+                    <span className="service-time">{formatDate(staff.dateCreated)}</span>
                   </td>
 
                   <td>
                     <span className="statuss">
-                      <span className={`status status--${order.status}`}>{order.status}</span>
+                      <span className={`status status--${staff.status}`}>{staff.status}</span>
                     </span>
                   </td>
                   <td>
                     <button
                       className="admin-btn-action view btn"
-                      onClick={() => handleViewOrderDetailClick(order)}
+                      onClick={() => handleViewServiceClick(staff)}
                     >
                       <FontAwesomeIcon icon={faEye} />
+                    </button>
+                    <button
+                      className="admin-btn-action edit btn"
+                      onClick={() => handleUpdateServiceClick(staff)}
+                    >
+                      <FontAwesomeIcon icon={faPen} />
                     </button>
                   </td>
                 </tr>
@@ -121,7 +125,7 @@ function StaffOrder() {
                 <td colSpan="10">
                   <ul className="pagination">
                     {Array.from(
-                      { length: Math.ceil(allOrders.length / itemsPerPage) },
+                      { length: Math.ceil(allStaffs.length / itemsPerPage) },
                       (_, index) => (
                         <li key={index}>
                           <button
@@ -141,14 +145,11 @@ function StaffOrder() {
         </div>
       </div>
 
-      {isOrderDetailModalVisible && (
-        <ViewOrder
-          selectedOrder={selectedOrder}
-          onClose={() => setOrderDetailModalVisible(false)}
-        />
+      {selectedStaff && (
+        <ViewStaff selectedStaff={selectedStaff} onClose={() => setSelectedStaff(null)} />
       )}
     </div>
   );
 }
 
-export default StaffOrder;
+export default StaffManagement;

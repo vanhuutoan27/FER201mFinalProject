@@ -1,18 +1,12 @@
-.StaffNavigation {
-  .frame-selected {
-    color: var(--primary-color-1);
-    border-color: var(--primary-color-1);
-  }
-
-  .vertical-nav .vertical-nav-footer {
-    background-color: var(--primary-color-1);
-    color: var(--primary-color-4);
-  }
+.frame-selected {
+  color: var(--primary-color-2) !important;
+  border-color: var(--primary-color-4);
 }
 
 .frame-1:hover,
 .frame-2:hover {
   background-color: #ededed;
+  color: var(--primary-color-2) !important;
 }
 
 .frame-1:active,
@@ -22,14 +16,23 @@
   box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
 }
 
+.staff-nav,
+.admin-navbar {
+  background-color: var(--primary-color-2);
+  box-shadow: 15px 0px 5px rgba(0, 0, 0, 0.1);
+  z-index: 99;
+}
+
 .vertical-nav {
   align-items: center;
-  background-color: #ffffff;
+  /* background-color: #ffffff; */
   border-radius: 0px 0px 13px 13px;
   display: flex;
   flex-direction: column;
   gap: 12px;
   /* justify-content: center; */
+  /* background-color: var(--primary-color-2); */
+
   overflow: hidden;
   padding: 16px;
   position: relative;
@@ -48,6 +51,7 @@
   justify-content: space-between;
   position: relative;
   width: 100%;
+  padding: 12px 0;
 }
 
 .vertical-nav .vertical-account {
@@ -66,6 +70,7 @@
   object-fit: cover;
   position: relative;
   width: 47px;
+  background-color: #ededed;
 }
 
 .vertical-nav .vertical-info {
@@ -78,9 +83,9 @@
 }
 
 .vertical-nav .vertical-name {
-  color: #000000;
-  font-size: 14px;
-  font-weight: 500;
+  color: #fff;
+  font-size: 1.6rem;
+  font-weight: 600;
   letter-spacing: 0;
   line-height: normal;
   margin-top: -1px;
@@ -89,9 +94,9 @@
 }
 
 .vertical-nav .vertical-mail {
-  color: rgba(136, 144, 159, 1);
-  font-size: 12px;
-  font-weight: 400;
+  color: #ededed;
+  font-size: 1.2rem;
+  font-weight: 500;
   letter-spacing: 0;
   line-height: normal;
   position: relative;
@@ -117,9 +122,11 @@
 
 .vertical-nav .boundary {
   background-color: #ededed;
-  height: 3px;
+  opacity: 0.5;
+  height: 2px;
   margin-left: -16px;
   margin-right: -16px;
+  margin-bottom: 4px;
   position: relative;
   width: 350px;
 }
@@ -139,16 +146,16 @@
 /* vertical BODY */
 .vertical-nav-body .frame-content {
   /* color: #000000; */
-  font-size: 14px;
+  font-size: 1.6rem;
   font-weight: 400;
   letter-spacing: 0;
   line-height: normal;
   position: relative;
   width: fit-content;
+  font-weight: 500;
 }
 
 .frame-selected {
-  color: #c70039;
   font-size: 14px;
   font-weight: 500;
   letter-spacing: 0;
@@ -160,10 +167,7 @@
   align-items: center;
   align-self: stretch;
   backdrop-filter: blur(4px) brightness(100%);
-  background-color: #e7ecff80;
-  border: 1px solid;
-  border-color: #c70039;
-  border-radius: 10px;
+  background-color: #ededed;
   display: flex;
   flex: 0 0 auto;
   gap: 12px;
@@ -175,6 +179,7 @@
 }
 
 .vertical-nav-body .frame-1 {
+  color: #fff;
   align-items: center;
   align-self: stretch;
   border-radius: 10px;
@@ -201,6 +206,7 @@
 }
 
 .vertical-nav-body .frame-2 {
+  color: #fff;
   align-items: center;
   align-self: stretch;
   border-radius: 10px;
@@ -210,6 +216,7 @@
   padding: 12px;
   position: relative;
   width: 100%;
+  transition: 0.2s ease-in-out;
 }
 
 .vertical-nav .vertical-management {
@@ -229,9 +236,10 @@
 }
 
 .vertical-nav .frame-data {
-  background-color: rgba(215, 255, 235, 1);
-  color: rgba(17, 167, 92, 1);
-
+  background-color: #6499e9;
+  color: var(--primary-color-4);
+  /* color: rgba(17, 167, 92, 1); */
+  width: 30px;
   align-items: center;
   border-radius: 99px;
   display: inline-flex;
@@ -244,25 +252,6 @@
   font-size: 10px;
   font-weight: 500;
   line-height: normal;
-  margin-top: -1px;
-  white-space: nowrap;
-  width: fit-content;
-}
-
-.vertical-nav .vertical-nav-footer.home {
-  background-color: var(--primary-color-2);
-  color: #fff;
-  align-items: center;
-  align-self: stretch;
-  border-radius: 10px;
-  display: flex;
-  flex: 0 0 auto;
-  gap: 12px;
-  position: relative;
-  padding: 12px;
-  width: 100%;
-  margin-top: 12px;
-  transition: 0.2s ease-in-out;
 }
 
 .vertical-nav .vertical-nav-footer.logout {
@@ -279,4 +268,17 @@
   width: 100%;
   margin-top: 12px;
   transition: 0.2s ease-in-out;
+
+  &:hover {
+    opacity: 0.9;
+  }
+
+  &:active {
+    transform: scale(0.97);
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+  }
+}
+
+.frame-2.frame-selected > div:last-of-type {
+  display: none;
 }

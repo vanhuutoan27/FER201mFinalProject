@@ -120,7 +120,7 @@ function AdminNavbar() {
             </div>
           </Link>
 
-          <hr />
+          <div className="boundary" />
 
           <Link to="/admin-order-management">
             <div
@@ -199,7 +199,7 @@ function AdminNavbar() {
 
           {/* ADMIN FOOTER */}
           <a href="/">
-            <div className="vertical-nav-footer home">
+            <div className="frame-1">
               <div className="frame-content">Home</div>
             </div>
           </a>

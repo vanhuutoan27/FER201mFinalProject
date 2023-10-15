@@ -1,12 +1,8 @@
 import { useEffect, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import {
-  faArrowRight,
-  faEnvelope,
-  faUsers,
-  faCircleCheck,
-  faClock,
-} from '@fortawesome/free-solid-svg-icons';
+import { faUsers, faCircleCheck, faClock } from '@fortawesome/free-solid-svg-icons';
+
+import Button from '@mui/material/Button';
 
 import './Home.css';
 import Navigation from '../../../components/Navigation';
@@ -46,9 +42,9 @@ function Home() {
                 Experience the power of intensive stain treatment right in your home, with the
                 expertise of two or more of our skilled housekeeping professionals.
               </p>
-              <a href="service" className="btn popular-1-cta cta">
-                View Details <FontAwesomeIcon icon={faArrowRight} className="custom-icon" />
-              </a>
+              <Button href="/service" variant="contained" className="btn cta">
+                View Details
+              </Button>
             </div>
 
             <img
@@ -66,9 +62,9 @@ function Home() {
                 Furthermore, you have the option to publish a note to the internet and share the URL
                 with anyone you choose.
               </p>
-              <a href="service" className="btn popular-2-cta cta">
-                View Details <FontAwesomeIcon icon={faArrowRight} className="custom-icon" />
-              </a>
+              <Button href="/service" variant="contained" className="btn cta">
+                View Details
+              </Button>
             </div>
 
             <img
@@ -104,9 +100,10 @@ function Home() {
                 once the payment is successful. You can find more details about terms and payment
                 methods on our website.
               </p>
-              <a href="#" className="btn cta">
-                View Terms Of Use <FontAwesomeIcon icon={faArrowRight} className="custom-icon" />
-              </a>
+
+              <Button href="#!" variant="contained" className="btn cta">
+                View Terms Of Use
+              </Button>
             </div>
           </div>
         </div>
@@ -122,9 +119,9 @@ function Home() {
                 under one roof. Experience the convenience and peace of mind with our versatile
                 services, tailored to meet your specific requirements.
               </p>
-              <a href="contact" className="btn cta">
-                Support <FontAwesomeIcon icon={faEnvelope} size="lg" className="custom-icon" />
-              </a>
+              <Button href="/contact" variant="contained" className="btn cta">
+                Support
+              </Button>
             </div>
 
             <img
@@ -145,9 +142,9 @@ function Home() {
                 Ready to embark on your 4Stu journey? Let's get started with your very first
                 appointment today!
               </p>
-              <a href="service" className="btn popular-1-cta cta">
-                Let's Go <FontAwesomeIcon icon={faArrowRight} className="custom-icon" />
-              </a>
+              <Button href="/service" variant="contained" className="btn cta">
+                Let's Go
+              </Button>
             </div>
 
             <img
@@ -227,9 +224,10 @@ function Home() {
               <h1 className="title">
                 <span>{customerCount}+</span> Customers Use 4Stu
               </h1>
-              <a href="service" className="btn popular-1-cta cta">
-                Read More <FontAwesomeIcon icon={faArrowRight} className="custom-icon" />
-              </a>
+
+              <Button href="#!" variant="contained" className="btn cta">
+                Read More
+              </Button>
             </div>
             <div className="service-datas">
               <div className="service-item">

@@ -2,6 +2,9 @@ import React from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faLocationDot, faEnvelope, faPhone } from '@fortawesome/free-solid-svg-icons';
 
+import Button from '@mui/material/Button';
+import SendIcon from '@mui/icons-material/Send';
+
 import './Contact.css';
 import Navigation from '../../../components/Navigation';
 import Footer from '../../../components/Footer';
@@ -79,12 +82,10 @@ function Contact() {
                   <textarea required></textarea>
                   <span>Write Your Message Here...</span>
                 </div>
-                <div className="inputBox w100">
-                  <button class="btn" type="submit">
-                    Send
-                  </button>
-                </div>
               </div>
+              <Button variant="contained" className="btn" type="submit" endIcon={<SendIcon />}>
+                Send
+              </Button>
             </div>
           </div>
         </section>

@@ -7,25 +7,24 @@ import axios from 'axios';
 import Swal from 'sweetalert2';
 import Cookies from 'js-cookie';
 
+import Button from '@mui/material/Button';
+
 import './Login.css';
 
 function Login() {
   const session = useContext(Session);
 
-  // Trạng thái loading
   const [isLoading, setIsLoading] = useState(false);
 
-  // Thông báo lỗi đăng nhập
   const [loginError, setLoginError] = useState(null);
 
-  // Thông báo lỗi đăng ký
   const [registerError, setRegisterError] = useState(null);
   const [isRegistered, setIsRegistered] = useState(false);
 
   const formik = useFormik({
     //! Giá trị khởi tạo của form
     initialValues: {
-      email: 'admin1@gmail.com',
+      email: 'vanhuutoan@gmail.com',
       password: '123456',
     },
 
@@ -45,14 +44,11 @@ function Login() {
           password: values.password,
         })
         .then((response) => {
-          // Đăng nhập thành công, cập nhật trạng thái user và điều hướng đến '/home'
           console.log(response.data);
           localStorage.setItem('accessToken', response.data.accessToken);
 
-          // Lưu token vào cookie
           Cookies.set('accessToken', response.data.accessToken);
 
-          // Hiển thị thông báo SweetAlert2
           Swal.fire({
             icon: 'success',
             title: 'Login Successful!',
@@ -63,11 +59,9 @@ function Login() {
           });
         })
         .catch((error) => {
-          // Đăng nhập thất bại, cập nhật trạng thái lỗi
           setLoginError('Invalid email or password. Please try again.');
           console.log(error);
 
-          // Hiển thị thông báo Swal cho trường hợp thất bại
           Swal.fire({
             icon: 'error',
             title: 'Login failed!',
@@ -114,7 +108,6 @@ function Login() {
           confirmPassword: values.confirmPassword,
         })
         .then((response) => {
-          // Đăng ký thành công, cập nhật trạng thái và thông báo
           setIsRegistered(true);
           setRegisterError(null);
 
@@ -207,9 +200,9 @@ function Login() {
               <a href="#!">Forgot password?</a>
             </div>
 
-            <button className="btn" type="submit">
+            <Button variant="contained" className="btn" type="submit">
               {isLoading ? 'Logging in...' : 'Login'}
-            </button>
+            </Button>
             <hr />
             <span>Or Use Another Account</span>
             <GoogleSignIn />
@@ -270,9 +263,9 @@ function Login() {
               </div>
             </div>
 
-            <button className="btn" type="submit">
+            <Button variant="contained" className="btn" type="submit">
               {isLoading ? 'Registering...' : 'Register'}
-            </button>
+            </Button>
           </form>
         </div>
 
@@ -284,9 +277,10 @@ function Login() {
                 My Friend
               </h1>
               <p className="login-ques">Already Have An Account?</p>
-              <div className="ghost btn" id="login">
+
+              <Button variant="contained" className="ghost btn" id="login">
                 Login
-              </div>
+              </Button>
             </div>
             <div className="overlay-panel overlay-right">
               <h1 className="login-title">
@@ -294,9 +288,10 @@ function Login() {
                 Service Now
               </h1>
               <p className="login-ques">Don't Have An Account Yet?</p>
-              <div className="ghost btn" id="register">
+
+              <Button variant="contained" className="ghost btn" id="register">
                 Register
-              </div>
+              </Button>
             </div>
           </div>
         </div>

@@ -5,10 +5,11 @@ import { useState, useEffect } from 'react';
 import { createContext } from 'react';
 import axios from 'axios';
 
-import Loading from './components/Loading';
-
 // ADMIN
 import AdminDashboard from './pages/admin/AdminDashboard/AdminDashboard';
+import AdminAnalysis from './pages/admin/AdminAnalysis/AdminAnalysis';
+import OrderManagement from './pages/admin/OrderManagement/OrderManagement';
+import StaffManagement from './pages/admin/StaffManagement/StaffManagement';
 import UserManagement from './pages/admin/UserManagement/UserManagement';
 import PackageServiceManagement from './pages/admin/PackageServiceManagement/PackageServiceManagement';
 import ServiceManagement from './pages/admin/ServiceManagement/ServiceManagement';
@@ -24,6 +25,7 @@ import Profile from './pages/customer/Profile/Profile';
 import History from './pages/customer/History/History';
 
 //COMMON
+import Loading from './components/Loading';
 import Login from './pages/common/Login/Login';
 import Home from './pages/common/Home/Home';
 import About from './pages/common/About/About';
@@ -91,9 +93,9 @@ function App() {
             {isAdmin && (
               <>
                 <Route path="/admin-dashboard" element={<AdminDashboard />} />
-                <Route path="/admin-analysis" element={<AdminDashboard />} />
-                <Route path="/admin-order-management" element={<AdminDashboard />} />
-                <Route path="/admin-staff-management" element={<AdminDashboard />} />
+                <Route path="/admin-analysis" element={<AdminAnalysis />} />
+                <Route path="/admin-order-management" element={<OrderManagement />} />
+                <Route path="/admin-staff-management" element={<StaffManagement />} />
                 <Route path="/admin-user-management" element={<UserManagement />} />
                 <Route path="/admin-service-management" element={<ServiceManagement />} />
                 <Route

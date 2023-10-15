@@ -6,6 +6,8 @@ import Cookies from 'js-cookie'; // Import thư viện js-cookie
 import { Link } from 'react-router-dom';
 import Detail from '../../common/Detail/Detail';
 
+import Button from '@mui/material/Button';
+
 import Navigation from '../../../components/Navigation';
 import Footer from '../../../components/Footer';
 import './Service.css';
@@ -85,13 +87,16 @@ function Service() {
           <h2 onClick={() => handleViewServiceDetailClick(service)}>{service.serviceName}</h2>
           <h3>{formatPriceWithDot(service.price)} VND</h3>
           <div className="menu_icon">{renderStars(service.rating)}</div>
-          <Link
-            to={`/order?serviceName=${service.serviceName}&price=${service.price}&image=${service.longImage}`}
+
+          <Button
+            variant="contained"
             className="btn"
+            component={Link}
+            to={`/order?serviceName=${service.serviceName}&price=${service.price}&image=${service.longImage}`}
             onClick={() => handleOrderClick(service)}
           >
             Order Now
-          </Link>
+          </Button>
         </div>
       </div>
     ));
@@ -104,9 +109,15 @@ function Service() {
 
         <h3>{packageService.packageServiceName}</h3>
         <p>{packageService.packageServiceDesc}</p>
-        <a href="/order-shipping" className="btn">
+        <Button
+          variant="contained"
+          className="btn"
+          component={Link}
+          to={`/order?serviceName=${packageService.servicePackageName}&price=${packageService.price}&image=${packageService.longImage}`}
+          onClick={() => handleOrderClick(packageService)}
+        >
           Order Now
-        </a>
+        </Button>
       </div>
     ));
   };
@@ -126,9 +137,9 @@ function Service() {
                 convenience and time-saving solutions to your student community through perfect
                 daily life services.
               </p>
-              <a className="btn" href="#order-now">
+              <Button href="#order-now" variant="contained" className="btn">
                 Order Now
-              </a>
+              </Button>
             </div>
 
             <div className="main_image">
@@ -176,9 +187,9 @@ function Service() {
               </ol>
             </div>
           </div>
-          <a href="#order-now" className="btn">
+          <Button href="#order-now" variant="contained" className="btn">
             Order Now
-          </a>
+          </Button>
         </div>
       </div>
 

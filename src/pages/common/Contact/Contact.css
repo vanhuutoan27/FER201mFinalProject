@@ -4,6 +4,8 @@
 }
 
 .ContactPage .btn {
+  margin-left: 600px;
+
   &:active {
     background-color: var(--primary-color-1);
     color: var(--primary-color-2);
@@ -129,6 +131,7 @@
   position: relative;
   margin-bottom: 35px;
 }
+
 .container .contactusInForm .formBox .inputBox.w50 {
   width: 47%;
 }
@@ -248,3 +251,31 @@
 textarea {
   resize: none;
 }
+
+.css-8je8zh-MuiTouchRipple-root {
+  position: absolute;
+  top: 100% !important;
+}
+
+/* .btn {
+  background-color: var(--primary-color-1);
+  border-radius: 12px;
+  min-width: 98px;
+  padding: 18px 50px;
+  color: var(--primary-color-2);
+  font-size: 1.6rem;
+  font-weight: 700;
+  font-family: 'Poppins', sans-serif;
+  text-transform: capitalize;
+
+  &:hover {
+    transform: scale(1);
+    background-color: var(--primary-color-1);
+    color: var(--primary-color-2);
+  }
+
+  &:active {
+    text-decoration: none;
+    border: none;
+  }
+} */
