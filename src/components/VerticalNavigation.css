@@ -1,12 +1,12 @@
 .frame-selected {
-  color: var(--primary-color-2) !important;
+  color: #4859ca !important;
   border-color: var(--primary-color-4);
 }
 
 .frame-1:hover,
 .frame-2:hover {
   background-color: #ededed;
-  color: var(--primary-color-2) !important;
+  color: #4859ca !important;
 }
 
 .frame-1:active,
@@ -18,21 +18,18 @@
 
 .staff-nav,
 .admin-navbar {
-  background-color: var(--primary-color-2);
+  background-color: #4859ca;
   box-shadow: 15px 0px 5px rgba(0, 0, 0, 0.1);
   z-index: 99;
+  height: 100vh;
 }
 
 .vertical-nav {
   align-items: center;
-  /* background-color: #ffffff; */
   border-radius: 0px 0px 13px 13px;
   display: flex;
   flex-direction: column;
-  gap: 12px;
-  /* justify-content: center; */
-  /* background-color: var(--primary-color-2); */
-
+  gap: 4px;
   overflow: hidden;
   padding: 16px;
   position: relative;
@@ -52,6 +49,7 @@
   position: relative;
   width: 100%;
   padding: 12px 0;
+  margin-left: 12px;
 }
 
 .vertical-nav .vertical-account {
@@ -126,7 +124,7 @@
   height: 2px;
   margin-left: -16px;
   margin-right: -16px;
-  margin-bottom: 4px;
+  margin-bottom: 8px;
   position: relative;
   width: 350px;
 }
@@ -143,9 +141,7 @@
   width: 100%;
 }
 
-/* vertical BODY */
 .vertical-nav-body .frame-content {
-  /* color: #000000; */
   font-size: 1.6rem;
   font-weight: 400;
   letter-spacing: 0;
@@ -236,9 +232,8 @@
 }
 
 .vertical-nav .frame-data {
-  background-color: #6499e9;
+  background-color: var(--primary-color-1);
   color: var(--primary-color-4);
-  /* color: rgba(17, 167, 92, 1); */
   width: 30px;
   align-items: center;
   border-radius: 99px;
@@ -266,7 +261,6 @@
   position: relative;
   padding: 12px;
   width: 100%;
-  margin-top: 12px;
   transition: 0.2s ease-in-out;
 
   &:hover {
@@ -281,4 +275,8 @@
 
 .frame-2.frame-selected > div:last-of-type {
   display: none;
+}
+
+.custom-icon-nav {
+  padding: 0 16px 0 8px;
 }

@@ -12,6 +12,8 @@ import Swal from 'sweetalert2';
 
 import Navigation from '../../../components/Navigation';
 import Footer from '../../../components/Footer';
+
+import { formatPriceWithDot } from '../../../utils/PriceUtils';
 import './Order.css';
 
 function Order() {
@@ -30,13 +32,6 @@ function Order() {
   const subTotal = parseFloat(subTotalWithoutCurrency);
   const tax = 0;
   const total = subTotal + tax;
-
-  const formatPriceWithDot = (price) => {
-    if (!isNaN(price)) {
-      return price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.');
-    }
-    return price;
-  };
 
   function generateRandomCode() {
     return Math.floor(100000 + Math.random() * 900000);

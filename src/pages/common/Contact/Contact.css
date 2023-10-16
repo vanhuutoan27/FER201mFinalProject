@@ -252,10 +252,10 @@ textarea {
   resize: none;
 }
 
-.css-8je8zh-MuiTouchRipple-root {
+/* .css-8je8zh-MuiTouchRipple-root {
   position: absolute;
   top: 100% !important;
-}
+} */
 
 /* .btn {
   background-color: var(--primary-color-1);

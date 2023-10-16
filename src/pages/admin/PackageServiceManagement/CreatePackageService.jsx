@@ -23,7 +23,7 @@ function CreatePackageService() {
       time: '0',
       price: '0',
       tag: 'null',
-      image: null, // Use null for the image field
+      image: null, 
     },
 
     validationSchema: Yup.object({
@@ -32,7 +32,7 @@ function CreatePackageService() {
       time: Yup.string().required('Time is required'),
       price: Yup.string().required('Price is required'),
       tag: Yup.string().required('Tag is required'),
-      image: Yup.mixed().required('Image is required'), // Use Yup.mixed() for file validation
+      image: Yup.mixed().required('Image is required'), 
     }),
 
     onSubmit: async (values) => {
@@ -47,14 +47,13 @@ function CreatePackageService() {
         const snapshot = await uploadBytes(storageRef, file, metadata);
         const downloadURL = await getDownloadURL(snapshot.ref);
 
-        // Now, you can include the downloadURL in your POST request
         const response = await axios.post('https://localhost:7088/api/PackageServiceManagements', {
           packageServiceName: values.name,
           packageServiceDesc: values.desc,
           time: values.time,
           price: values.price,
           tag: values.tag,
-          image: downloadURL, // Use the URL obtained from Firebase
+          image: downloadURL, 
         });
 
         alert('Service created successfully!');

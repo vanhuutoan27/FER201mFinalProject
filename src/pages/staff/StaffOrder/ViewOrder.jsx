@@ -5,25 +5,13 @@ import Col from 'react-bootstrap/Col';
 import axios from 'axios';
 import { Session } from '../../../App';
 
+import { formatDate } from '../../../utils/DateUtils';
+import { formatPriceWithDot } from '../../../utils/PriceUtils';
+
 function ViewOrder({ selectedOrder, onClose }) {
   const session = useContext(Session);
   const user = session.user;
   const [isLoading, setIsLoading] = useState(false);
-
-  const formatDate = (dateString) => {
-    const date = new Date(dateString);
-    const day = date.getDate();
-    const month = date.getMonth() + 1;
-    const year = date.getFullYear();
-    return `${day < 10 ? '0' : ''}${day}/${month < 10 ? '0' : ''}${month}/${year}`;
-  };
-
-  const formatPriceWithDot = (price) => {
-    if (!isNaN(price)) {
-      return price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.');
-    }
-    return price;
-  };
 
   const updateOrderStatus = async () => {
     setIsLoading(true);

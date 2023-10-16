@@ -6,6 +6,15 @@ import { Session } from '../App';
 import Cookies from 'js-cookie';
 
 import './VerticalNavigation.css';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import {
+  faCalendarDays,
+  faCartShopping,
+  faHouse,
+  faListCheck,
+  faRightFromBracket,
+  faUser,
+} from '@fortawesome/free-solid-svg-icons';
 
 function StaffNavigation() {
   const session = useContext(Session);
@@ -66,7 +75,11 @@ function StaffNavigation() {
                   location.pathname === '/staff-profile' ? 'frame-selected' : ''
                 }`}
               >
-                <div className="frame-content">Profile</div>
+                <div className="frame-content">
+                  {' '}
+                  <FontAwesomeIcon icon={faUser} className="custom-icon-nav" />
+                  Profile
+                </div>
               </div>
             </Link>
 
@@ -76,7 +89,10 @@ function StaffNavigation() {
                   location.pathname === '/staff-order' ? 'frame-selected' : ''
                 }`}
               >
-                <div className="frame-content">Order</div>
+                <div className="frame-content">
+                  <FontAwesomeIcon icon={faCartShopping} className="custom-icon-nav" />
+                  Order
+                </div>
               </div>
             </Link>
 
@@ -84,7 +100,10 @@ function StaffNavigation() {
               <div
                 className={`frame-1 ${location.pathname === '/staff-task' ? 'frame-selected' : ''}`}
               >
-                <div className="frame-content">Task</div>
+                <div className="frame-content">
+                  <FontAwesomeIcon icon={faListCheck} className="custom-icon-nav" />
+                  Task
+                </div>
               </div>
             </Link>
 
@@ -94,7 +113,10 @@ function StaffNavigation() {
                   location.pathname === '/staff-calendar' ? 'frame-selected' : ''
                 }`}
               >
-                <div className="frame-content">Calendar</div>
+                <div className="frame-content">
+                  <FontAwesomeIcon icon={faCalendarDays} className="custom-icon-nav" />
+                  Calendar
+                </div>
               </div>
             </Link>
 
@@ -102,14 +124,19 @@ function StaffNavigation() {
 
             {/* FOOTER */}
             <a href="/">
-              <div className="frame-1 home">
-                <div className="frame-content">Home</div>
+              <div className="frame-1">
+                <div className="frame-content">
+                  <FontAwesomeIcon icon={faHouse} className="custom-icon-nav" /> Home
+                </div>
               </div>
             </a>
 
             <a href="#!" onClick={handleLogout}>
               <div className="vertical-nav-footer logout">
-                <div className="frame-content">Logout</div>
+                <div className="frame-content">
+                  <FontAwesomeIcon icon={faRightFromBracket} className="custom-icon-nav" />
+                  Logout
+                </div>
               </div>
             </a>
           </div>

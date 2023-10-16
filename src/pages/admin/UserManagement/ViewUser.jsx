@@ -4,16 +4,9 @@ import { Modal, Form } from 'react-bootstrap';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 
-function ViewUser({ selectedUser, onClose }) {
-  // Hàm để định dạng ngày tháng năm
-  const formatDate = (dateString) => {
-    const date = new Date(dateString);
-    const day = date.getDate();
-    const month = date.getMonth() + 1;
-    const year = date.getFullYear();
-    return `${day < 10 ? '0' : ''}${day}/${month < 10 ? '0' : ''}${month}/${year}`;
-  };
+import { formatDate } from '../../../utils/DateUtils';
 
+function ViewUser({ selectedUser, onClose }) {
   return (
     <Modal show={!!selectedUser} onHide={onClose} size="lg">
       <Modal.Header closeButton>

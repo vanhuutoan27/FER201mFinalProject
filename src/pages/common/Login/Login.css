@@ -51,6 +51,7 @@ h1 {
 label {
   margin-right: auto;
   padding: 8px 0 8px 12px;
+  font-weight: 600;
 }
 
 .login-options .checkbox > label {

@@ -7,6 +7,7 @@ import { Session } from '../../../App';
 import StaffNavigation from '../../../components/StaffNavigation';
 import ViewTask from './ViewTask';
 
+import { formatDate } from '../../../utils/DateUtils';
 import '../../../components/Management.css';
 
 function StaffTask() {
@@ -68,21 +69,6 @@ function StaffTask() {
 
   const handlePageChange = (pageNumber) => {
     setCurrentPage(pageNumber);
-  };
-
-  const formatDate = (dateString) => {
-    const date = new Date(dateString);
-    const day = date.getDate();
-    const month = date.getMonth() + 1;
-    const year = date.getFullYear();
-    return `${day < 10 ? '0' : ''}${day}/${month < 10 ? '0' : ''}${month}/${year}`;
-  };
-
-  const formatPriceWithDot = (price) => {
-    if (!isNaN(price)) {
-      return price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.');
-    }
-    return price;
   };
 
   return (

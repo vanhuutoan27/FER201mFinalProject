@@ -7,6 +7,7 @@ import AdminNavigation from '../../../components/AdminNavigation';
 import ViewUser from './ViewUser';
 import UpdateUser from './UpdateUser';
 
+import { formatDate } from '../../../utils/DateUtils';
 import '../../../components/Management.css';
 
 function UserManagement() {
@@ -33,15 +34,6 @@ function UserManagement() {
 
   const handlePageChange = (pageNumber) => {
     setCurrentPage(pageNumber);
-  };
-
-  // Hàm để định dạng ngày tháng năm
-  const formatDate = (dateString) => {
-    const date = new Date(dateString);
-    const day = date.getDate();
-    const month = date.getMonth() + 1;
-    const year = date.getFullYear();
-    return `${day < 10 ? '0' : ''}${day}/${month < 10 ? '0' : ''}${month}/${year}`;
   };
 
   const startIndex = (currentPage - 1) * itemsPerPage;

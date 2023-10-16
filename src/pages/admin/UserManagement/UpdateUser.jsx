@@ -7,24 +7,16 @@ import { storage } from '../../../firebase';
 import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 import axios from 'axios';
 
+import { formatDate } from '../../../utils/DateUtils';
+
 function UpdateUser({ selectedUser, onClose }) {
   const [updatedUser, setUpdatedUser] = useState(selectedUser);
   const [isLoading, setIsLoading] = useState(false);
-
-  // Hàm để định dạng ngày tháng năm
-  const formatDate = (dateString) => {
-    const date = new Date(dateString);
-    const day = date.getDate();
-    const month = date.getMonth() + 1;
-    const year = date.getFullYear();
-    return `${day < 10 ? '0' : ''}${day}/${month < 10 ? '0' : ''}${month}/${year}`;
-  };
 
   const handleSave = async () => {
     setIsLoading(true);
 
     try {
-      // Send the request to update the user through axios
       await axios.put(
         `https://localhost:7088/api/CustomerManagements/${updatedUser.customerId}`,
         updatedUser

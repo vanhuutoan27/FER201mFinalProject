@@ -8,6 +8,7 @@ import CreateService from './CreateService';
 import ViewService from './ViewService';
 import UpdateService from './UpdateService';
 
+import { formatPriceWithDot } from '../../../utils/PriceUtils';
 import '../../../components/Management.css';
 
 function AdminServiceManagement() {
@@ -23,13 +24,6 @@ function AdminServiceManagement() {
       .then((response) => setAllServices(response.data))
       .catch((error) => console.log(error));
   }, []);
-
-  const formatPriceWithDot = (price) => {
-    if (!isNaN(price)) {
-      return price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.');
-    }
-    return price;
-  };
 
   const handleViewServiceClick = (service) => {
     setSelectedService(service);

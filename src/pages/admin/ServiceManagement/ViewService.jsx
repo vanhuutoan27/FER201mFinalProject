@@ -4,14 +4,9 @@ import { Modal, Form } from 'react-bootstrap';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 
-function AdminViewService({ selectedService, onClose }) {
-  const formatPriceWithDot = (price) => {
-    if (!isNaN(price)) {
-      return price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.');
-    }
-    return price;
-  };
+import { formatPriceWithDot } from '../../../utils/PriceUtils';
 
+function AdminViewService({ selectedService, onClose }) {
   return (
     <Modal show={!!selectedService} onHide={onClose} size="lg">
       <Modal.Header closeButton>

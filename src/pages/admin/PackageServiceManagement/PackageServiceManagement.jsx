@@ -8,6 +8,7 @@ import CreatePackageService from './CreatePackageService';
 import ViewPackageService from './ViewPackageService';
 import UpdatePackageService from './UpdatePackageService';
 
+import { formatPriceWithDot } from '../../../utils/PriceUtils';
 import '../../../components/Management.css';
 
 function PackageServiceManagement() {
@@ -23,13 +24,6 @@ function PackageServiceManagement() {
       .then((response) => setAllPackageServices(response.data))
       .catch((error) => console.log(error));
   }, []);
-
-  const formatPriceWithDot = (price) => {
-    if (!isNaN(price)) {
-      return price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.');
-    }
-    return price;
-  };
 
   const handleViewServiceClick = (packageService) => {
     setSelectedPackageService(packageService);

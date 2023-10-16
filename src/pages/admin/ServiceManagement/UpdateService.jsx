@@ -7,16 +7,11 @@ import { storage } from '../../../firebase';
 import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 import axios from 'axios';
 
+import { formatPriceWithDot } from '../../../utils/PriceUtils';
+
 function AdminUpdateService({ selectedService, onClose }) {
   const [updatedService, setUpdatedService] = useState(selectedService);
   const [isLoading, setIsLoading] = useState(false);
-
-  const formatPriceWithDot = (price) => {
-    if (!isNaN(price)) {
-      return price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.');
-    }
-    return price;
-  };
 
   const handleSave = async () => {
     setIsLoading(true);

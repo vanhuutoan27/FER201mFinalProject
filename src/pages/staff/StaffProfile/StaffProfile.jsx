@@ -5,7 +5,10 @@ import StaffNavigation from '../../../components/StaffNavigation';
 function StaffProfile() {
   return (
     <div className="StaffProfilePage">
-      <StaffNavigation />
+      <div className="staff-nav">
+        <StaffNavigation />
+      </div>
+      <div></div>
     </div>
   );
 }

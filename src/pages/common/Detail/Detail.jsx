@@ -6,16 +6,10 @@ import { Modal, Form } from 'react-bootstrap';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 
+import { formatPriceWithDot } from '../../../utils/PriceUtils';
 import './Detail.css';
 
 function Detail({ selectedService, onClose }) {
-  const formatPriceWithDot = (price) => {
-    if (!isNaN(price)) {
-      return price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.');
-    }
-    return price;
-  };
-
   // Use state to keep track of the image URL when clicked
   const [clickedImage, setClickedImage] = useState(null);
 

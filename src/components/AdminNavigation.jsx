@@ -5,6 +5,19 @@ import { Link } from 'react-router-dom';
 import { Session } from '../App';
 import Cookies from 'js-cookie';
 
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import {
+  faBagShopping,
+  faBarsProgress,
+  faBriefcase,
+  faCartShopping,
+  faChartPie,
+  faHouse,
+  faRightFromBracket,
+  faUser,
+  faUserTie,
+} from '@fortawesome/free-solid-svg-icons';
+
 import './VerticalNavigation.css';
 
 function AdminNavbar() {
@@ -87,8 +100,7 @@ function AdminNavbar() {
             </a>
             <div className="vertical-info">
               <div className="vertical-name">
-                {user.firstName}
-                {user.lastName}
+                {user.firstName} {user.lastName}
               </div>
               <div className="vertical-mail">{user.email}</div>
             </div>
@@ -106,7 +118,10 @@ function AdminNavbar() {
                 location.pathname === '/admin-dashboard' ? 'frame-selected' : ''
               }`}
             >
-              <div className="frame-content">Dashboard</div>
+              <div className="frame-content">
+                <FontAwesomeIcon icon={faBarsProgress} className="custom-icon-nav" />
+                Dashboard
+              </div>
             </div>
           </Link>
 
@@ -116,7 +131,10 @@ function AdminNavbar() {
                 location.pathname === '/admin-analysis' ? 'frame-selected' : ''
               }`}
             >
-              <div className="frame-content">Analysis</div>
+              <div className="frame-content">
+                <FontAwesomeIcon icon={faChartPie} className="custom-icon-nav" />
+                Analysis
+              </div>
             </div>
           </Link>
 
@@ -129,7 +147,10 @@ function AdminNavbar() {
               }`}
             >
               <div className="div">
-                <div className="frame-content">Order</div>
+                <div className="frame-content">
+                  <FontAwesomeIcon icon={faCartShopping} className="custom-icon-nav" />
+                  Order
+                </div>
               </div>
               <div className="frame-data">
                 <div className="frame-data-content">{orderCount}</div>
@@ -144,7 +165,10 @@ function AdminNavbar() {
               }`}
             >
               <div className="div">
-                <div className="frame-content">Staff</div>
+                <div className="frame-content">
+                  <FontAwesomeIcon icon={faUserTie} className="custom-icon-nav" />
+                  Staff
+                </div>
               </div>
               <div className="frame-data">
                 <div className="frame-data-content">{staffCount}</div>
@@ -159,7 +183,10 @@ function AdminNavbar() {
               }`}
             >
               <div className="div">
-                <div className="frame-content">User</div>
+                <div className="frame-content">
+                  <FontAwesomeIcon icon={faUser} className="custom-icon-nav" />
+                  User
+                </div>
               </div>
               <div className="frame-data">
                 <div className="frame-data-content">{customerCount}</div>
@@ -174,7 +201,10 @@ function AdminNavbar() {
               }`}
             >
               <div className="div">
-                <div className="frame-content">Service</div>
+                <div className="frame-content">
+                  <FontAwesomeIcon icon={faBagShopping} className="custom-icon-nav" />
+                  Service
+                </div>
               </div>
               <div className="frame-data">
                 <div className="frame-data-content">{serviceCount}</div>
@@ -189,7 +219,10 @@ function AdminNavbar() {
               }`}
             >
               <div className="div">
-                <div className="frame-content">Package Service</div>
+                <div className="frame-content">
+                  <FontAwesomeIcon icon={faBriefcase} className="custom-icon-nav" />
+                  Package Service
+                </div>
               </div>
               <div className="frame-data">{packageServiceCount}</div>
             </div>
@@ -200,13 +233,19 @@ function AdminNavbar() {
           {/* ADMIN FOOTER */}
           <a href="/">
             <div className="frame-1">
-              <div className="frame-content">Home</div>
+              <div className="frame-content">
+                <FontAwesomeIcon icon={faHouse} className="custom-icon-nav" />
+                Home
+              </div>
             </div>
           </a>
 
           <a href="#!" onClick={handleLogout}>
             <div className="vertical-nav-footer logout">
-              <div className="frame-content">Logout</div>
+              <div className="frame-content">
+                <FontAwesomeIcon icon={faRightFromBracket} className="custom-icon-nav" />
+                Logout
+              </div>
             </div>
           </a>
         </div>

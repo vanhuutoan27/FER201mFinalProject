@@ -1,5 +1,5 @@
 :root {
-  --background-color: #ebecf0;
+  --background-color: #eff8ff;
   --table-background-color: #fff;
   --primary: #101824;
   --gray: #a0a7b1;
@@ -92,11 +92,14 @@ button {
 .service-management-content,
 .package-service-management-content,
 .StaffOrderPage,
-.StaffTaskPage {
+.StaffTaskPage,
+.StaffCalendarPage,
+.StaffOrderPage {
   display: flex;
 }
 
-.table-content {
+.table-content,
+.calendar-content {
   margin: 0;
   width: 80%;
   height: 100vh;
@@ -403,6 +406,7 @@ button:active {
 .form-control {
   font-size: 1.6rem;
   border-radius: 8px;
+  font-weight: 500;
 }
 
 .form-control:not(input[type='file']) {
@@ -423,13 +427,8 @@ button:active {
 }
 
 .service-image-container {
-  /* display: flex; */
   display: inline-block;
 }
-
-/* .service-image-container > img {
-  width: 40%;
-} */
 
 .service-image,
 .service-image-virtual {
@@ -444,36 +443,9 @@ button:active {
   background-color: #eee;
 }
 
-/* .service-image-virtual {
-  height: 40vh;
-  background-color: red;
-} */
-
 .image-upload-label {
-  /* width: 40%; */
   cursor: pointer;
   padding: 0;
-}
-
-/* .mb-3.form-user-id {
-  position: absolute;
-  top: 0px;
-  left: 360px;
-  width: 23%;
-} */
-
-/* .mb-3.form-id {
-  position: absolute;
-  top: 0px;
-  left: 360px;
-  width: 48%;
-}
-
-.mb-3.form-name {
-  position: absolute;
-  top: 80px;
-  left: 360px;
-  width: 48%;
 }
 
 .mb-3.form-desc {
@@ -481,37 +453,39 @@ button:active {
   top: 160px;
   left: 360px;
   width: 48%;
-} */
-
-/* .mb-3.form-id {
-  position: absolute;
-  top: 0;
-  left: 360px;
-  width: 23%;
-} */
-
-/* .mb-3.form-date-created {
-  position: absolute;
-  top: 0;
-  left: 560px;
-  width: 23%;
 }
-
-.mb-3.form-firstname {
-  position: absolute;
-  top: 160px;
-  left: 360px;
-  width: 23%;
-}
-
-.mb-3.form-lastname {
-  position: absolute;
-  top: 160px;
-  left: 560px;
-  width: 23%;
-} */
 
 .custom-select option {
   background-color: #eee;
   color: var(--primary-color-4);
+}
+
+.calendar-content {
+  width: 80%;
+  padding: 20px;
+}
+
+.rbc-toolbar button {
+  background-color: var(--primary-color-1) !important;
+  color: var(--primary-color-2) !important;
+  font-weight: 500;
+
+  &:active {
+    text-decoration: none !important;
+  }
+}
+
+.rbc-toolbar .rbc-toolbar-label {
+  font-family: 50px !important;
+  font-weight: 700;
+}
+
+.rbc-toolbar button {
+  border-radius: 8px !important;
+  border: none !important;
+  padding: 8px 24px !important;
+}
+
+.rbc-toolbar button + button {
+  margin-left: 8px !important;
 }

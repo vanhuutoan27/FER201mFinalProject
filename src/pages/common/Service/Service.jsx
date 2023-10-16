@@ -10,6 +10,8 @@ import Button from '@mui/material/Button';
 
 import Navigation from '../../../components/Navigation';
 import Footer from '../../../components/Footer';
+
+import { formatPriceWithDot } from '../../../utils/PriceUtils';
 import './Service.css';
 
 function Service() {
@@ -52,13 +54,6 @@ function Service() {
       setLoggedIn(true);
     }
   }, []);
-
-  const formatPriceWithDot = (price) => {
-    if (!isNaN(price)) {
-      return price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.');
-    }
-    return price;
-  };
 
   function renderStars(rating) {
     const stars = [];

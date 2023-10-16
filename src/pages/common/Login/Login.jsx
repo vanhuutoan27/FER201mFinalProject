@@ -278,7 +278,7 @@ function Login() {
               </h1>
               <p className="login-ques">Already Have An Account?</p>
 
-              <Button variant="contained" className="ghost btn" id="login">
+              <Button variant="contained" className="ghost btn cta" id="login">
                 Login
               </Button>
             </div>
@@ -289,7 +289,7 @@ function Login() {
               </h1>
               <p className="login-ques">Don't Have An Account Yet?</p>
 
-              <Button variant="contained" className="ghost btn" id="register">
+              <Button variant="contained" className="ghost btn cta" id="register">
                 Register
               </Button>
             </div>
