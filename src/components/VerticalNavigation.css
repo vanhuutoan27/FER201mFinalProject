@@ -1,12 +1,12 @@
 .frame-selected {
-  color: #4859ca !important;
+  color: var(--primary-color-2) !important;
   border-color: var(--primary-color-4);
 }
 
 .frame-1:hover,
 .frame-2:hover {
   background-color: #ededed;
-  color: #4859ca !important;
+  color: var(--primary-color-2) !important;
 }
 
 .frame-1:active,
@@ -18,7 +18,7 @@
 
 .staff-nav,
 .admin-navbar {
-  background-color: #4859ca;
+  background-color: var(--primary-color-2);
   box-shadow: 15px 0px 5px rgba(0, 0, 0, 0.1);
   z-index: 99;
   height: 100vh;

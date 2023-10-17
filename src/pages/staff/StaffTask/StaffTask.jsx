@@ -161,7 +161,7 @@ function StaffTask() {
       </div>
 
       {isTaskDetailModalVisible && (
-        <ViewTask selectedTask={selectedTask} onClose={() => setTaskDetailModalVisible(false)} />
+        <ViewTask task={selectedTask} onClose={() => setTaskDetailModalVisible(false)} />
       )}
     </div>
   );

@@ -1,0 +1,38 @@
+.calendar-content {
+  width: 80%;
+  padding: 20px;
+}
+
+.rbc-toolbar button {
+  background-color: var(--primary-color-1) !important;
+  color: var(--primary-color-2) !important;
+  font-weight: 500;
+
+  &:active {
+    text-decoration: none !important;
+  }
+}
+
+.rbc-toolbar .rbc-toolbar-label {
+  font-family: 50px !important;
+  font-weight: 700;
+}
+
+.rbc-toolbar button {
+  border-radius: 8px !important;
+  border: none !important;
+  padding: 8px 24px !important;
+}
+
+.rbc-toolbar button + button {
+  margin-left: 8px !important;
+}
+
+.rbc-day-bg,
+.rbc-row {
+  cursor: pointer;
+
+  &:hover {
+    background-color: #e1effc;
+  }
+}

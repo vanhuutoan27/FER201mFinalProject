@@ -211,6 +211,10 @@ a {
     background-color: var(--primary-color-1);
     color: var(--primary-color-2);
   } */
+
+  &:active {
+    text-decoration: none;
+  }
 }
 
 div:where(.swal2-container).swal2-center > .swal2-popup {
@@ -729,8 +733,7 @@ header .hero-img {
   }
 }
 
-/* .css-1hw9j7s.btn { */
-.css-sghohy-MuiButtonBase-root-MuiButton-root.btn {
+.css-1hw9j7s.btn {
   background-color: var(--primary-color-1);
   border-radius: 12px;
   min-width: 98px;

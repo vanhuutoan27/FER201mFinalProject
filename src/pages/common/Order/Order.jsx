@@ -361,9 +361,7 @@ function Order() {
                   <Form.Label>Payment Content</Form.Label>
                   <Form.Control
                     type="text"
-                    value={`${session.user?.firstName.toUpperCase() || ''} ${
-                      session.user?.lastName.toUpperCase() || ''
-                    } - ${session.user?.phone || ''} - ${randomCode}`}
+                    value={`YOUR FULL NAME - YOUR PHONE - ${randomCode}`}
                     readOnly
                   />
                 </Form.Group>

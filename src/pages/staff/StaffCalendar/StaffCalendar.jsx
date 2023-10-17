@@ -1,14 +1,16 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { Calendar, momentLocalizer } from 'react-big-calendar';
-import moment from 'moment';
+import moment from 'moment-timezone';
 import 'react-big-calendar/lib/css/react-big-calendar.css';
 import axios from 'axios';
 import { Session } from '../../../App';
 
 import StaffNavigation from '../../../components/StaffNavigation';
-import ViewTask from '../StaffTask/ViewTask';
+import ViewCalendar from './ViewCalendar';
 
-moment.locale('en-GB');
+import './StaffCalendar.css';
+
+moment.tz.setDefault('Asia/Ho_Chi_Minh');
 const localizer = momentLocalizer(moment);
 
 function StaffCalendar() {
@@ -17,76 +19,151 @@ function StaffCalendar() {
   const [eventsData, setEventsData] = useState([]);
   const [isError, setIsError] = useState(false);
   const [isTaskDetailModalVisible, setTaskDetailModalVisible] = useState(false);
-  const [selectedTask, setSelectedTask] = useState(null);
+  const [selectedEvent, setSelectedEvent] = useState(null);
 
   useEffect(() => {
-    axios
-      .get('https://localhost:7088/api/StaffOrderManagements')
-      .then((response) => {
-        const staffOrderManagements = response.data;
+    const fetchEvents = async () => {
+      try {
+        const staffOrderResponse = await axios.get(
+          'https://localhost:7088/api/StaffOrderManagements'
+        );
+        const staffOrderManagements = staffOrderResponse.data;
+
         const newEventsData = [];
 
-        const fetchEvents = async () => {
-          for (const staffOrder of staffOrderManagements) {
-            const orderId = staffOrder.orderId;
-            const staffId = staffOrder.staffId;
-            const dateShipping = staffOrder.dateShipping;
+        for (const staffOrder of staffOrderManagements) {
+          const orderId = staffOrder.orderId;
+          const staffId = staffOrder.staffId;
+          const dateShipping = staffOrder.dateShipping;
 
-            try {
-              const staffResponse = await axios.get(
-                `https://localhost:7088/api/StaffManagements/${staffId}`
+          const staffResponse = await axios.get(
+            `https://localhost:7088/api/StaffManagements/${staffId}`
+          );
+          const staff = staffResponse.data;
+          const staffEmail = staff.email;
+
+          if (staffEmail === user.email) {
+            if (orderId) {
+              const orderResponse = await axios.get(
+                `https://localhost:7088/api/OrderManagements/${orderId}`
               );
-              const staff = staffResponse.data;
-              const staffEmail = staff.email;
+              const order = orderResponse.data;
 
-              if (staffEmail === user.email) {
-                const orderResponse = await axios.get(
-                  `https://localhost:7088/api/OrderManagements/${orderId}`
-                );
-                const order = orderResponse.data;
-
-                const newEvent = {
-                  title: order.serviceName,
-                  start: new Date(dateShipping),
-                  end: new Date(dateShipping),
-                };
-
-                newEventsData.push(newEvent);
+              if (order.status === 'Completed') {
+                continue;
               }
-            } catch (error) {
-              setIsError(true);
-              console.error(error);
+
+              const newEvent = {
+                title: order.serviceName,
+                start: new Date(dateShipping),
+                end: new Date(dateShipping),
+                orderInfo: order,
+              };
+
+              newEventsData.push(newEvent);
+            } else {
+              const taskTitle = staffOrder.taskTitle;
+              const newEvent = {
+                title: taskTitle,
+                start: new Date(dateShipping),
+                end: new Date(dateShipping),
+              };
+
+              newEventsData.push(newEvent);
             }
           }
+        }
 
-          setEventsData(newEventsData);
-        };
-
-        fetchEvents();
-      })
-      .catch((error) => {
+        setEventsData(newEventsData);
+      } catch (error) {
         setIsError(true);
-        console.error(error);
-      });
+        console.error('Error fetching staff orders:', error);
+      }
+    };
+
+    fetchEvents();
   }, [user.email]);
 
-  const handleSelect = ({ start, end }) => {
-    const title = window.prompt('New Event name');
-    if (title) {
-      setEventsData((prevEventsData) => [
-        ...prevEventsData,
-        {
-          title,
-          start,
-          end,
-        },
-      ]);
+  const handleSelect = async ({ start, end }) => {
+    const taskTitle = window.prompt('Enter new event title:');
+    if (taskTitle !== null) {
+      try {
+        const staffResponse = await axios.get('https://localhost:7088/api/StaffManagements', {
+          params: {
+            email: user.email,
+          },
+        });
+
+        if (staffResponse.data.length > 0) {
+          const staff = staffResponse.data[0];
+          const staffId = staff.staffId;
+
+          const orderId = window.prompt('Enter Order ID:');
+          if (orderId) {
+            const orderResponse = await axios.get(
+              `https://localhost:7088/api/OrderManagements/${orderId}`
+            );
+            const order = orderResponse.data;
+
+            const newEvent = {
+              title: order.serviceName,
+              start: moment(start).add(7, 'hours').toDate(),
+              end: end,
+              orderInfo: order,
+            };
+
+            try {
+              await axios.post('https://localhost:7088/api/StaffOrderManagements', {
+                taskTitle: taskTitle,
+                orderId: orderId,
+                staffId: staffId,
+                dateShipping: newEvent.start,
+              });
+
+              setEventsData((prevEventsData) => [...prevEventsData, newEvent]);
+              console.log('Event saved successfully.');
+            } catch (error) {
+              console.error('Error saving event:', error);
+            }
+          } else {
+            const newEvent = {
+              title: taskTitle,
+              start: moment(start).add(7, 'hours').toDate(),
+              end: end,
+            };
+
+            try {
+              await axios.post('https://localhost:7088/api/StaffOrderManagements', {
+                taskTitle: taskTitle,
+                staffId: staffId,
+                dateShipping: newEvent.start,
+              });
+
+              setEventsData((prevEventsData) => [...prevEventsData, newEvent]);
+              console.log('Event saved successfully.');
+            } catch (error) {
+              console.error('Error saving event:', error);
+            }
+          }
+        } else {
+          console.error('No staff data found for the given email.');
+        }
+      } catch (error) {
+        console.error('Error fetching staff:', error);
+      }
+    } else {
+      alert('Task title is required.');
     }
   };
 
-  const handleViewTaskDetailClick = (task) => {
-    setSelectedTask(task);
+  const handleViewTaskDetailClick = (event) => {
+    setSelectedEvent(event);
     setTaskDetailModalVisible(true);
+  };
+
+  const handleCloseTaskDetailModal = () => {
+    setSelectedEvent(null);
+    setTaskDetailModalVisible(false);
   };
 
   return (
@@ -105,12 +182,11 @@ function StaffCalendar() {
           style={{ width: '80%', marginLeft: 'auto', marginRight: 'auto' }}
           onSelectSlot={handleSelect}
           showMultiDayTimes
+          onSelectEvent={handleViewTaskDetailClick}
         />
       </div>
 
-      {isTaskDetailModalVisible && (
-        <ViewTask selectedTask={selectedTask} onClose={() => setTaskDetailModalVisible(false)} />
-      )}
+      {selectedEvent && <ViewCalendar task={selectedEvent} onClose={handleCloseTaskDetailModal} />}
     </div>
   );
 }

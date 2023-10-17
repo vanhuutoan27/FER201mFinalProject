@@ -48,7 +48,6 @@ function Service() {
       .then((response) => setAllPackageServices(response.data))
       .catch((error) => console.log(error));
 
-    // Kiểm tra cookie accessToken để xác định trạng thái đăng nhập
     const accessToken = Cookies.get('accessToken');
     if (accessToken) {
       setLoggedIn(true);

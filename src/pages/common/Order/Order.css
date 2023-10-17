@@ -13,6 +13,11 @@
 
 .OrderPage .btn,
 .OrderCompletionPage .btn {
+  &:hover {
+    background-color: var(--primary-color-1);
+    color: var(--primary-color-2);
+  }
+
   &:active {
     background-color: var(--primary-color-1);
     color: var(--primary-color-2);
@@ -245,6 +250,7 @@
 .btn-action,
 .btn-next-action {
   display: flex;
+
 }
 
 .btn-action a:first-child,

@@ -14,7 +14,7 @@
   }
 
   .table-widget th:nth-child(2) {
-    width: 100px;
+    width: 150px;
   }
 
   .table-widget th:nth-child(3) {
@@ -23,6 +23,10 @@
 
   .table-widget th:nth-child(4) {
     width: 300px;
+  }
+
+  .table-widget th:nth-child(5) {
+    width: 100px;
   }
 
   .admin-btn-action.view {
@@ -283,6 +287,11 @@ button {
   color: #00000090;
 }
 
+.status--Completed {
+  background-color: #0011ff60;
+  color: #00000090;
+}
+
 .table-widget {
   min-height: 80px;
 }
@@ -458,34 +467,4 @@ button:active {
 .custom-select option {
   background-color: #eee;
   color: var(--primary-color-4);
-}
-
-.calendar-content {
-  width: 80%;
-  padding: 20px;
-}
-
-.rbc-toolbar button {
-  background-color: var(--primary-color-1) !important;
-  color: var(--primary-color-2) !important;
-  font-weight: 500;
-
-  &:active {
-    text-decoration: none !important;
-  }
-}
-
-.rbc-toolbar .rbc-toolbar-label {
-  font-family: 50px !important;
-  font-weight: 700;
-}
-
-.rbc-toolbar button {
-  border-radius: 8px !important;
-  border: none !important;
-  padding: 8px 24px !important;
-}
-
-.rbc-toolbar button + button {
-  margin-left: 8px !important;
 }

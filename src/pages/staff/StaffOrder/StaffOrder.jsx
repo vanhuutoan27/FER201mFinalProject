@@ -7,25 +7,33 @@ import { Session } from '../../../App';
 import StaffNavigation from '../../../components/StaffNavigation';
 import ViewOrder from './ViewOrder';
 
+import { formatDate } from '../../../utils/DateUtils';
 import '../../../components/Management.css';
 
 function StaffOrder() {
   const session = useContext(Session);
   const user = session.user;
   const [allOrders, setAllOrders] = useState([]);
+  const [completedOrders, setCompletedOrders] = useState([]);
   const [selectedOrder, setSelectedOrder] = useState(null);
   const [staffEmail, setStaffEmail] = useState('');
   const itemsPerPage = 6;
   const [currentPage, setCurrentPage] = useState(1);
   const startIndex = (currentPage - 1) * itemsPerPage;
   const endIndex = startIndex + itemsPerPage;
-  const displayedOrders = allOrders.slice(startIndex, endIndex);
+  const displayedOrders = completedOrders.slice(startIndex, endIndex);
   const [isOrderDetailModalVisible, setOrderDetailModalVisible] = useState(false);
 
   useEffect(() => {
     axios
       .get('https://localhost:7088/api/OrderManagements')
-      .then((response) => setAllOrders(response.data))
+      .then((response) => {
+        const orders = response.data;
+        setAllOrders(orders);
+
+        const completedOrders = orders.filter((order) => order.status !== 'Completed');
+        setCompletedOrders(completedOrders);
+      })
       .catch((error) => console.log(error));
 
     axios
@@ -47,14 +55,6 @@ function StaffOrder() {
 
   const handlePageChange = (pageNumber) => {
     setCurrentPage(pageNumber);
-  };
-
-  const formatDate = (dateString) => {
-    const date = new Date(dateString);
-    const day = date.getDate();
-    const month = date.getMonth() + 1;
-    const year = date.getFullYear();
-    return `${day < 10 ? '0' : ''}${day}/${month < 10 ? '0' : ''}${month}/${year}`;
   };
 
   return (
@@ -121,7 +121,7 @@ function StaffOrder() {
                 <td colSpan="10">
                   <ul className="pagination">
                     {Array.from(
-                      { length: Math.ceil(allOrders.length / itemsPerPage) },
+                      { length: Math.ceil(completedOrders.length / itemsPerPage) },
                       (_, index) => (
                         <li key={index}>
                           <button
