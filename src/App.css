@@ -733,7 +733,27 @@ header .hero-img {
   }
 }
 
-/* .css-1hw9j7s.btn { */
+.css-1hw9j7s.btn {
+  background-color: var(--primary-color-1);
+  border-radius: 12px;
+  min-width: 98px;
+  padding: 18px 50px;
+  color: var(--primary-color-2);
+  font-size: 1.6rem;
+  font-weight: 700;
+  font-family: 'Poppins', sans-serif;
+  text-transform: capitalize;
+
+  &:hover {
+    background-color: var(--primary-color-1);
+    color: var(--primary-color-2);
+  }
+
+  &:active {
+    text-decoration: none;
+  }
+}
+
 .css-sghohy-MuiButtonBase-root-MuiButton-root.btn {
   background-color: var(--primary-color-1);
   border-radius: 12px;
