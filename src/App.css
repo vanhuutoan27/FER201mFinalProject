@@ -733,7 +733,8 @@ header .hero-img {
   }
 }
 
-.css-1hw9j7s.btn {
+/* .css-1hw9j7s.btn { */
+.css-sghohy-MuiButtonBase-root-MuiButton-root.btn {
   background-color: var(--primary-color-1);
   border-radius: 12px;
   min-width: 98px;

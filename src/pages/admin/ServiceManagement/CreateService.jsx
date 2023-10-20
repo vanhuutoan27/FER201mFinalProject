@@ -5,10 +5,9 @@ import Form from 'react-bootstrap/Form';
 import Modal from 'react-bootstrap/Modal';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
-import axios from 'axios';
 import { storage } from '../../../firebase';
 import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
-
+import axios from '../../../config/axios';
 function CreateService() {
   const [show, setShow] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
@@ -48,7 +47,7 @@ function CreateService() {
         const downloadURL = await getDownloadURL(snapshot.ref);
 
         // Now, you can include the downloadURL in your POST request
-        const response = await axios.post('https://localhost:7088/api/ServiceManagements', {
+        const response = await axios.post('/ServiceManagements', {
           serviceName: values.name,
           serviceDesc: values.desc,
           time: values.time,

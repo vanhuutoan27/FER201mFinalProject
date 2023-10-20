@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPen, faEye } from '@fortawesome/free-solid-svg-icons';
 
@@ -8,6 +7,7 @@ import CreatePackageService from './CreatePackageService';
 import ViewPackageService from './ViewPackageService';
 import UpdatePackageService from './UpdatePackageService';
 
+import axios from '../../../config/axios';
 import { formatPriceWithDot } from '../../../utils/PriceUtils';
 import '../../../components/Management.css';
 
@@ -20,7 +20,7 @@ function PackageServiceManagement() {
 
   useEffect(() => {
     axios
-      .get('https://localhost:7088/api/PackageServiceManagements')
+      .get('/PackageServiceManagements')
       .then((response) => setAllPackageServices(response.data))
       .catch((error) => console.log(error));
   }, []);

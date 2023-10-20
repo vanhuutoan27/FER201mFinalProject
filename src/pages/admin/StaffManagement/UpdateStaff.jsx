@@ -9,31 +9,31 @@ import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 import axios from '../../../config/axios';
 import { formatDate } from '../../../utils/DateUtils';
 
-function UpdateUser({ selectedUser, onClose }) {
-  const [updatedUser, setUpdatedUser] = useState(selectedUser);
+function UpdateStaff({ selectedStaff, onClose }) {
+  const [updatedStaff, setUpdatedStaff] = useState(selectedStaff);
   const [isLoading, setIsLoading] = useState(false);
 
   const handleSave = async () => {
     setIsLoading(true);
 
     try {
-      await axios.put(`/UserManagements/${updatedUser.userId}`, updatedUser);
-      alert('User updated successfully');
+      await axios.put(`/UserManagements/${updatedStaff.userId}`, updatedStaff);
+      alert('Staff updated successfully');
       onClose();
       window.location.reload();
     } catch (error) {
-      alert('Error updating user');
-      console.error('Error updating user', error);
+      alert('Error updating staff');
+      console.error('Error updating staff', error);
     } finally {
       setIsLoading(false);
     }
   };
 
   useEffect(() => {
-    if (selectedUser) {
-      setUpdatedUser({ ...selectedUser });
+    if (selectedStaff) {
+      setUpdatedStaff({ ...selectedStaff });
     }
-  }, [selectedUser]);
+  }, [selectedStaff]);
 
   const handleFileChange = async (e) => {
     const file = e.target.files[0];
@@ -49,20 +49,20 @@ function UpdateUser({ selectedUser, onClose }) {
       const snapshot = await uploadBytes(storageRef, file, metadata);
       // Get the URL of the image from Firebase
       const downloadURL = await getDownloadURL(snapshot.ref);
-      // Update the image URL in updatedUser state
-      setUpdatedUser({ ...updatedUser, avatar: downloadURL });
+      // Update the image URL in updatedStaff state
+      setUpdatedStaff({ ...updatedStaff, avatar: downloadURL });
     } catch (error) {
       console.error('Error uploading image to Firebase', error);
     }
   };
 
   return (
-    <Modal show={!!selectedUser} onHide={onClose} size="lg">
+    <Modal show={!!selectedStaff} onHide={onClose} size="lg">
       <Modal.Header closeButton>
-        <Modal.Title>Update User</Modal.Title>
+        <Modal.Title>Update Staff</Modal.Title>
       </Modal.Header>
       <Modal.Body>
-        {selectedUser && (
+        {selectedStaff && (
           <Form>
             <Row>
               <Col sm={4}>
@@ -70,8 +70,8 @@ function UpdateUser({ selectedUser, onClose }) {
                   {/* <div className="service-image-virtual"></div> */}
                   <label htmlFor="imageUpload" className="image-upload-label">
                     <img
-                      src={updatedUser.avatar}
-                      alt="User Image"
+                      src={updatedStaff.avatar}
+                      alt="Staff Image"
                       className="service-image"
                       onClick={() => {
                         document.getElementById('imageUpload');
@@ -94,13 +94,17 @@ function UpdateUser({ selectedUser, onClose }) {
                   <Form.Control
                     type="text"
                     value={`${
-                      updatedUser.role === 'Admin' ? 'A' : updatedUser.role === 'Staff' ? 'S' : 'C'
+                      updatedStaff.role === 'Admin'
+                        ? 'A'
+                        : updatedStaff.role === 'Staff'
+                        ? 'S'
+                        : 'C'
                     }${
-                      updatedUser.userId < 10
-                        ? '00' + updatedUser.userId
-                        : updatedUser.userId < 100
-                        ? '0' + updatedUser.userId
-                        : updatedUser.userId
+                      updatedStaff.userId < 10
+                        ? '00' + updatedStaff.userId
+                        : updatedStaff.userId < 100
+                        ? '0' + updatedStaff.userId
+                        : updatedStaff.userId
                     }`}
                     readOnly
                   />
@@ -110,8 +114,8 @@ function UpdateUser({ selectedUser, onClose }) {
                   <Form.Label>Status</Form.Label>
                   <Form.Control
                     as="select"
-                    value={updatedUser.status}
-                    onChange={(e) => setUpdatedUser({ ...updatedUser, status: e.target.value })}
+                    value={updatedStaff.status}
+                    onChange={(e) => setUpdatedStaff({ ...updatedStaff, status: e.target.value })}
                     className="custom-select"
                   >
                     <option value="Active">Active</option>
@@ -125,8 +129,8 @@ function UpdateUser({ selectedUser, onClose }) {
                   <Form.Label>Role</Form.Label>
                   <Form.Control
                     as="select"
-                    value={updatedUser.role}
-                    onChange={(e) => setUpdatedUser({ ...updatedUser, role: e.target.value })}
+                    value={updatedStaff.role}
+                    onChange={(e) => setUpdatedStaff({ ...updatedStaff, role: e.target.value })}
                     className="custom-select"
                   >
                     <option value="Customer">Customer</option>
@@ -137,7 +141,7 @@ function UpdateUser({ selectedUser, onClose }) {
 
                 <Form.Group className="mb-3 form-date-created">
                   <Form.Label>Date Created</Form.Label>
-                  <Form.Control type="text" value={formatDate(updatedUser.dateCreated)} readOnly />
+                  <Form.Control type="text" value={formatDate(updatedStaff.dateCreated)} readOnly />
                 </Form.Group>
               </Col>
 
@@ -146,8 +150,10 @@ function UpdateUser({ selectedUser, onClose }) {
                   <Form.Label>First Name</Form.Label>
                   <Form.Control
                     type="text"
-                    value={updatedUser.firstName}
-                    onChange={(e) => setUpdatedUser({ ...updatedUser, firstName: e.target.value })}
+                    value={updatedStaff.firstName}
+                    onChange={(e) =>
+                      setUpdatedStaff({ ...updatedStaff, firstName: e.target.value })
+                    }
                   />
                 </Form.Group>
               </Col>
@@ -157,8 +163,8 @@ function UpdateUser({ selectedUser, onClose }) {
                   <Form.Label>Last Name</Form.Label>
                   <Form.Control
                     type="text"
-                    value={updatedUser.lastName}
-                    onChange={(e) => setUpdatedUser({ ...updatedUser, lastName: e.target.value })}
+                    value={updatedStaff.lastName}
+                    onChange={(e) => setUpdatedStaff({ ...updatedStaff, lastName: e.target.value })}
                   />
                 </Form.Group>
               </Col>
@@ -168,8 +174,8 @@ function UpdateUser({ selectedUser, onClose }) {
                   <Form.Label>Email</Form.Label>
                   <Form.Control
                     type="email"
-                    value={updatedUser.email}
-                    onChange={(e) => setUpdatedUser({ ...updatedUser, email: e.target.value })}
+                    value={updatedStaff.email}
+                    onChange={(e) => setUpdatedStaff({ ...updatedStaff, email: e.target.value })}
                   />
                 </Form.Group>
               </Col>
@@ -179,8 +185,8 @@ function UpdateUser({ selectedUser, onClose }) {
                   <Form.Label>Phone</Form.Label>
                   <Form.Control
                     type="text"
-                    value={updatedUser.phone}
-                    onChange={(e) => setUpdatedUser({ ...updatedUser, phone: e.target.value })}
+                    value={updatedStaff.phone}
+                    onChange={(e) => setUpdatedStaff({ ...updatedStaff, phone: e.target.value })}
                   ></Form.Control>
                 </Form.Group>
               </Col>
@@ -190,8 +196,8 @@ function UpdateUser({ selectedUser, onClose }) {
                   <Form.Label>Password</Form.Label>
                   <Form.Control
                     type="text"
-                    value={updatedUser.password}
-                    onChange={(e) => setUpdatedUser({ ...updatedUser, password: e.target.value })}
+                    value={updatedStaff.password}
+                    onChange={(e) => setUpdatedStaff({ ...updatedStaff, password: e.target.value })}
                   />
                 </Form.Group>
               </Col>
@@ -201,8 +207,8 @@ function UpdateUser({ selectedUser, onClose }) {
                   <Form.Label>Date of Birth</Form.Label>
                   <Form.Control
                     type="date"
-                    value={updatedUser.dob}
-                    onChange={(e) => setUpdatedUser({ ...updatedUser, dob: e.target.value })}
+                    value={updatedStaff.dob}
+                    onChange={(e) => setUpdatedStaff({ ...updatedStaff, dob: e.target.value })}
                   />
                 </Form.Group>
               </Col>
@@ -222,4 +228,4 @@ function UpdateUser({ selectedUser, onClose }) {
   );
 }
 
-export default UpdateUser;
+export default UpdateStaff;

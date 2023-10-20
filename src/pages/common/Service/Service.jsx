@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faStar } from '@fortawesome/free-solid-svg-icons';
-import axios from 'axios';
 import Cookies from 'js-cookie'; // Import thư viện js-cookie
 import { Link } from 'react-router-dom';
 import Detail from '../../common/Detail/Detail';
@@ -11,6 +10,7 @@ import Button from '@mui/material/Button';
 import Navigation from '../../../components/Navigation';
 import Footer from '../../../components/Footer';
 
+import axios from '../../../config/axios';
 import { formatPriceWithDot } from '../../../utils/PriceUtils';
 import './Service.css';
 
@@ -33,7 +33,7 @@ function Service() {
 
   useEffect(() => {
     axios
-      .get('https://localhost:7088/api/ServiceManagements')
+      .get('/ServiceManagements')
       .then((response) => {
         const servicesWithRating = response.data.map((service) => ({
           ...service,
@@ -44,7 +44,7 @@ function Service() {
       .catch((error) => console.log(error));
 
     axios
-      .get('https://localhost:7088/api/PackageServiceManagements')
+      .get('/PackageServiceManagements')
       .then((response) => setAllPackageServices(response.data))
       .catch((error) => console.log(error));
 

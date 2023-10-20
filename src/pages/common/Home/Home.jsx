@@ -4,10 +4,11 @@ import { faUsers, faCircleCheck, faClock } from '@fortawesome/free-solid-svg-ico
 
 import Button from '@mui/material/Button';
 
-import './Home.css';
 import Navigation from '../../../components/Navigation';
 import Hero from '../../../components/Hero';
 import Footer from '../../../components/Footer';
+
+import './Home.css';
 
 function Home() {
   const [customerCount, setCustomerCount] = useState('100,000+');

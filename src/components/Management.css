@@ -332,13 +332,15 @@ button:active {
 .service-name,
 .service-price,
 .service-time {
-  font-size: 1.4rem;
+  font-size: 1.3rem;
   text-transform: capitalize;
   font-weight: 500;
 }
 
 .customer-name {
   text-transform: none;
+  font-size: 1.4rem;
+  font-weight: 500;
 }
 
 .admin-btn-action {

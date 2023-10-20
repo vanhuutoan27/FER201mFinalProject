@@ -5,9 +5,9 @@ import Form from 'react-bootstrap/Form';
 import Modal from 'react-bootstrap/Modal';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
-import axios from 'axios';
 import { storage } from '../../../firebase';
 import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
+import axios from '../../../config/axios';
 
 function CreatePackageService() {
   const [show, setShow] = useState(false);
@@ -23,7 +23,7 @@ function CreatePackageService() {
       time: '0',
       price: '0',
       tag: 'null',
-      image: null, 
+      image: null,
     },
 
     validationSchema: Yup.object({
@@ -32,7 +32,7 @@ function CreatePackageService() {
       time: Yup.string().required('Time is required'),
       price: Yup.string().required('Price is required'),
       tag: Yup.string().required('Tag is required'),
-      image: Yup.mixed().required('Image is required'), 
+      image: Yup.mixed().required('Image is required'),
     }),
 
     onSubmit: async (values) => {
@@ -47,13 +47,13 @@ function CreatePackageService() {
         const snapshot = await uploadBytes(storageRef, file, metadata);
         const downloadURL = await getDownloadURL(snapshot.ref);
 
-        const response = await axios.post('https://localhost:7088/api/PackageServiceManagements', {
+        const response = await axios.post('/PackageServiceManagements', {
           packageServiceName: values.name,
           packageServiceDesc: values.desc,
           time: values.time,
           price: values.price,
           tag: values.tag,
-          image: downloadURL, 
+          image: downloadURL,
         });
 
         alert('Service created successfully!');

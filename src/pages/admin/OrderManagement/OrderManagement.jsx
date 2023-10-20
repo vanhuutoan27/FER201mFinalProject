@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPen, faEye } from '@fortawesome/free-solid-svg-icons';
 
 import AdminNavigation from '../../../components/AdminNavigation';
 import ViewOrder from './ViewOrder';
 
+import axios from '../../../config/axios';
 import { formatDate } from '../../../utils/DateUtils';
 import '../../../components/Management.css';
 
@@ -18,7 +18,7 @@ function OrderManagement() {
 
   useEffect(() => {
     axios
-      .get('https://localhost:7088/api/OrderManagements')
+      .get('/OrderManagements')
       .then((response) => setAllOrders(response.data))
       .catch((error) => console.log(error));
   }, []);

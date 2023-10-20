@@ -2,9 +2,9 @@ import React, { useContext, useState } from 'react';
 import { Modal, Form } from 'react-bootstrap';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
-import axios from 'axios';
 import { Session } from '../../../App';
 
+import axios from '../../../config/axios';
 import { formatDate } from '../../../utils/DateUtils';
 import { formatPriceWithDot } from '../../../utils/PriceUtils';
 
@@ -20,7 +20,7 @@ function ViewOrder({ selectedOrder, onClose }) {
       const updatedStatus = 'Processing';
       const updatedOrder = { ...selectedOrder, status: updatedStatus };
 
-      const response = await axios.get('https://localhost:7088/api/StaffManagements');
+      const response = await axios.get('/StaffManagements');
       const staffList = response.data;
 
       const staffEmail = staffList.find((staff) => staff.email === user.email);
@@ -32,7 +32,7 @@ function ViewOrder({ selectedOrder, onClose }) {
         console.log('OrderId:', orderId);
         console.log('StaffId:', staffId);
 
-        const postResponse = await axios.post('https://localhost:7088/api/StaffOrderManagements', {
+        const postResponse = await axios.post('/StaffOrderManagements', {
           OrderId: orderId,
           StaffId: staffId,
         });
@@ -42,10 +42,7 @@ function ViewOrder({ selectedOrder, onClose }) {
         alert('User is not authorized to accept this order.');
       }
 
-      await axios.put(
-        `https://localhost:7088/api/OrderManagements/${selectedOrder.orderId}`,
-        updatedOrder
-      );
+      await axios.put(`/OrderManagements/${selectedOrder.orderId}`, updatedOrder);
 
       alert('Order status updated to Processing successfully');
       onClose();

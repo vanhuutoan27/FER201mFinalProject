@@ -2,8 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { Modal, Form } from 'react-bootstrap';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
-import axios from 'axios';
 
+import axios from '../../../config/axios';
 import { formatDate } from '../../../utils/DateUtils';
 import { formatPriceWithDot } from '../../../utils/PriceUtils';
 
@@ -18,10 +18,7 @@ function ViewCalendar({ task, onClose, user }) {
       const updatedStatus = 'Completed';
       const updatedOrder = { ...selectedOrder, status: updatedStatus, dateCompleted: new Date() };
 
-      await axios.put(
-        `https://localhost:7088/api/OrderManagements/${selectedOrder.orderId}`,
-        updatedOrder
-      );
+      await axios.put(`/OrderManagements/${selectedOrder.orderId}`, updatedOrder);
 
       alert('Order status updated to Completed successfully');
       onClose();

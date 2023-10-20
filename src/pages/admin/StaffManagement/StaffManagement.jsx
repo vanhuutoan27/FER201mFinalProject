@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPen, faEye } from '@fortawesome/free-solid-svg-icons';
 
 import AdminNavigation from '../../../components/AdminNavigation';
 import ViewStaff from './ViewStaff';
+import UpdateStaff from './UpdateStaff';
 
+import axios from '../../../config/axios';
 import { formatDate } from '../../../utils/DateUtils';
 import '../../../components/Management.css';
 
@@ -18,8 +19,12 @@ function StaffManagement() {
 
   useEffect(() => {
     axios
-      .get('https://localhost:7088/api/StaffManagements')
-      .then((response) => setAllStaffs(response.data))
+      .get('/UserManagements')
+      .then((response) => {
+        const staffData = response.data.filter((user) => user.role === 'Staff');
+        staffData.sort((a, b) => new Date(b.dateCreated) - new Date(a.dateCreated));
+        setAllStaffs(staffData);
+      })
       .catch((error) => console.log(error));
   }, []);
 
@@ -68,7 +73,12 @@ function StaffManagement() {
                 <tr key={index}>
                   <td>
                     <span className={`serviceID`}>
-                      S{staff.staffId < 10 ? '00' + staff.staffId : '0' + staff.staffId}
+                      {staff.role === 'Admin' ? 'A' : staff.role === 'Staff' ? 'S' : 'C'}
+                      {staff.userId < 10
+                        ? '00' + staff.userId
+                        : staff.userId < 100
+                        ? '0' + staff.userId
+                        : staff.userId}
                     </span>
                   </td>
 
@@ -139,6 +149,10 @@ function StaffManagement() {
 
       {selectedStaff && (
         <ViewStaff selectedStaff={selectedStaff} onClose={() => setSelectedStaff(null)} />
+      )}
+
+      {updatingStaff && (
+        <UpdateStaff selectedStaff={updatingStaff} onClose={() => setUpdatingStaff(null)} />
       )}
     </div>
   );

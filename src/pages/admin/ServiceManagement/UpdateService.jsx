@@ -5,8 +5,8 @@ import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import { storage } from '../../../firebase';
 import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
-import axios from 'axios';
 
+import axios from '../../../config/axios';
 import { formatPriceWithDot } from '../../../utils/PriceUtils';
 
 function AdminUpdateService({ selectedService, onClose }) {
@@ -22,10 +22,7 @@ function AdminUpdateService({ selectedService, onClose }) {
 
     try {
       // Send the request to update the service through axios
-      await axios.put(
-        `https://localhost:7088/api/ServiceManagements/${updatedService.serviceId}`,
-        updatedService
-      );
+      await axios.put(`/ServiceManagements/${updatedService.serviceId}`, updatedService);
       alert('Service updated successfully');
       onClose();
       window.location.reload();

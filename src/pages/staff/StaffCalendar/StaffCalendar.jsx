@@ -2,9 +2,9 @@ import React, { useState, useEffect, useContext } from 'react';
 import { Calendar, momentLocalizer } from 'react-big-calendar';
 import moment from 'moment-timezone';
 import 'react-big-calendar/lib/css/react-big-calendar.css';
-import axios from 'axios';
 import { Session } from '../../../App';
 
+import axios from '../../../config/axios';
 import StaffNavigation from '../../../components/StaffNavigation';
 import ViewCalendar from './ViewCalendar';
 
@@ -24,9 +24,7 @@ function StaffCalendar() {
   useEffect(() => {
     const fetchEvents = async () => {
       try {
-        const staffOrderResponse = await axios.get(
-          'https://localhost:7088/api/StaffOrderManagements'
-        );
+        const staffOrderResponse = await axios.get('/StaffOrderManagements');
         const staffOrderManagements = staffOrderResponse.data;
 
         const newEventsData = [];
@@ -36,17 +34,13 @@ function StaffCalendar() {
           const staffId = staffOrder.staffId;
           const dateShipping = staffOrder.dateShipping;
 
-          const staffResponse = await axios.get(
-            `https://localhost:7088/api/StaffManagements/${staffId}`
-          );
+          const staffResponse = await axios.get(`/StaffManagements/${staffId}`);
           const staff = staffResponse.data;
           const staffEmail = staff.email;
 
           if (staffEmail === user.email) {
             if (orderId) {
-              const orderResponse = await axios.get(
-                `https://localhost:7088/api/OrderManagements/${orderId}`
-              );
+              const orderResponse = await axios.get(`/OrderManagements/${orderId}`);
               const order = orderResponse.data;
 
               if (order.status === 'Completed') {
@@ -88,7 +82,7 @@ function StaffCalendar() {
     const taskTitle = window.prompt('Enter new event title:');
     if (taskTitle !== null) {
       try {
-        const staffResponse = await axios.get('https://localhost:7088/api/StaffManagements', {
+        const staffResponse = await axios.get('/StaffManagements', {
           params: {
             email: user.email,
           },
@@ -100,9 +94,7 @@ function StaffCalendar() {
 
           const orderId = window.prompt('Enter Order ID:');
           if (orderId) {
-            const orderResponse = await axios.get(
-              `https://localhost:7088/api/OrderManagements/${orderId}`
-            );
+            const orderResponse = await axios.get(`/OrderManagements/${orderId}`);
             const order = orderResponse.data;
 
             const newEvent = {
@@ -113,7 +105,7 @@ function StaffCalendar() {
             };
 
             try {
-              await axios.post('https://localhost:7088/api/StaffOrderManagements', {
+              await axios.post('/StaffOrderManagements', {
                 taskTitle: taskTitle,
                 orderId: orderId,
                 staffId: staffId,
@@ -133,7 +125,7 @@ function StaffCalendar() {
             };
 
             try {
-              await axios.post('https://localhost:7088/api/StaffOrderManagements', {
+              await axios.post('/StaffOrderManagements', {
                 taskTitle: taskTitle,
                 staffId: staffId,
                 dateShipping: newEvent.start,

@@ -5,8 +5,8 @@ import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import { storage } from '../../../firebase';
 import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
-import axios from 'axios';
 
+import axios from '../../../config/axios';
 import { formatPriceWithDot } from '../../../utils/PriceUtils';
 
 function UpdatePackageService({ selectedPackageService, onClose }) {
@@ -23,7 +23,7 @@ function UpdatePackageService({ selectedPackageService, onClose }) {
     try {
       // Send the request to update the service through axios
       await axios.put(
-        `https://localhost:7088/api/ServiceManagements/${updatedPackageService.packageServiceId}`,
+        `/ServiceManagements/${updatedPackageService.packageServiceId}`,
         updatedPackageService
       );
       alert('Package updated successfully');

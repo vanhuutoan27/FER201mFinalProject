@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPen, faEye } from '@fortawesome/free-solid-svg-icons';
 
@@ -8,6 +7,7 @@ import CreateService from './CreateService';
 import ViewService from './ViewService';
 import UpdateService from './UpdateService';
 
+import axios from '../../../config/axios';
 import { formatPriceWithDot } from '../../../utils/PriceUtils';
 import '../../../components/Management.css';
 
@@ -20,7 +20,7 @@ function AdminServiceManagement() {
 
   useEffect(() => {
     axios
-      .get('https://localhost:7088/api/ServiceManagements')
+      .get('/ServiceManagements')
       .then((response) => setAllServices(response.data))
       .catch((error) => console.log(error));
   }, []);

@@ -1,7 +1,6 @@
 import React, { useContext, useState } from 'react';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
-import axios from 'axios';
 import Cookies from 'js-cookie';
 import { Form } from 'react-bootstrap';
 import Row from 'react-bootstrap/Row';
@@ -13,6 +12,8 @@ import Swal from 'sweetalert2';
 import Navigation from '../../../components/Navigation';
 import Footer from '../../../components/Footer';
 
+import { sendEmail } from '../../../components/emailService';
+import axios from '../../../config/axios';
 import { formatPriceWithDot } from '../../../utils/PriceUtils';
 import './Order.css';
 
@@ -71,7 +72,7 @@ function Order() {
       setLoginError(null);
 
       axios
-        .post('https://localhost:7088/api/CustomerManagements/Login', {
+        .post('/CustomerManagements/Login', {
           email: values.email,
           password: values.password,
         })
@@ -107,6 +108,27 @@ function Order() {
     } else {
       shippingFormik.handleSubmit();
     }
+
+    // Sau khi đặt hàng thành công, gửi email thông báo
+    sendOrderConfirmationEmail();
+  };
+
+  const sendOrderConfirmationEmail = () => {
+    const emailData = {
+      to: session.user.email, // Thay đổi địa chỉ email nhận
+      subject: 'Order Confirmation',
+      text: 'Your order has been confirmed. Thank you for your purchase!',
+    };
+
+    sendEmail(emailData)
+      .then((response) => {
+        console.log('Email sent:', response.data);
+        // Xử lý khi email đã được gửi thành công
+      })
+      .catch((error) => {
+        console.error('Error sending email:', error);
+        // Xử lý khi gửi email gặp lỗi
+      });
   };
 
   const shippingFormik = useFormik({
@@ -139,7 +161,7 @@ function Order() {
       };
 
       axios
-        .post('https://localhost:7088/api/OrderManagements', orderData)
+        .post('/OrderManagements', orderData)
         .then((response) => {
           console.log(response.data);
           console.log('Order Data:', orderData);
@@ -150,7 +172,7 @@ function Order() {
             showConfirmButton: false,
             timer: 1500,
           }).then(() => {
-            window.location.href = '/order-completion';
+            // window.location.href = '/order-completion';
           });
         })
         .catch((error) => {

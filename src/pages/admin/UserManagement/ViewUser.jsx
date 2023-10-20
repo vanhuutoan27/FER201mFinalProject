@@ -28,27 +28,49 @@ function ViewUser({ selectedUser, onClose }) {
                   <Form.Label>ID</Form.Label>
                   <Form.Control
                     type="text"
-                    value={`C${
-                      selectedUser.customerId < 10
-                        ? '00' + selectedUser.customerId
-                        : '0' + selectedUser.customerId
+                    value={`${
+                      selectedUser.role === 'Admin'
+                        ? 'A'
+                        : selectedUser.role === 'Staff'
+                        ? 'S'
+                        : 'C'
+                    }${
+                      selectedUser.userId < 10
+                        ? '00' + selectedUser.userId
+                        : selectedUser.userId < 100
+                        ? '0' + selectedUser.userId
+                        : selectedUser.userId
                     }`}
                     readOnly
                   />
                 </Form.Group>
 
                 <Form.Group className="mb-3">
-                  <Form.Label>First Name</Form.Label>
-                  <Form.Control type="text" value={selectedUser.firstName} readOnly />
+                  <Form.Label>Status</Form.Label>
+                  <Form.Control type="text" value={selectedUser.status} readOnly />
                 </Form.Group>
               </Col>
 
               <Col sm={4}>
                 <Form.Group className="mb-3">
+                  <Form.Label>Role</Form.Label>
+                  <Form.Control type="text" value={selectedUser.role} readOnly />
+                </Form.Group>
+
+                <Form.Group className="mb-3">
                   <Form.Label>Date Created</Form.Label>
                   <Form.Control type="text" value={formatDate(selectedUser.dateCreated)} readOnly />
                 </Form.Group>
+              </Col>
 
+              <Col sm={6}>
+                <Form.Group className="mb-3">
+                  <Form.Label>First Name</Form.Label>
+                  <Form.Control type="text" value={selectedUser.firstName} readOnly />
+                </Form.Group>
+              </Col>
+
+              <Col sm={6}>
                 <Form.Group className="mb-3">
                   <Form.Label>Last Name</Form.Label>
                   <Form.Control type="text" value={selectedUser.lastName} readOnly />
@@ -71,22 +93,15 @@ function ViewUser({ selectedUser, onClose }) {
 
               <Col sm={6}>
                 <Form.Group className="mb-3">
-                  <Form.Label>Date of Birth</Form.Label>
-                  <Form.Control type="text" value={formatDate(selectedUser.dob)} readOnly />
-                </Form.Group>
-              </Col>
-
-              <Col sm={6}>
-                <Form.Group className="mb-3">
                   <Form.Label>Password</Form.Label>
                   <Form.Control type="text" value={selectedUser.password} readOnly />
                 </Form.Group>
               </Col>
 
-              <Col>
+              <Col sm={6}>
                 <Form.Group className="mb-3">
-                  <Form.Label>Status</Form.Label>
-                  <Form.Control type="text" value={selectedUser.status} readOnly />
+                  <Form.Label>Date of Birth</Form.Label>
+                  <Form.Control type="text" value={formatDate(selectedUser.dob)} readOnly />
                 </Form.Group>
               </Col>
             </Row>

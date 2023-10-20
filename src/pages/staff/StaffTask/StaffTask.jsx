@@ -1,12 +1,12 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEye } from '@fortawesome/free-solid-svg-icons';
-import axios from 'axios';
 import { Session } from '../../../App';
 
 import StaffNavigation from '../../../components/StaffNavigation';
 import ViewTask from './ViewTask';
 
+import axios from '../../../config/axios';
 import { formatDate } from '../../../utils/DateUtils';
 import '../../../components/Management.css';
 
@@ -24,7 +24,7 @@ function StaffTask() {
 
   useEffect(() => {
     axios
-      .get('https://localhost:7088/api/StaffOrderManagements')
+      .get('/StaffOrderManagements')
       .then((response) => {
         const staffOrderManagements = response.data;
 
@@ -34,14 +34,14 @@ function StaffTask() {
           const dateShipping = staffOrder.dateShipping;
 
           axios
-            .get(`https://localhost:7088/api/StaffManagements/${staffId}`)
+            .get(`/StaffManagements/${staffId}`)
             .then((staffResponse) => {
               const staff = staffResponse.data;
               const staffEmail = staff.email;
 
               if (staffEmail === user.email) {
                 axios
-                  .get(`https://localhost:7088/api/OrderManagements/${orderId}`)
+                  .get(`/OrderManagements/${orderId}`)
                   .then((orderResponse) => {
                     const order = orderResponse.data;
 

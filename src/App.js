@@ -3,7 +3,7 @@ import './App.css';
 import { Routes, Route, Navigate } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import { createContext } from 'react';
-import axios from 'axios';
+import axios from './config/axios';
 
 // ADMIN
 import AdminDashboard from './pages/admin/AdminDashboard/AdminDashboard';
@@ -40,10 +40,10 @@ export const Session = createContext(null);
 function App() {
   const [user, setUser] = useState(null);
 
-  const admin = ['admin1@gmail.com', 'vanhuutoan@gmail.com'];
+  const admin = ['admin1@gmail.com', 'vhtoan27@gmail.com'];
   const staff = [
     'admin1@gmail.com',
-    'vanhuutoan@gmail.com',
+    'vhtoan27@gmail.com',
     'phamhoaiduy@gmail.com',
     'nguyentanloc@gmail.com',
     'phamhoangthuyan@gmail.com',
@@ -68,7 +68,7 @@ function App() {
 
     // Make the GET request using the custom Axios instance
     axiosInstance
-      .get('https://localhost:7088/api/CustomerManagements/Launch')
+      .get('/UserManagements/Launch')
       .then((response) => {
         setUser(response.data);
       })

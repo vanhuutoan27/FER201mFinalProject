@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPen, faEye } from '@fortawesome/free-solid-svg-icons';
 
@@ -7,6 +6,7 @@ import AdminNavigation from '../../../components/AdminNavigation';
 import ViewUser from './ViewUser';
 import UpdateUser from './UpdateUser';
 
+import axios from '../../../config/axios';
 import { formatDate } from '../../../utils/DateUtils';
 import '../../../components/Management.css';
 
@@ -19,8 +19,12 @@ function UserManagement() {
 
   useEffect(() => {
     axios
-      .get('https://localhost:7088/api/CustomerManagements')
-      .then((response) => setAllUsers(response.data))
+      .get('/UserManagements')
+      .then((response) => {
+        const customerData = response.data.filter((user) => user.role === 'Customer');
+        customerData.sort((a, b) => new Date(b.dateCreated) - new Date(a.dateCreated));
+        setAllUsers(customerData);
+      })
       .catch((error) => console.log(error));
   }, []);
 
@@ -69,7 +73,12 @@ function UserManagement() {
                 <tr key={index}>
                   <td>
                     <span className={`serviceID`}>
-                      C{user.customerId < 10 ? '00' + user.customerId : '0' + user.customerId}
+                      {user.role === 'Admin' ? 'A' : user.role === 'Staff' ? 'S' : 'C'}
+                      {user.userId < 10
+                        ? '00' + user.userId
+                        : user.userId < 100
+                        ? '0' + user.userId
+                        : user.userId}
                     </span>
                   </td>
 

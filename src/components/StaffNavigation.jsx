@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
-import axios from 'axios';
+import axios from '../config/axios';
 import { Link } from 'react-router-dom';
 import { Session } from '../App';
 import Cookies from 'js-cookie';
@@ -40,7 +40,7 @@ function StaffNavigation() {
 
   useEffect(() => {
     axios
-      .get('https://localhost:7088/api/StaffManagements')
+      .get('/StaffManagements')
       .then((response) => setAllStaffs(response.data))
       .catch((error) => console.log(error));
   }, []);

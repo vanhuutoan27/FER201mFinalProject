@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
-import axios from 'axios';
+import axios from '../config/axios';
 import { Link } from 'react-router-dom';
 import { Session } from '../App';
 import Cookies from 'js-cookie';
@@ -49,31 +49,33 @@ function AdminNavbar() {
 
   useEffect(() => {
     axios
-      .get('https://localhost:7088/api/OrderManagements')
+      .get('/OrderManagements')
       .then((response) => {
         const orders = response.data;
         setOrderCount(orders.length);
       })
       .catch((error) => console.log(error));
 
+    // axios
+    //   .get('/StaffManagements')
+    //   .then((response) => {
+    //     const staffs = response.data;
+    //     setStaffCount(staffs.length);
+    //   })
+    //   .catch((error) => console.log(error));
+
     axios
-      .get('https://localhost:7088/api/StaffManagements')
+      .get('/UserManagements')
       .then((response) => {
-        const staffs = response.data;
+        const customers = response.data.filter((user) => user.role === 'Customer');
+        const staffs = response.data.filter((user) => user.role === 'Staff');
+        setCustomerCount(customers.length);
         setStaffCount(staffs.length);
       })
       .catch((error) => console.log(error));
 
     axios
-      .get('https://localhost:7088/api/CustomerManagements')
-      .then((response) => {
-        const customers = response.data;
-        setCustomerCount(customers.length);
-      })
-      .catch((error) => console.log(error));
-
-    axios
-      .get('https://localhost:7088/api/ServiceManagements')
+      .get('/ServiceManagements')
       .then((response) => {
         const services = response.data;
         setServiceCount(services.length);
@@ -81,7 +83,7 @@ function AdminNavbar() {
       .catch((error) => console.log(error));
 
     axios
-      .get('https://localhost:7088/api/PackageServiceManagements')
+      .get('/PackageServiceManagements')
       .then((response) => {
         const packageServices = response.data;
         setPackageServiceCount(packageServices.length);

@@ -1,5 +1,3 @@
-/* eslint-disable jsx-a11y/img-redundant-alt */
-// Detail.js
 import React, { useState } from 'react';
 import { Modal, Form } from 'react-bootstrap';
 
