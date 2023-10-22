@@ -29,15 +29,17 @@ function StaffOrder() {
       .get('/OrderManagements')
       .then((response) => {
         const orders = response.data;
-        setAllOrders(orders);
 
-        const completedOrders = orders.filter((order) => order.status !== 'Completed');
-        setCompletedOrders(completedOrders);
+        const pendingOrders = orders.filter((order) => order.status === 'Pending');
+
+        pendingOrders.sort((a, b) => b.orderId - a.orderId);
+
+        setCompletedOrders(pendingOrders);
       })
       .catch((error) => console.log(error));
 
     axios
-      .get('/StaffManagements')
+      .get('/UserManagements')
       .then((response) => {
         const staffData = response.data;
         if (staffData.length > 0) {
@@ -84,7 +86,12 @@ function StaffOrder() {
                 <tr key={index}>
                   <td>
                     <span className={`serviceID`}>
-                      O{order.serviceId < 10 ? '00' + order.orderId : '0' + order.orderId}
+                      O
+                      {order.orderId < 10
+                        ? '00' + order.orderId
+                        : order.orderId < 100
+                        ? '0' + order.orderId
+                        : order.orderId}
                     </span>
                   </td>
 

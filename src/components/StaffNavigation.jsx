@@ -40,7 +40,7 @@ function StaffNavigation() {
 
   useEffect(() => {
     axios
-      .get('/StaffManagements')
+      .get('/UserManagements')
       .then((response) => setAllStaffs(response.data))
       .catch((error) => console.log(error));
   }, []);

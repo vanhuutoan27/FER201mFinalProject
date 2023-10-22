@@ -30,11 +30,11 @@ function StaffTask() {
 
         staffOrderManagements.forEach((staffOrder) => {
           const orderId = staffOrder.orderId;
-          const staffId = staffOrder.staffId;
+          const userId = staffOrder.staffId;
           const dateShipping = staffOrder.dateShipping;
 
           axios
-            .get(`/StaffManagements/${staffId}`)
+            .get(`/UserManagements/${userId}`)
             .then((staffResponse) => {
               const staff = staffResponse.data;
               const staffEmail = staff.email;

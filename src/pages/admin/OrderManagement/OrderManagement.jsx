@@ -14,6 +14,7 @@ function OrderManagement() {
   const [selectedOrder, setSelectedOrder] = useState(null);
   const [updatingOrder, setUpdatingOrder] = useState(null);
   const [staffOrders, setStaffOrders] = useState([]);
+  const [allStaffs, setAllStaffs] = useState([]);
   const itemsPerPage = 6;
   const [currentPage, setCurrentPage] = useState(1);
   const [searchQuery, setSearchQuery] = useState('');
@@ -28,6 +29,11 @@ function OrderManagement() {
       .get('/StaffOrderManagements')
       .then((response) => setStaffOrders(response.data))
       .catch((error) => console.log(error));
+
+    axios
+      .get('/UserManagements')
+      .then((response) => setAllStaffs(response.data))
+      .catch((error) => console.log(error));
   }, []);
 
   const staffOrderDateShippingMap = new Map();
@@ -37,11 +43,27 @@ function OrderManagement() {
 
   const updatedOrders = allOrders.map((order) => {
     const dateShipping = staffOrderDateShippingMap.get(order.orderId);
+    let staffInfo = {};
+
     if (dateShipping) {
-      return { ...order, dateShipping };
+      order = { ...order, dateShipping };
     }
-    return order;
+
+    const staffOrder = staffOrders.find((staffOrder) => staffOrder.orderId === order.orderId);
+    if (staffOrder) {
+      const staff = allStaffs.find((staff) => staff.userId === staffOrder.staffId);
+      if (staff) {
+        staffInfo = {
+          firstName: staff.firstName,
+          lastName: staff.lastName,
+        };
+      }
+    }
+
+    return { ...order, ...staffInfo };
   });
+
+  console.log('Updated Orders:', updatedOrders);
 
   const handleViewServiceClick = (order) => {
     setSelectedOrder(order);
@@ -68,14 +90,22 @@ function OrderManagement() {
 
   const startIndex = (currentPage - 1) * itemsPerPage;
   const endIndex = startIndex + itemsPerPage;
-  const displayedOrders = filteredOrders.slice(startIndex, endIndex);
+  filteredOrders.sort((a, b) => {
+    const orderStatusOrder = {
+      Completed: 1,
+      Processing: 2,
+      Pending: 3,
+    };
+
+    return orderStatusOrder[a.status] - orderStatusOrder[b.status] || b.orderId - a.orderId;
+  });
 
   return (
     <div className="order-management-content">
       <div className="admin-navbar">
         <AdminNavigation />
       </div>
-      <div className="management-container">
+      <div>
         <div className="Search">
           <input
             type="search"
@@ -89,7 +119,7 @@ function OrderManagement() {
           <div className="table-widget">
             <caption>
               <h2>All Orders</h2>
-              <span className="table-row-count-2">({allOrders.length} Orders)</span>
+              <span className="table-row-count">({allOrders.length} Orders)</span>
             </caption>
             <table>
               <thead>
@@ -105,7 +135,7 @@ function OrderManagement() {
                 </tr>
               </thead>
               <tbody>
-                {displayedOrders.map((order, index) => (
+                {filteredOrders.slice(startIndex, endIndex).map((order, index) => (
                   <tr key={index}>
                     <td>
                       <span className={`serviceID`}>
@@ -119,13 +149,13 @@ function OrderManagement() {
 
                     <td>
                       <span className="service-name">
-                        {order.dateShipping ? formatDate(order.dateShipping) : 'Not Yet'}
+                        {order.dateShipping ? formatDate(order.dateShipping) : '--/--/----'}
                       </span>
                     </td>
 
                     <td>
                       <span className="service-name">
-                        {order.dateComplete ? formatDate(order.dateComplete) : 'Not Yet'}
+                        {order.dateComplete ? formatDate(order.dateComplete) : '--/--/----'}
                       </span>
                     </td>
 
@@ -134,7 +164,11 @@ function OrderManagement() {
                     </td>
 
                     <td>
-                      <span className="service-time">{}</span>
+                      <span className="service-time">
+                        {order.firstName && order.lastName
+                          ? `${order.firstName} ${order.lastName}`
+                          : ''}
+                      </span>
                     </td>
 
                     <td>
@@ -164,7 +198,7 @@ function OrderManagement() {
                   <td colSpan="10">
                     <ul className="pagination">
                       {Array.from(
-                        { length: Math.ceil(filteredOrders.length / itemsPerPage) },
+                        { length: Math.ceil(allOrders.length / itemsPerPage) },
                         (_, index) => (
                           <li key={index}>
                             <button

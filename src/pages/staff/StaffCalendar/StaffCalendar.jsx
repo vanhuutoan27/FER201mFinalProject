@@ -34,7 +34,7 @@ function StaffCalendar() {
           const staffId = staffOrder.staffId;
           const dateShipping = staffOrder.dateShipping;
 
-          const staffResponse = await axios.get(`/StaffManagements/${staffId}`);
+          const staffResponse = await axios.get(`/UserManagements/${staffId}`);
           const staff = staffResponse.data;
           const staffEmail = staff.email;
 
@@ -82,7 +82,7 @@ function StaffCalendar() {
     const taskTitle = window.prompt('Enter new event title:');
     if (taskTitle !== null) {
       try {
-        const staffResponse = await axios.get('/StaffManagements', {
+        const staffResponse = await axios.get('/UserManagements', {
           params: {
             email: user.email,
           },
@@ -165,13 +165,13 @@ function StaffCalendar() {
       </div>
       <div className="calendar-content">
         <Calendar
-          views={['day', 'work_week', 'month']}
+          views={['day', 'week', 'month']}
           selectable
           localizer={localizer}
           defaultDate={new Date()}
           defaultView="month"
           events={eventsData}
-          style={{ width: '80%', marginLeft: 'auto', marginRight: 'auto' }}
+          style={{ width: '80%', marginLeft: 'auto', marginRight: 'auto', backgroundColor: '#fff' }}
           onSelectSlot={handleSelect}
           showMultiDayTimes
           onSelectEvent={handleViewTaskDetailClick}

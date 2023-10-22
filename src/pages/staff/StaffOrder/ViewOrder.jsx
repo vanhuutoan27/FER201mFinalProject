@@ -20,13 +20,13 @@ function ViewOrder({ selectedOrder, onClose }) {
       const updatedStatus = 'Processing';
       const updatedOrder = { ...selectedOrder, status: updatedStatus };
 
-      const response = await axios.get('/StaffManagements');
+      const response = await axios.get('/UserManagements');
       const staffList = response.data;
 
       const staffEmail = staffList.find((staff) => staff.email === user.email);
 
       if (staffEmail) {
-        const staffId = staffEmail.staffId;
+        const staffId = staffEmail.userId;
         const orderId = selectedOrder.orderId;
 
         console.log('OrderId:', orderId);

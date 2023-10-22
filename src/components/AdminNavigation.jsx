@@ -56,14 +56,6 @@ function AdminNavbar() {
       })
       .catch((error) => console.log(error));
 
-    // axios
-    //   .get('/StaffManagements')
-    //   .then((response) => {
-    //     const staffs = response.data;
-    //     setStaffCount(staffs.length);
-    //   })
-    //   .catch((error) => console.log(error));
-
     axios
       .get('/UserManagements')
       .then((response) => {

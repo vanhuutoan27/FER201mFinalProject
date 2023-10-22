@@ -14,7 +14,7 @@
   }
 
   .table-widget th:nth-child(2) {
-    width: 150px;
+    width: 140px;
   }
 
   .table-widget th:nth-child(3) {
@@ -22,7 +22,7 @@
   }
 
   .table-widget th:nth-child(4) {
-    width: 300px;
+    width: 350px;
   }
 
   .table-widget th:nth-child(5) {
@@ -69,6 +69,14 @@
 }
 
 .order-management-content {
+  .table-widget {
+    width: 100%;
+  }
+
+  .table-widget th:first-child {
+    width: 100px;
+  }
+
   .table-widget th:nth-child(2) {
     width: 120px;
   }
@@ -79,6 +87,14 @@
 
   .table-widget th:nth-child(4) {
     width: 120px;
+  }
+
+  .table-widget th:nth-child(5) {
+    width: 200px;
+  }
+
+  .table-widget th:nth-child(6) {
+    width: 130px;
   }
 }
 
@@ -95,10 +111,10 @@ button {
 .user-management-content,
 .service-management-content,
 .package-service-management-content,
-.StaffOrderPage,
 .StaffTaskPage,
 .StaffCalendarPage,
-.StaffOrderPage {
+.StaffOrderPage,
+.StaffProfilePage {
   display: flex;
   background-color: var(--primary-color-0);
 }
@@ -119,7 +135,7 @@ button {
 .table-widget {
   border-radius: 16px;
   background-color: var(--table-background-color);
-  padding: 24px;
+  padding: 20px;
   border: 2px solid var(--gray-background-color);
   box-shadow: rgba(0, 0, 0, 0.05) 0px 6px 24px 0px, rgba(0, 0, 0, 0.08) 0px 0px 0px 1px;
   overflow-x: auto;
@@ -192,12 +208,16 @@ button {
   width: 220px;
 }
 
+.user-management-content .table-widget th:nth-child(2) {
+  width: 240px;
+}
+
 .user-management-content .table-widget th:nth-child(3) {
-  width: 100px;
+  width: 120px;
 }
 
 .user-management-content .table-widget th:nth-child(4) {
-  width: 150px;
+  width: 200px;
 }
 
 .table-widget thead {
@@ -228,25 +248,8 @@ button {
   background-color: #e2ecff;
 }
 
-.user-management-content .table-row-count {
-  margin-right: 800px;
-}
-
-.table-row-count-2 {
-  margin-right: 800px;
-  font-size: 1.2rem;
-  font-weight: 700;
-  background-color: var(--gray-mid);
-  padding: 8px;
-  display: inline-flex;
-  align-items: center;
-  margin-left: 16px;
-  margin-bottom: 8px;
-  border-radius: 8px;
-}
-
 .table-row-count {
-  margin-right: 400px;
+  margin-right: auto;
   font-size: 1.2rem;
   font-weight: 700;
   background-color: var(--gray-mid);
@@ -262,9 +265,6 @@ button {
   border-radius: 8px;
   padding: 8px;
   font-weight: 700;
-}
-
-.serviceID {
   background-color: #e9e9e9;
   color: #464646;
 }
@@ -311,7 +311,8 @@ button {
 }
 
 .table-widget {
-  min-height: 80px;
+  min-height: 580px;
+  position: relative;
 }
 
 .pagination {
@@ -320,8 +321,9 @@ button {
   gap: 16px;
   padding: 0;
   float: right;
-  margin-top: 10px;
-  margin-right: 30px;
+  position: absolute;
+  bottom: 20px;
+  right: 50px;
 }
 
 .pagination button {

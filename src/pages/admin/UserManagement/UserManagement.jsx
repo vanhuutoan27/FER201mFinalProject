@@ -70,7 +70,7 @@ function UserManagement() {
       <div className="admin-navbar">
         <AdminNavigation />
       </div>
-      <div className="maanagement-container">
+      <div>
         <div className="Search">
           <div className="Search">
             <input
