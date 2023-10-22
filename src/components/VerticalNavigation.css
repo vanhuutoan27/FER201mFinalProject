@@ -19,7 +19,7 @@
 .staff-nav,
 .admin-navbar {
   background-color: var(--primary-color-2);
-  box-shadow: 15px 0px 5px rgba(0, 0, 0, 0.1);
+  box-shadow: 5px 0px 5px rgba(0, 0, 0, 0.1);
   z-index: 99;
   height: 100vh;
 }

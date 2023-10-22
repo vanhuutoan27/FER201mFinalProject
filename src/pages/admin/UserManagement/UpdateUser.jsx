@@ -45,11 +45,8 @@ function UpdateUser({ selectedUser, onClose }) {
     const storageRef = ref(storage, `/images/${file.name}`);
 
     try {
-      // Upload the image to Firebase Storage
       const snapshot = await uploadBytes(storageRef, file, metadata);
-      // Get the URL of the image from Firebase
       const downloadURL = await getDownloadURL(snapshot.ref);
-      // Update the image URL in updatedUser state
       setUpdatedUser({ ...updatedUser, avatar: downloadURL });
     } catch (error) {
       console.error('Error uploading image to Firebase', error);

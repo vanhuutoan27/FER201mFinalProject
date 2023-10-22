@@ -108,26 +108,22 @@ function Order() {
     } else {
       shippingFormik.handleSubmit();
     }
-
-    // Sau khi đặt hàng thành công, gửi email thông báo
     sendOrderConfirmationEmail();
   };
 
   const sendOrderConfirmationEmail = () => {
     const emailData = {
-      to: session.user.email, // Thay đổi địa chỉ email nhận
+      to: session.user.email,
       subject: 'Order Confirmation',
       text: 'Your order has been confirmed. Thank you for your purchase!',
     };
 
     sendEmail(emailData)
       .then((response) => {
-        console.log('Email sent:', response.data);
-        // Xử lý khi email đã được gửi thành công
+        console.log('Email sent to:', session.user.email);
       })
       .catch((error) => {
         console.error('Error sending email:', error);
-        // Xử lý khi gửi email gặp lỗi
       });
   };
 
@@ -172,7 +168,7 @@ function Order() {
             showConfirmButton: false,
             timer: 1500,
           }).then(() => {
-            // window.location.href = '/order-completion';
+            window.location.href = '/order-completion';
           });
         })
         .catch((error) => {

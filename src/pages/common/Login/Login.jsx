@@ -8,6 +8,7 @@ import Cookies from 'js-cookie';
 
 import Button from '@mui/material/Button';
 
+import { sendEmail } from '../../../components/emailService';
 import axios from '../../../config/axios';
 import './Login.css';
 
@@ -116,6 +117,8 @@ function Login() {
             title: 'Registration Successful!',
             text: 'Welcome to 4Stu!',
           });
+
+          sendRegisterConfirmationEmail();
         })
         .catch((error) => {
           // Đăng ký thất bại, cập nhật trạng thái lỗi
@@ -131,6 +134,22 @@ function Login() {
         });
     },
   });
+
+  const sendRegisterConfirmationEmail = () => {
+    const emailData = {
+      to: formikRegister.values.email,
+      subject: 'Account Registration Confirmation',
+      text: 'Thank you for registering an account with us! Your registration has been confirmed.',
+    };
+
+    sendEmail(emailData)
+      .then((response) => {
+        console.log('Email sent to:', formikRegister.values.email);
+      })
+      .catch((error) => {
+        console.error('Error sending email:', error);
+      });
+  };
 
   useEffect(() => {
     const registerButton = document.getElementById('register');

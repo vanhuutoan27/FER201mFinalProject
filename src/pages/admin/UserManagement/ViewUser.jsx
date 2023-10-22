@@ -78,7 +78,7 @@ function ViewUser({ selectedUser, onClose }) {
               </Col>
 
               <Col sm={6}>
-                <Form.Group className="mb-3 form-name">
+                <Form.Group className="mb-3">
                   <Form.Label>Email</Form.Label>
                   <Form.Control type="email" value={selectedUser.email} readOnly />
                 </Form.Group>

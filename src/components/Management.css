@@ -100,14 +100,19 @@ button {
 .StaffCalendarPage,
 .StaffOrderPage {
   display: flex;
+  background-color: var(--primary-color-0);
+}
+
+.management-container .table-content {
+  width: 100%;
 }
 
 .table-content,
 .calendar-content {
   margin: 0;
-  width: 80%;
-  height: 100vh;
-  padding: 60px;
+  width: 81vw;
+  /* height: 100vh; */
+  padding: 20px 66px;
   background-color: var(--background-color);
 }
 
@@ -227,8 +232,21 @@ button {
   margin-right: 800px;
 }
 
+.table-row-count-2 {
+  margin-right: 800px;
+  font-size: 1.2rem;
+  font-weight: 700;
+  background-color: var(--gray-mid);
+  padding: 8px;
+  display: inline-flex;
+  align-items: center;
+  margin-left: 16px;
+  margin-bottom: 8px;
+  border-radius: 8px;
+}
+
 .table-row-count {
-  margin-right: 550px;
+  margin-right: 400px;
   font-size: 1.2rem;
   font-weight: 700;
   background-color: var(--gray-mid);
@@ -469,4 +487,20 @@ button:active {
 .custom-select option {
   background-color: #eee;
   color: var(--primary-color-4);
+}
+
+.Search {
+  background-color: var(--primary-color-2);
+  width: 102%;
+  height: 64px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.Search > input {
+  width: 50%;
+  height: 70%;
+  margin-right: 50px;
+  background-color: var(--primary-color-0);
 }

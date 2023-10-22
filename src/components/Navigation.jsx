@@ -8,17 +8,13 @@ import Cookies from 'js-cookie';
 import Button from '@mui/material/Button';
 
 function Navigation() {
-  // Lấy ra user trong session
   const session = useContext(Session);
   const user = session.user;
 
-  // Lấy địa chỉ trang (Path)
   const location = useLocation();
 
-  // Xử lý logout
   const handleLogout = (e) => {
     e.preventDefault();
-    // Xóa session và thực hiện các thao tác khác (xóa access token, vv.)
     session.setUser(null);
     localStorage.removeItem('accessToken');
     Cookies.remove('accessToken');
@@ -36,7 +32,7 @@ function Navigation() {
     <header className="header fixed-header">
       <div className="content">
         <nav className="navbar">
-          <img src="./assets/images/4Stu-Logo.svg" alt="4Stu" />
+          <img src="../assets/images/4Stu-Logo.svg" alt="4Stu" />
 
           <span>
             <a href="/">4Stu</a>
@@ -54,19 +50,19 @@ function Navigation() {
             <li className={location.pathname === '/contact' ? 'chosen' : ''}>
               <a href="/contact">Contact</a>
             </li>
-            <li>
+            {/* <li>
               <a href="#!">
                 More <FontAwesomeIcon icon={faCaretDown} className="custom-icon-white" />
               </a>
               <ul className="sub-nav">
                 <li>
-                  <a href="">News</a>
+                  <a href="/news">News</a>
                 </li>
                 <li>
-                  <a href="">FAQs</a>
+                  <a href="/faqs">FAQs</a>
                 </li>
               </ul>
-            </li>
+            </li> */}
           </ul>
 
           <div className="actions">
@@ -89,41 +85,28 @@ function Navigation() {
                           <li>
                             <a href="/staff-profile">Staff</a>
                           </li>
-                          <li>
-                            <a href="#">Profile</a>
-                          </li>
-                          <li>
-                            <a href="#">Order</a>
-                          </li>
                         </>
                       )}
                       {user.role === 'Staff' && (
-                        <>
-                          <li>
-                            <a href="/staff-profile">Staff</a>
-                          </li>
-                          <li>
-                            <a href="#!" onClick={handleLogout}>
-                              Logout
-                            </a>
-                          </li>
-                        </>
+                        <li>
+                          <a href="/staff-profile">Staff</a>
+                        </li>
                       )}
                       {user.role === 'Customer' && (
                         <>
                           <li>
-                            <a href="#">Profile</a>
+                            <a href={`/profile/${user.userId}`}>Profile</a>
                           </li>
                           <li>
-                            <a href="#">Order</a>
-                          </li>
-                          <li>
-                            <a href="#!" onClick={handleLogout}>
-                              Logout
-                            </a>
+                            <a href={`/my-order/${user.userId}`}>Order</a>
                           </li>
                         </>
                       )}
+                      <li>
+                        <a href="#!" onClick={handleLogout}>
+                          Logout
+                        </a>
+                      </li>
                     </ul>
                   </li>
                 </ul>

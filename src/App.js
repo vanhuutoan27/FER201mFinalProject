@@ -3,7 +3,7 @@ import './App.css';
 import { Routes, Route, Navigate } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import { createContext } from 'react';
-import axios from './config/axios';
+import axios from 'axios';
 
 // ADMIN
 import AdminDashboard from './pages/admin/AdminDashboard/AdminDashboard';
@@ -22,7 +22,7 @@ import StaffOrder from './pages/staff/StaffOrder/StaffOrder';
 
 // CUSTOMER
 import Profile from './pages/customer/Profile/Profile';
-import History from './pages/customer/History/History';
+import MyOrder from './pages/customer/MyOrder/MyOrder';
 
 //COMMON
 import Loading from './components/Loading';
@@ -59,7 +59,6 @@ function App() {
   console.log(accessToken);
 
   useEffect(() => {
-    // Create a custom Axios instance with headers
     const axiosInstance = axios.create({
       headers: {
         Authorization: `Bearer ${accessToken}`,
@@ -68,7 +67,7 @@ function App() {
 
     // Make the GET request using the custom Axios instance
     axiosInstance
-      .get('/UserManagements/Launch')
+      .get('https://localhost:7088/api/UserManagements/Launch')
       .then((response) => {
         setUser(response.data);
       })
@@ -116,8 +115,8 @@ function App() {
             )}
 
             {/* ROUTES FOR CUSTOMER */}
-            <Route path="/profile" element={<Profile />} />
-            <Route path="/history" element={<History />} />
+            <Route path="/profile/:id" element={<Profile />} />
+            <Route path="/my-order/:id" element={<MyOrder />} />
 
             {/* ROUTES FOR COMMON */}
             <Route path="/" element={<Home />} />
