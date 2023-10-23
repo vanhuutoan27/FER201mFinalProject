@@ -156,13 +156,12 @@ html {
   scroll-behavior: smooth;
   /* scroll-padding-top: 12rem; */
   overflow-x: hidden;
-
 }
 
 body {
   font-size: 1.6rem;
-  font-family: 'Poppins', sans-serif;
-  color: var(--primary-color-4);
+  font-family: 'Poppins', sans-serif !important;
+  color: var(--primary-color-4) !important;
 }
 
 a {
@@ -775,4 +774,9 @@ header .hero-img {
   &:active {
     text-decoration: none;
   }
+}
+
+/* ERROR PAGE */
+.ant-btn css-dev-only-do-not-override-xu9wm8 ant-btn-primary btn {
+  padding: 20px;
 }

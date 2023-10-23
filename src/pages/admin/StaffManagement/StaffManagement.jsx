@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPen, faEye } from '@fortawesome/free-solid-svg-icons';
+import { Pagination } from 'antd';
 
 import AdminNavigation from '../../../components/AdminNavigation';
 import ViewStaff from './ViewStaff';
@@ -14,6 +15,8 @@ function StaffManagement() {
   const [allStaffs, setAllStaffs] = useState([]);
   const [selectedStaff, setSelectedStaff] = useState(null);
   const [updatingStaff, setUpdatingStaff] = useState(null);
+  const [currentItems, setCurrentItems] = useState([]);
+  const [totalItems, setTotalItems] = useState(0);
   const itemsPerPage = 6;
   const [currentPage, setCurrentPage] = useState(1);
   const [searchQuery, setSearchQuery] = useState('');
@@ -37,8 +40,22 @@ function StaffManagement() {
     setUpdatingStaff(staff);
   };
 
-  const handlePageChange = (pageNumber) => {
-    setCurrentPage(pageNumber);
+  const handleSearchChange = (event) => {
+    setSearchQuery(event.target.value);
+    setCurrentPage(1);
+  };
+
+  const handlePageChange = (page) => {
+    setCurrentPage(page);
+    updateCurrentItems();
+  };
+
+  const updateCurrentItems = () => {
+    const startIndex = (currentPage - 1) * itemsPerPage;
+    const endIndex = startIndex + itemsPerPage;
+    const itemsToDisplay = filteredStaffs.slice(startIndex, endIndex);
+    setCurrentItems(itemsToDisplay);
+    setTotalItems(filteredStaffs.length);
   };
 
   const filteredStaffs = allStaffs.filter((staff) => {
@@ -47,6 +64,10 @@ function StaffManagement() {
 
     return staff.email.toLowerCase().includes(query) || fullName.includes(query);
   });
+
+  useEffect(() => {
+    updateCurrentItems();
+  }, [searchQuery, currentPage]);
 
   const startIndex = (currentPage - 1) * itemsPerPage;
   const endIndex = startIndex + itemsPerPage;
@@ -63,7 +84,7 @@ function StaffManagement() {
             type="search"
             placeholder="Search..."
             value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
+            onChange={handleSearchChange}
           />
         </div>
         <div className="table-content">
@@ -141,22 +162,15 @@ function StaffManagement() {
               </tbody>
               <tfoot>
                 <tr>
-                  <td colSpan="10">
-                    <ul className="pagination">
-                      {Array.from(
-                        { length: Math.ceil(allStaffs.length / itemsPerPage) },
-                        (_, index) => (
-                          <li key={index}>
-                            <button
-                              onClick={() => handlePageChange(index + 1)}
-                              className={currentPage === index + 1 ? 'Admin' : ''}
-                            >
-                              {index + 1}
-                            </button>
-                          </li>
-                        )
-                      )}
-                    </ul>
+                  <td colSpan="7">
+                    <div className="pagination">
+                      <Pagination
+                        total={filteredStaffs.length}
+                        current={currentPage}
+                        pageSize={itemsPerPage}
+                        onChange={handlePageChange}
+                      />
+                    </div>
                   </td>
                 </tr>
               </tfoot>

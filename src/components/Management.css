@@ -326,29 +326,6 @@ button {
   right: 50px;
 }
 
-.pagination button {
-  border: 0px;
-  background-color: #e5e5e5;
-  padding: 8px;
-  cursor: pointer;
-}
-
-.pagination a {
-  display: block;
-  color: var(--primary);
-  font-size: 1.3rem;
-  text-decoration: none;
-  font-weight: 700;
-  padding: 12px 16px;
-  border-radius: 8px;
-}
-
-.pagination button:hover,
-button:active {
-  background-color: #d5d5d5;
-  text-decoration: underline;
-}
-
 .service-name,
 .service-price,
 .service-time {

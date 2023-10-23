@@ -2,14 +2,14 @@ import React, { useContext, useState } from 'react';
 import { Modal, Form } from 'react-bootstrap';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
-import { Session } from '../../../App';
+import { AuthContext } from '../../../App';
 
 import axios from '../../../config/axios';
 import { formatDate } from '../../../utils/DateUtils';
 import { formatPriceWithDot } from '../../../utils/PriceUtils';
 
 function ViewOrder({ selectedOrder, onClose }) {
-  const session = useContext(Session);
+  const session = useContext(AuthContext);
   const user = session.user;
   const [isLoading, setIsLoading] = useState(false);
 
@@ -23,7 +23,7 @@ function ViewOrder({ selectedOrder, onClose }) {
       const response = await axios.get('/UserManagements');
       const staffList = response.data;
 
-      const staffEmail = staffList.find((staff) => staff.email === user.email);
+      const staffEmail = staffList.find((staff) => staff.email === user.user.email);
 
       if (staffEmail) {
         const staffId = staffEmail.userId;
@@ -65,7 +65,7 @@ function ViewOrder({ selectedOrder, onClose }) {
           <Form>
             <Row>
               <Col sm={4}>
-                <Form.Group className="mb-3">
+                <Form.Group className="mb-2">
                   <Form.Label>Order ID</Form.Label>
                   <Form.Control
                     type="text"
@@ -80,7 +80,7 @@ function ViewOrder({ selectedOrder, onClose }) {
               </Col>
 
               <Col sm={4}>
-                <Form.Group className="mb-3">
+                <Form.Group className="mb-2">
                   <Form.Label>Date Created</Form.Label>
                   <Form.Control
                     type="text"
@@ -93,14 +93,14 @@ function ViewOrder({ selectedOrder, onClose }) {
 
             <Row>
               <Col>
-                <Form.Group className="mb-3">
+                <Form.Group className="mb-2">
                   <Form.Label>Full Name</Form.Label>
                   <Form.Control type="text" value={selectedOrder.customerName} readOnly />
                 </Form.Group>
               </Col>
 
               <Col>
-                <Form.Group className="mb-3">
+                <Form.Group className="mb-2">
                   <Form.Label>Phone</Form.Label>
                   <Form.Control type="text" value={selectedOrder.phone} readOnly />
                 </Form.Group>
@@ -116,7 +116,7 @@ function ViewOrder({ selectedOrder, onClose }) {
               </Col>
 
               <Col>
-                <Form.Group className="mb-3">
+                <Form.Group className="mb-2">
                   <Form.Label>Note</Form.Label>
                   <Form.Control type="text" value={selectedOrder.note} readOnly />
                 </Form.Group>
@@ -125,7 +125,7 @@ function ViewOrder({ selectedOrder, onClose }) {
 
             <Row>
               <Col>
-                <Form.Group className="mb-3">
+                <Form.Group className="mb-2">
                   <Form.Label>Address</Form.Label>
                   <Form.Control type="text" value={selectedOrder.address} readOnly />
                 </Form.Group>
@@ -134,14 +134,14 @@ function ViewOrder({ selectedOrder, onClose }) {
 
             <Row>
               <Col sm={6}>
-                <Form.Group className="mb-3">
+                <Form.Group className="mb-2">
                   <Form.Label>Service Name</Form.Label>
                   <Form.Control type="text" value={selectedOrder.serviceName} readOnly />
                 </Form.Group>
               </Col>
 
               <Col>
-                <Form.Group className="mb-3">
+                <Form.Group className="mb-2">
                   <Form.Label>Total</Form.Label>
                   <Form.Control
                     type="text"
@@ -152,7 +152,7 @@ function ViewOrder({ selectedOrder, onClose }) {
               </Col>
 
               <Col>
-                <Form.Group className="mb-3">
+                <Form.Group className="mb-2">
                   <Form.Label>Payment Method</Form.Label>
                   <Form.Control type="text" value={selectedOrder.paymentMethod} readOnly />
                 </Form.Group>

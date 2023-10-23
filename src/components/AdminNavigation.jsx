@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import axios from '../config/axios';
 import { Link } from 'react-router-dom';
-import { Session } from '../App';
+import { AuthContext } from '../App';
 import Cookies from 'js-cookie';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -21,8 +21,7 @@ import {
 import './VerticalNavigation.css';
 
 function AdminNavbar() {
-  const session = useContext(Session);
-  const user = session.user;
+  const { user, setUser } = useContext(AuthContext);
 
   const [orderCount, setOrderCount] = useState(0);
   const [staffCount, setStaffCount] = useState(0);
@@ -34,7 +33,7 @@ function AdminNavbar() {
 
   const handleLogout = (e) => {
     e.preventDefault();
-    session.setUser(null);
+    setUser(null);
     localStorage.removeItem('accessToken');
     Cookies.remove('accessToken');
     window.location.href = '/';
@@ -90,13 +89,13 @@ function AdminNavbar() {
         <div className="vertical-nav-header">
           <div className="vertical-account">
             <a href="#!">
-              <img className="vertical-avatar" src={user.avatar} alt="" />
+              <img className="vertical-avatar" src={user.user.avatar} alt="" />
             </a>
             <div className="vertical-info">
               <div className="vertical-name">
-                {user.firstName} {user.lastName}
+                {user.user.firstName} {user.user.lastName}
               </div>
-              <div className="vertical-mail">{user.email}</div>
+              <div className="vertical-mail">{user.user.email}</div>
             </div>
             <div className="interface-essential-wrapper"></div>
           </div>

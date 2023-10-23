@@ -73,7 +73,7 @@ function ViewPackageService({ selectedPackageService, onClose }) {
 
             <Row>
               <Col>
-                <Form.Group className="mb-3">
+                <Form.Group className="mb-2">
                   <Form.Label>Price (VND)</Form.Label>
                   <Form.Control
                     type="text"
@@ -84,7 +84,7 @@ function ViewPackageService({ selectedPackageService, onClose }) {
               </Col>
 
               <Col>
-                <Form.Group className="mb-3">
+                <Form.Group className="mb-2">
                   <Form.Label>Time (Mins)</Form.Label>
                   <Form.Control type="text" value={selectedPackageService.time} readOnly />
                 </Form.Group>
@@ -93,14 +93,14 @@ function ViewPackageService({ selectedPackageService, onClose }) {
 
             <Row>
               <Col>
-                <Form.Group className="mb-3">
+                <Form.Group className="mb-2">
                   <Form.Label>Tag</Form.Label>
                   <Form.Control type="text" value={selectedPackageService.tag} readOnly />
                 </Form.Group>
               </Col>
 
               <Col>
-                <Form.Group className="mb-3">
+                <Form.Group className="mb-2">
                   <Form.Label>Status</Form.Label>
                   <Form.Control type="text" value={selectedPackageService.status} readOnly />
                 </Form.Group>

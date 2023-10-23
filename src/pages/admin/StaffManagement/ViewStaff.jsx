@@ -24,7 +24,7 @@ function ViewStaff({ selectedStaff, onClose }) {
               </Col>
 
               <Col sm={4}>
-                <Form.Group className="mb-3">
+                <Form.Group className="mb-2">
                   <Form.Label>ID</Form.Label>
                   <Form.Control
                     type="text"
@@ -45,19 +45,19 @@ function ViewStaff({ selectedStaff, onClose }) {
                   />
                 </Form.Group>
 
-                <Form.Group className="mb-3">
+                <Form.Group className="mb-2">
                   <Form.Label>Status</Form.Label>
                   <Form.Control type="text" value={selectedStaff.status} readOnly />
                 </Form.Group>
               </Col>
 
               <Col sm={4}>
-                <Form.Group className="mb-3">
+                <Form.Group className="mb-2">
                   <Form.Label>Role</Form.Label>
                   <Form.Control type="text" value={selectedStaff.role} readOnly />
                 </Form.Group>
 
-                <Form.Group className="mb-3">
+                <Form.Group className="mb-2">
                   <Form.Label>Date Created</Form.Label>
                   <Form.Control
                     type="text"
@@ -68,14 +68,14 @@ function ViewStaff({ selectedStaff, onClose }) {
               </Col>
 
               <Col sm={6}>
-                <Form.Group className="mb-3">
+                <Form.Group className="mb-2">
                   <Form.Label>First Name</Form.Label>
                   <Form.Control type="text" value={selectedStaff.firstName} readOnly />
                 </Form.Group>
               </Col>
 
               <Col sm={6}>
-                <Form.Group className="mb-3">
+                <Form.Group className="mb-2">
                   <Form.Label>Last Name</Form.Label>
                   <Form.Control type="text" value={selectedStaff.lastName} readOnly />
                 </Form.Group>
@@ -89,21 +89,21 @@ function ViewStaff({ selectedStaff, onClose }) {
               </Col>
 
               <Col sm={6}>
-                <Form.Group className="mb-3">
+                <Form.Group className="mb-2">
                   <Form.Label>Phone</Form.Label>
                   <Form.Control type="text" value={selectedStaff.phone} readOnly />
                 </Form.Group>
               </Col>
 
               <Col sm={6}>
-                <Form.Group className="mb-3">
+                <Form.Group className="mb-2">
                   <Form.Label>Password</Form.Label>
                   <Form.Control type="text" value={selectedStaff.password} readOnly />
                 </Form.Group>
               </Col>
 
               <Col sm={6}>
-                <Form.Group className="mb-3">
+                <Form.Group className="mb-2">
                   <Form.Label>Date of Birth</Form.Label>
                   <Form.Control type="text" value={formatDate(selectedStaff.dob)} readOnly />
                 </Form.Group>

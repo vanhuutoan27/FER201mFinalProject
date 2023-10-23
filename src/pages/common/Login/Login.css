@@ -50,7 +50,7 @@ h1 {
 
 label {
   margin-right: auto;
-  padding: 8px 0 8px 12px;
+  padding: 4px 0 0px 12px;
   font-weight: 500;
 }
 
@@ -474,7 +474,7 @@ hr {
 .fullname label,
 .lastname label {
   float: left;
-  padding: 8px 0px 8px 12px;
+  padding: 4px 0px 0px 8px;
 }
 
 .fullname input {

@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import axios from '../config/axios';
 import { Link } from 'react-router-dom';
-import { Session } from '../App';
+import { AuthContext } from '../App';
 import Cookies from 'js-cookie';
 
 import './VerticalNavigation.css';
@@ -17,7 +17,7 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 
 function StaffNavigation() {
-  const session = useContext(Session);
+  const session = useContext(AuthContext);
   const user = session.user;
 
   const [allStaffs, setAllStaffs] = useState([]);
@@ -53,13 +53,13 @@ function StaffNavigation() {
           <div className="vertical-nav-header">
             <div className="vertical-account">
               <a href="#!">
-                <img className="vertical-avatar" src={user.avatar} alt="" />
+                <img className="vertical-avatar" src={user.user.avatar} alt="" />
               </a>
               <div className="vertical-info">
                 <div className="vertical-name">
-                  {user.firstName} {user.lastName}
+                  {user.user.firstName} {user.user.lastName}
                 </div>
-                <div className="vertical-mail">{user.email}</div>
+                <div className="vertical-mail">{user.user.email}</div>
               </div>
               <div className="interface-essential-wrapper"></div>
             </div>

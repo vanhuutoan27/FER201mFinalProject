@@ -103,7 +103,7 @@ function UpdateUser({ selectedUser, onClose }) {
                   />
                 </Form.Group>
 
-                <Form.Group className="mb-3">
+                <Form.Group className="mb-2">
                   <Form.Label>Status</Form.Label>
                   <Form.Control
                     as="select"
@@ -118,7 +118,7 @@ function UpdateUser({ selectedUser, onClose }) {
               </Col>
 
               <Col sm={4}>
-                <Form.Group className="mb-3">
+                <Form.Group className="mb-2">
                   <Form.Label>Role</Form.Label>
                   <Form.Control
                     as="select"
@@ -172,7 +172,7 @@ function UpdateUser({ selectedUser, onClose }) {
               </Col>
 
               <Col sm={6}>
-                <Form.Group className="mb-3">
+                <Form.Group className="mb-2">
                   <Form.Label>Phone</Form.Label>
                   <Form.Control
                     type="text"
@@ -183,7 +183,7 @@ function UpdateUser({ selectedUser, onClose }) {
               </Col>
 
               <Col sm={6}>
-                <Form.Group className="mb-3">
+                <Form.Group className="mb-2">
                   <Form.Label>Password</Form.Label>
                   <Form.Control
                     type="text"
@@ -194,7 +194,7 @@ function UpdateUser({ selectedUser, onClose }) {
               </Col>
 
               <Col sm={6}>
-                <Form.Group className="mb-3">
+                <Form.Group className="mb-2">
                   <Form.Label>Date of Birth</Form.Label>
                   <Form.Control
                     type="date"

@@ -1,8 +1,7 @@
+// App.js
 import './App.css';
-
 import { Routes, Route, Navigate } from 'react-router-dom';
-import { useState, useEffect } from 'react';
-import { createContext } from 'react';
+import { useState, useEffect, createContext } from 'react';
 import axios from 'axios';
 
 // ADMIN
@@ -24,7 +23,7 @@ import StaffOrder from './pages/staff/StaffOrder/StaffOrder';
 import Profile from './pages/customer/Profile/Profile';
 import MyOrder from './pages/customer/MyOrder/MyOrder';
 
-//COMMON
+// COMMON
 import Loading from './components/Loading';
 import Login from './pages/common/Login/Login';
 import Home from './pages/common/Home/Home';
@@ -34,62 +33,50 @@ import Contact from './pages/common/Contact/Contact';
 import Detail from './pages/common/Detail/Detail';
 import Order from './pages/common/Order/Order';
 import Completion from './pages/common/Order/Completion';
+import Error404 from './pages/common/Error/Error404';
 
-export const Session = createContext(null);
+export const AuthContext = createContext();
 
 function App() {
   const [user, setUser] = useState(null);
-
-  const admin = ['admin1@gmail.com', 'vhtoan27@gmail.com'];
-  const staff = [
-    'admin1@gmail.com',
-    'vhtoan27@gmail.com',
-    'phamhoaiduy@gmail.com',
-    'nguyentanloc@gmail.com',
-    'phamhoangthuyan@gmail.com',
-  ];
-
-  const isAdmin = admin.includes(user?.email);
-  const isStaff = staff.includes(user?.email);
-
-  const [data, setData] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
+  const [role, setRole] = useState('null');
 
   const accessToken = localStorage.getItem('accessToken');
-  console.log(accessToken);
 
   useEffect(() => {
-    const axiosInstance = axios.create({
-      headers: {
-        Authorization: `Bearer ${accessToken}`,
-      },
-    });
-
-    // Make the GET request using the custom Axios instance
-    axiosInstance
-      .get('https://localhost:7088/api/UserManagements/Launch')
-      .then((response) => {
-        setUser(response.data);
-      })
-      .catch((error) => {
-        console.error(error);
+    if (accessToken) {
+      const axiosInstance = axios.create({
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
       });
 
-    setTimeout(() => {
-      setData(/* your data */);
-      setIsLoading(false);
-    }, 500);
-  }, []);
+      axiosInstance
+        .get('https://localhost:7088/api/UserManagements/Launch')
+        .then((response) => {
+          setUser(response.data);
+          const userRole = response.data.role;
+          setRole(userRole);
+          console.log('User Role:', userRole);
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+    }
+
+    setIsLoading(false);
+  }, [accessToken]);
 
   return (
-    <Session.Provider value={{ user, setUser }}>
+    <AuthContext.Provider value={{ user, setUser, role, setRole }}>
       <div className="App">
         {isLoading ? (
           <Loading />
         ) : (
           <Routes>
             {/* ROUTES FOR ADMIN */}
-            {isAdmin && (
+            {role === 'Admin' && (
               <>
                 <Route path="/admin-dashboard" element={<AdminDashboard />} />
                 <Route path="/admin-analysis" element={<AdminAnalysis />} />
@@ -105,7 +92,7 @@ function App() {
             )}
 
             {/* ROUTES FOR STAFF */}
-            {isStaff && (
+            {role === 'Staff' && (
               <>
                 <Route path="/staff-profile" element={<StaffProfile />} />
                 <Route path="/staff-order" element={<StaffOrder />} />
@@ -115,8 +102,12 @@ function App() {
             )}
 
             {/* ROUTES FOR CUSTOMER */}
-            <Route path="/profile/:id" element={<Profile />} />
-            <Route path="/my-order/:id" element={<MyOrder />} />
+            {role === 'Customer' && (
+              <>
+                <Route path="/profile/:id" element={<Profile />} />
+                <Route path="/my-order/:id" element={<MyOrder />} />
+              </>
+            )}
 
             {/* ROUTES FOR COMMON */}
             <Route path="/" element={<Home />} />
@@ -127,13 +118,16 @@ function App() {
             <Route path="/contact" element={<Contact />} />
             <Route path="/order" element={<Order />} />
             <Route path="/order-completion" element={<Completion />} />
+            <Route path="/not-found" element={<Error404 />} />
 
-            {/* Redirect to login for non-admin or non-staff users */}
-            {(!isAdmin || !isStaff) && <Route path="*" element={<Navigate to="/" />} />}
+            {/* Redirect to login for non-authenticated users */}
+            {(!role === 'Admin' || !role === 'Staff') && (
+              <Route path="*" element={<Navigate to="/not-found" />} />
+            )}
           </Routes>
         )}
       </div>
-    </Session.Provider>
+    </AuthContext.Provider>
   );
 }
 

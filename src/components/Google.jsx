@@ -1,9 +1,9 @@
 import React, { useContext } from 'react';
 import { GoogleLogin } from '@react-oauth/google';
-import { Session } from '../App';
+import { AuthContext } from '../App';
 
 export function GoogleSignIn() {
-  const session = useContext(Session);
+  const session = useContext(AuthContext);
 
   const responseMessage = (response) => {
     console.log(response);

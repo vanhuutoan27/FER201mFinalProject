@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPen, faEye } from '@fortawesome/free-solid-svg-icons';
+import { Pagination } from 'antd';
 
 import AdminNavigation from '../../../components/AdminNavigation';
 import ViewOrder from './ViewOrder';
@@ -15,6 +16,8 @@ function OrderManagement() {
   const [updatingOrder, setUpdatingOrder] = useState(null);
   const [staffOrders, setStaffOrders] = useState([]);
   const [allStaffs, setAllStaffs] = useState([]);
+  const [currentItems, setCurrentItems] = useState([]);
+  const [totalItems, setTotalItems] = useState(0);
   const itemsPerPage = 6;
   const [currentPage, setCurrentPage] = useState(1);
   const [searchQuery, setSearchQuery] = useState('');
@@ -63,8 +66,6 @@ function OrderManagement() {
     return { ...order, ...staffInfo };
   });
 
-  console.log('Updated Orders:', updatedOrders);
-
   const handleViewServiceClick = (order) => {
     setSelectedOrder(order);
   };
@@ -73,12 +74,9 @@ function OrderManagement() {
     setUpdatingOrder(order);
   };
 
-  const handlePageChange = (pageNumber) => {
-    setCurrentPage(pageNumber);
-  };
-
   const handleSearchChange = (event) => {
     setSearchQuery(event.target.value);
+    setCurrentPage(1);
   };
 
   const filteredOrders = updatedOrders.filter((order) => {
@@ -88,8 +86,6 @@ function OrderManagement() {
     return orderString.includes(searchQueryLower);
   });
 
-  const startIndex = (currentPage - 1) * itemsPerPage;
-  const endIndex = startIndex + itemsPerPage;
   filteredOrders.sort((a, b) => {
     const orderStatusOrder = {
       Completed: 1,
@@ -99,6 +95,14 @@ function OrderManagement() {
 
     return orderStatusOrder[a.status] - orderStatusOrder[b.status] || b.orderId - a.orderId;
   });
+
+  const startIndex = (currentPage - 1) * itemsPerPage;
+  const endIndex = startIndex + itemsPerPage;
+  const displayedOrders = filteredOrders.slice(startIndex, endIndex);
+
+  const handlePageChange = (page) => {
+    setCurrentPage(page);
+  };
 
   return (
     <div className="order-management-content">
@@ -135,7 +139,7 @@ function OrderManagement() {
                 </tr>
               </thead>
               <tbody>
-                {filteredOrders.slice(startIndex, endIndex).map((order, index) => (
+                {displayedOrders.map((order, index) => (
                   <tr key={index}>
                     <td>
                       <span className={`serviceID`}>
@@ -193,28 +197,15 @@ function OrderManagement() {
                   </tr>
                 ))}
               </tbody>
-              <tfoot>
-                <tr>
-                  <td colSpan="10">
-                    <ul className="pagination">
-                      {Array.from(
-                        { length: Math.ceil(allOrders.length / itemsPerPage) },
-                        (_, index) => (
-                          <li key={index}>
-                            <button
-                              onClick={() => handlePageChange(index + 1)}
-                              className={currentPage === index + 1 ? 'Admin' : ''}
-                            >
-                              {index + 1}
-                            </button>
-                          </li>
-                        )
-                      )}
-                    </ul>
-                  </td>
-                </tr>
-              </tfoot>
             </table>
+            <div className="pagination">
+              <Pagination
+                total={filteredOrders.length}
+                current={currentPage}
+                pageSize={itemsPerPage}
+                onChange={handlePageChange}
+              />
+            </div>
           </div>
         </div>
       </div>

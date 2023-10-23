@@ -205,7 +205,7 @@
 .order-section {
   background-color: #fff;
   width: 513px;
-  height: 572px;
+  /* height: 600px; */
   border-radius: 16px;
   padding: 36px 42px 60px 42px;
   box-shadow: 4px 12px 20px 8px rgba(0, 0, 0, 0.15);
@@ -250,7 +250,6 @@
 .btn-action,
 .btn-next-action {
   display: flex;
-
 }
 
 .btn-action a:first-child,

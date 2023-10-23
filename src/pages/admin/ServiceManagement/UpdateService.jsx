@@ -135,7 +135,7 @@ function AdminUpdateService({ selectedService, onClose }) {
 
             <Row>
               <Col>
-                <Form.Group className="mb-3">
+                <Form.Group className="mb-2">
                   <Form.Label>Price (VND)</Form.Label>
                   <Form.Control
                     type="text"
@@ -148,7 +148,7 @@ function AdminUpdateService({ selectedService, onClose }) {
               </Col>
 
               <Col>
-                <Form.Group className="mb-3">
+                <Form.Group className="mb-2">
                   <Form.Label>Time (Mins)</Form.Label>
                   <Form.Control
                     type="text"
@@ -161,7 +161,7 @@ function AdminUpdateService({ selectedService, onClose }) {
 
             <Row>
               <Col>
-                <Form.Group className="mb-3">
+                <Form.Group className="mb-2">
                   <Form.Label>Tag</Form.Label>
                   <Form.Control
                     as="select"
@@ -180,7 +180,7 @@ function AdminUpdateService({ selectedService, onClose }) {
               </Col>
 
               <Col>
-                <Form.Group className="mb-3">
+                <Form.Group className="mb-2">
                   <Form.Label>Status</Form.Label>
                   <Form.Control
                     as="select"

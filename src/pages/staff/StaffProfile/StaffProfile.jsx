@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { Form, Col, Row } from 'react-bootstrap';
 import Button from '@mui/material/Button';
-import { Session } from '../../../App';
+import { AuthContext } from '../../../App';
 import { useParams } from 'react-router-dom';
 import { formatDate } from '../../../utils/DateUtils';
 import { storage } from '../../../firebase';
@@ -13,7 +13,7 @@ import '../../customer/Profile/Profile.css';
 import './StaffProfile.css';
 
 function StaffProfile() {
-  const session = useContext(Session);
+  const session = useContext(AuthContext);
   const user = session.user;
   const { userId } = useParams();
 
@@ -97,7 +97,7 @@ function StaffProfile() {
           <div className="card-avatar">
             <div className="card-avatar-header">
               <label htmlFor="imageUpload" className="image-upload-label">
-                <img src={updatedUser.avatar} alt="User Image" className="user-avatar" />
+                <img src={updatedUser.user.avatar} alt="User Image" className="user-avatar" />
               </label>
               <input
                 type="file"
@@ -106,8 +106,8 @@ function StaffProfile() {
                 style={{ display: 'none' }}
                 onChange={handleFileChange}
               />
-              <h3 className="title">{`${user.firstName} ${user.lastName}`}</h3>
-              <p>{user.email}</p>
+              <h3 className="title">{`${user.user.firstName} ${user.user.lastName}`}</h3>
+              <p>{user.user.email}</p>
             </div>
             <div className="card-avatar-body">
               <h2 className="title">About</h2>
@@ -119,37 +119,41 @@ function StaffProfile() {
               <h2 className="title">Staff Information</h2>
               <Row>
                 <Col className=" mr-8">
-                  <Form.Group className="mb-3">
+                  <Form.Group className="mb-2">
                     <Form.Label>ID</Form.Label>
                     <Form.Control
                       type="text"
                       value={
-                        (user.role === 'Admin' ? 'A' : user.role === 'Staff' ? 'S' : 'C') +
-                        (user.userId < 10
-                          ? '00' + user.userId
-                          : user.userId < 100
-                          ? '0' + user.userId
-                          : user.userId)
+                        (user.user.role === 'Admin'
+                          ? 'A'
+                          : user.user.role === 'Staff'
+                          ? 'S'
+                          : 'C') +
+                        (user.user.userId < 10
+                          ? '00' + user.user.userId
+                          : user.user.userId < 100
+                          ? '0' + user.user.userId
+                          : user.user.userId)
                       }
                       readOnly
                     />
                   </Form.Group>
-                  <Form.Group className="mb-3">
+                  <Form.Group className="mb-2">
                     <Form.Label>Date of Birth</Form.Label>
                     <Form.Control
                       type={isEditing ? 'date' : 'text'}
-                      value={formatDate(updatedUser.dob)}
+                      value={formatDate(updatedUser.user.dob)}
                       onChange={(e) => setUpdatedUser({ ...updatedUser, dob: e.target.value })}
                       readOnly={!isEditing}
                     />
                   </Form.Group>
 
-                  <Form.Group className="mb-3">
+                  <Form.Group className="mb-2">
                     <Form.Label>Password</Form.Label>
                     <div className="password-input-container">
                       <Form.Control
                         type={isPasswordVisible ? 'text' : 'password'}
-                        value={updatedUser.password}
+                        value={updatedUser.user.password}
                         onChange={(e) =>
                           setUpdatedUser({ ...updatedUser, password: e.target.value })
                         }
@@ -162,25 +166,25 @@ function StaffProfile() {
                   </Form.Group>
                 </Col>
                 <Col className="ml-8">
-                  <Form.Group className="mb-3">
+                  <Form.Group className="mb-2">
                     <Form.Label>Date Created</Form.Label>
                     <Form.Control
                       type="text"
-                      value={formatDate(updatedUser.dateCreated)}
+                      value={formatDate(updatedUser.user.dateCreated)}
                       readOnly
                     />
                   </Form.Group>
-                  <Form.Group className="mb-3">
+                  <Form.Group className="mb-2">
                     <Form.Label>Phone</Form.Label>
                     <Form.Control
                       type="text"
-                      value={updatedUser.phone}
+                      value={updatedUser.user.phone}
                       onChange={(e) => setUpdatedUser({ ...updatedUser, phone: e.target.value })}
                       readOnly={!isEditing}
                     />
                   </Form.Group>
 
-                  <Form.Group className="mb-3">
+                  <Form.Group className="mb-2">
                     <Form.Label>Total Orders</Form.Label>
                     <Form.Control type="text" value={totalOrders} readOnly />
                   </Form.Group>

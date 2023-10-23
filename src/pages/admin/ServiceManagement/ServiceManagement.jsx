@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPen, faEye } from '@fortawesome/free-solid-svg-icons';
+import { Pagination } from 'antd';
 
 import AdminNavigation from '../../../components/AdminNavigation';
 import CreateService from './CreateService';
@@ -11,10 +12,12 @@ import axios from '../../../config/axios';
 import { formatPriceWithDot } from '../../../utils/PriceUtils';
 import '../../../components/Management.css';
 
-function AdminServiceManagement() {
+function ServiceManagement() {
   const [allServices, setAllServices] = useState([]);
   const [selectedService, setSelectedService] = useState(null);
   const [updatingService, setUpdatingService] = useState(null);
+  const [currentItems, setCurrentItems] = useState([]);
+  const [totalItems, setTotalItems] = useState(0);
   const itemsPerPage = 6;
   const [currentPage, setCurrentPage] = useState(1);
   const [searchQuery, setSearchQuery] = useState('');
@@ -34,18 +37,35 @@ function AdminServiceManagement() {
     setUpdatingService(service);
   };
 
-  const handlePageChange = (pageNumber) => {
-    setCurrentPage(pageNumber);
+  const handleSearchChange = (event) => {
+    setSearchQuery(event.target.value);
+    setCurrentPage(1);
+  };
+
+  const handlePageChange = (page) => {
+    setCurrentPage(page);
+    updateCurrentItems();
+  };
+
+  const updateCurrentItems = () => {
+    const startIndex = (currentPage - 1) * itemsPerPage;
+    const endIndex = startIndex + itemsPerPage;
+    const itemsToDisplay = filteredServices.slice(startIndex, endIndex);
+    setCurrentItems(itemsToDisplay);
+    setTotalItems(filteredServices.length);
   };
 
   const filteredServices = allServices.filter((service) =>
     service.serviceName.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
+  useEffect(() => {
+    updateCurrentItems();
+  }, [searchQuery, currentPage]);
+
   const startIndex = (currentPage - 1) * itemsPerPage;
   const endIndex = startIndex + itemsPerPage;
   const displayedServices = filteredServices.slice(startIndex, endIndex);
-
 
   return (
     <div className="service-management-content">
@@ -58,9 +78,10 @@ function AdminServiceManagement() {
             type="search"
             placeholder="Search..."
             value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
+            onChange={handleSearchChange}
           />
         </div>
+
         <div className="table-content">
           <div className="table-widget">
             <caption>
@@ -132,22 +153,15 @@ function AdminServiceManagement() {
               </tbody>
               <tfoot>
                 <tr>
-                  <td colSpan="10">
-                    <ul className="pagination">
-                      {Array.from(
-                        { length: Math.ceil(allServices.length / itemsPerPage) },
-                        (_, index) => (
-                          <li key={index}>
-                            <button
-                              onClick={() => handlePageChange(index + 1)}
-                              className={currentPage === index + 1 ? 'Admin' : ''}
-                            >
-                              {index + 1}
-                            </button>
-                          </li>
-                        )
-                      )}
-                    </ul>
+                  <td colSpan="7">
+                    <div className="pagination">
+                      <Pagination
+                        total={filteredServices.length}
+                        current={currentPage}
+                        pageSize={itemsPerPage}
+                        onChange={handlePageChange}
+                      />
+                    </div>
                   </td>
                 </tr>
               </tfoot>
@@ -167,4 +181,4 @@ function AdminServiceManagement() {
   );
 }
 
-export default AdminServiceManagement;
+export default ServiceManagement;

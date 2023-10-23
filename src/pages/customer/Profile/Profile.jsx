@@ -3,7 +3,7 @@ import { Form, Col, Row } from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faGithub } from '@fortawesome/free-brands-svg-icons';
 import Button from '@mui/material/Button';
-import { Session } from '../../../App';
+import { AuthContext } from '../../../App';
 import Navigation from '../../../components/Navigation';
 import { useParams } from 'react-router-dom';
 import { formatDate } from '../../../utils/DateUtils';
@@ -14,16 +14,18 @@ import axios from '../../../config/axios';
 import './Profile.css';
 
 function Profile() {
-  const session = useContext(Session);
-  const user = session.user;
+  const session = useContext(AuthContext);
+  const userInfo = session.user.user;
+
   const { userId } = useParams();
 
   const [isLoading, setIsLoading] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
-  const [updatedUser, setUpdatedUser] = useState(user);
+  const [updatedUser, setUpdatedUser] = useState(userInfo);
   const [uploadingImage, setUploadingImage] = useState(false);
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
   const [isAvatarChanged, setIsAvatarChanged] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
 
   const togglePasswordVisibility = () => {
     setIsPasswordVisible(!isPasswordVisible);
@@ -41,7 +43,6 @@ function Profile() {
     try {
       await axios.put(`/UserManagements/${updatedUser.userId}`, updatedUser);
       alert('User updated successfully');
-      // window.location.reload();
     } catch (error) {
       alert('Error updating user');
       console.error('Error updating user', error);
@@ -49,6 +50,16 @@ function Profile() {
       setIsLoading(false);
     }
   };
+
+  // Hàm chuyển đổi định dạng ngày tháng
+  function convertToRequiredFormat(dateString) {
+    const parts = dateString.split('/');
+    if (parts.length === 3) {
+      const [day, month, year] = parts;
+      return `${year}-${month}-${day}`;
+    }
+    return dateString;
+  }
 
   const handleFileChange = async (e) => {
     const file = e.target.files[0];
@@ -88,8 +99,8 @@ function Profile() {
                 style={{ display: 'none' }}
                 onChange={handleFileChange}
               />
-              <h3 className="title">{`${user.firstName} ${user.lastName}`}</h3>
-              <p>{user.email}</p>
+              <h3 className="title">{`${userInfo.firstName} ${userInfo.lastName}`}</h3>
+              <p>{userInfo.email}</p>
             </div>
             <div className="card-avatar-body">
               <h2 className="title">About</h2>
@@ -105,55 +116,68 @@ function Profile() {
             <div className="card-info-box">
               <h2 className="title">User Information</h2>
               <Row>
-                <Col className=" mr-8">
-                  <Form.Group className="mb-3">
+                <Col className="mr-8">
+                  <Form.Group>
                     <Form.Label>ID</Form.Label>
                     <Form.Control
                       type="text"
                       value={
-                        (user.role === 'Admin' ? 'A' : user.role === 'Staff' ? 'S' : 'C') +
-                        (user.userId < 10
-                          ? '00' + user.userId
-                          : user.userId < 100
-                          ? '0' + user.userId
-                          : user.userId)
+                        (userInfo.role === 'Admin' ? 'A' : userInfo.role === 'Staff' ? 'S' : 'C') +
+                        (userInfo.userId < 10
+                          ? '00' + userInfo.userId
+                          : userInfo.userId < 100
+                          ? '0' + userInfo.userId
+                          : userInfo.userId)
                       }
                       readOnly
                     />
                   </Form.Group>
-                  <Form.Group className="mb-3">
+                  <Form.Group>
                     <Form.Label>First Name</Form.Label>
                     <Form.Control
                       type="text"
                       value={updatedUser.firstName}
                       onChange={(e) =>
-                        setUpdatedUser({ ...updatedUser, firstName: e.target.value })
+                        setUpdatedUser({
+                          ...updatedUser,
+                          firstName: e.target.value,
+                        })
                       }
                       readOnly={!isEditing}
                     />
                   </Form.Group>
-                  <Form.Group className="mb-3">
+                  <Form.Group>
                     <Form.Label>Date of Birth</Form.Label>
                     <Form.Control
                       type={isEditing ? 'date' : 'text'}
-                      value={formatDate(updatedUser.dob)}
-                      onChange={(e) => setUpdatedUser({ ...updatedUser, dob: e.target.value })}
+                      value={isEditing ? updatedUser.dob : formatDate(updatedUser.dob)}
+                      onChange={(e) =>
+                        setUpdatedUser({
+                          ...updatedUser,
+                          dob: isEditing ? e.target.value : convertToRequiredFormat(e.target.value),
+                        })
+                      }
                       readOnly={!isEditing}
                     />
                   </Form.Group>
 
-                  <Form.Group className="mb-3">
+                  <Form.Group>
                     <Form.Label>Email</Form.Label>
                     <Form.Control
                       type="email"
                       value={updatedUser.email}
-                      onChange={(e) => setUpdatedUser({ ...updatedUser, email: e.target.value })}
+                      onChange={(e) =>
+                        setUpdatedUser({
+                          ...updatedUser,
+                          email: e.target.value,
+                        })
+                      }
                       readOnly={!isEditing}
                     />
                   </Form.Group>
                 </Col>
                 <Col className="ml-8">
-                  <Form.Group className="mb-3">
+                  <Form.Group>
                     <Form.Label>Date Created</Form.Label>
                     <Form.Control
                       type="text"
@@ -161,37 +185,51 @@ function Profile() {
                       readOnly
                     />
                   </Form.Group>
-                  <Form.Group className="mb-3">
+                  <Form.Group>
                     <Form.Label>Last Name</Form.Label>
                     <Form.Control
                       type="text"
                       value={updatedUser.lastName}
-                      onChange={(e) => setUpdatedUser({ ...updatedUser, lastName: e.target.value })}
+                      onChange={(e) =>
+                        setUpdatedUser({
+                          ...updatedUser,
+                          lastName: e.target.value,
+                        })
+                      }
                       readOnly={!isEditing}
                     />
                   </Form.Group>
-                  <Form.Group className="mb-3">
+                  <Form.Group>
                     <Form.Label>Phone</Form.Label>
                     <Form.Control
                       type="text"
                       value={updatedUser.phone}
-                      onChange={(e) => setUpdatedUser({ ...updatedUser, phone: e.target.value })}
+                      onChange={(e) =>
+                        setUpdatedUser({
+                          ...updatedUser,
+                          phone: e.target.value,
+                        })
+                      }
                       readOnly={!isEditing}
                     />
                   </Form.Group>
-                  <Form.Group className="mb-3">
+
+                  <Form.Group>
                     <Form.Label>Password</Form.Label>
                     <div className="password-input-container">
                       <Form.Control
-                        type={isPasswordVisible ? 'text' : 'password'}
+                        type={isEditing ? 'text' : showPassword ? 'text' : 'password'}
                         value={updatedUser.password}
                         onChange={(e) =>
-                          setUpdatedUser({ ...updatedUser, password: e.target.value })
+                          setUpdatedUser({
+                            ...updatedUser,
+                            password: e.target.value,
+                          })
                         }
                         readOnly={!isEditing}
                         className="password-toggle-icon"
-                        onClick={togglePasswordVisibility}
-                        style={{ cursor: 'pointer' }}
+                        onClick={!isEditing ? () => setShowPassword(!showPassword) : undefined}
+                        style={{ cursor: !isEditing ? 'pointer' : 'text' }}
                       />
                     </div>
                   </Form.Group>

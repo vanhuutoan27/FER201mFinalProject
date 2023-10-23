@@ -1,16 +1,15 @@
+// Navigation.js
 import React, { useContext, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCaretDown } from '@fortawesome/free-solid-svg-icons';
-import { Session } from '../App';
+import { AuthContext } from '../App';
 import Cookies from 'js-cookie';
 
 import Button from '@mui/material/Button';
 
 function Navigation() {
-  const session = useContext(Session);
+  const session = useContext(AuthContext);
   const user = session.user;
-
+  const role = session.role;
   const location = useLocation();
 
   const handleLogout = (e) => {
@@ -72,12 +71,12 @@ function Navigation() {
                   <li className="user-list">
                     <div>
                       <span>
-                        {user.firstName} {user.lastName}
+                        {user.user.firstName} {user.user.lastName}
                       </span>
-                      <img src={user.avatar} alt="" />
+                      <img src={user.user.avatar} alt="" />
                     </div>
                     <ul className="sub-nav-user">
-                      {user.role === 'Admin' && (
+                      {role === 'Admin' && (
                         <>
                           <li>
                             <a href="/admin-dashboard">Admin</a>
@@ -87,12 +86,12 @@ function Navigation() {
                           </li>
                         </>
                       )}
-                      {user.role === 'Staff' && (
+                      {role === 'Staff' && (
                         <li>
                           <a href="/staff-profile">Staff</a>
                         </li>
                       )}
-                      {user.role === 'Customer' && (
+                      {role === 'Customer' && (
                         <>
                           <li>
                             <a href={`/profile/${user.userId}`}>Profile</a>

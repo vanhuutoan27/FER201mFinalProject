@@ -6,7 +6,7 @@ import { Form } from 'react-bootstrap';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import { Link } from 'react-router-dom';
-import { Session } from '../../../App';
+import { AuthContext } from '../../../App';
 import Swal from 'sweetalert2';
 
 import Navigation from '../../../components/Navigation';
@@ -18,14 +18,15 @@ import { formatPriceWithDot } from '../../../utils/PriceUtils';
 import './Order.css';
 
 function Order() {
-  const session = useContext(Session);
+  const session = useContext(AuthContext);
+  const user = session.user;
   const [selectedPaymentMethod, setSelectedPaymentMethod] = useState('');
   const [isMomoPaymentSelected, setIsMomoPaymentSelected] = useState(false);
   const [randomCode, setRandomCode] = useState(generateRandomCode());
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [loginError, setLoginError] = useState(null);
-  const [hasSession, setHasSession] = useState(session.user != null);
-  const [isAccountSectionVisible, setIsAccountSectionVisible] = useState(!hasSession);
+  const hasNoSession = session.user === null;
+  const isAccountSectionVisible = hasNoSession;
 
   const selectedService = JSON.parse(localStorage.getItem('selectedService'));
   const subTotalString = selectedService.price;
@@ -81,9 +82,6 @@ function Order() {
           localStorage.setItem('accessToken', response.data.accessToken);
           Cookies.set('accessToken', response.data.accessToken);
 
-          setHasSession(true);
-          setIsAccountSectionVisible(false);
-
           window.location.reload();
         })
         .catch((error) => {
@@ -113,14 +111,14 @@ function Order() {
 
   const sendOrderConfirmationEmail = () => {
     const emailData = {
-      to: session.user.email,
+      to: user.user.email,
       subject: 'Order Confirmation',
       text: 'Your order has been confirmed. Thank you for your purchase!',
     };
 
     sendEmail(emailData)
       .then((response) => {
-        console.log('Email sent to:', session.user.email);
+        console.log('Email sent to:', user.user.email);
       })
       .catch((error) => {
         console.error('Error sending email:', error);
@@ -144,9 +142,9 @@ function Order() {
 
     onSubmit: (values) => {
       const orderData = {
-        customerId: hasSession ? session.user.customerId : '',
+        customerId: user.user.customerId,
         customerName: values.fullName,
-        email: hasSession ? session.user.email : '',
+        email: user.user.email,
         phone: values.phoneNumber,
         address: values.address,
         serviceId: selectedService.serviceId,

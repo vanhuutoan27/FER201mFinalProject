@@ -24,7 +24,7 @@ function ViewUser({ selectedUser, onClose }) {
               </Col>
 
               <Col sm={4}>
-                <Form.Group className="mb-3">
+                <Form.Group className="mb-2">
                   <Form.Label>ID</Form.Label>
                   <Form.Control
                     type="text"
@@ -45,61 +45,61 @@ function ViewUser({ selectedUser, onClose }) {
                   />
                 </Form.Group>
 
-                <Form.Group className="mb-3">
+                <Form.Group className="mb-2">
                   <Form.Label>Status</Form.Label>
                   <Form.Control type="text" value={selectedUser.status} readOnly />
                 </Form.Group>
               </Col>
 
               <Col sm={4}>
-                <Form.Group className="mb-3">
+                <Form.Group className="mb-2">
                   <Form.Label>Role</Form.Label>
                   <Form.Control type="text" value={selectedUser.role} readOnly />
                 </Form.Group>
 
-                <Form.Group className="mb-3">
+                <Form.Group className="mb-2">
                   <Form.Label>Date Created</Form.Label>
                   <Form.Control type="text" value={formatDate(selectedUser.dateCreated)} readOnly />
                 </Form.Group>
               </Col>
 
               <Col sm={6}>
-                <Form.Group className="mb-3">
+                <Form.Group className="mb-2">
                   <Form.Label>First Name</Form.Label>
                   <Form.Control type="text" value={selectedUser.firstName} readOnly />
                 </Form.Group>
               </Col>
 
               <Col sm={6}>
-                <Form.Group className="mb-3">
+                <Form.Group className="mb-2">
                   <Form.Label>Last Name</Form.Label>
                   <Form.Control type="text" value={selectedUser.lastName} readOnly />
                 </Form.Group>
               </Col>
 
               <Col sm={6}>
-                <Form.Group className="mb-3">
+                <Form.Group className="mb-2">
                   <Form.Label>Email</Form.Label>
                   <Form.Control type="email" value={selectedUser.email} readOnly />
                 </Form.Group>
               </Col>
 
               <Col sm={6}>
-                <Form.Group className="mb-3">
+                <Form.Group className="mb-2">
                   <Form.Label>Phone</Form.Label>
                   <Form.Control type="text" value={selectedUser.phone} readOnly />
                 </Form.Group>
               </Col>
 
               <Col sm={6}>
-                <Form.Group className="mb-3">
+                <Form.Group className="mb-2">
                   <Form.Label>Password</Form.Label>
                   <Form.Control type="text" value={selectedUser.password} readOnly />
                 </Form.Group>
               </Col>
 
               <Col sm={6}>
-                <Form.Group className="mb-3">
+                <Form.Group className="mb-2">
                   <Form.Label>Date of Birth</Form.Label>
                   <Form.Control type="text" value={formatDate(selectedUser.dob)} readOnly />
                 </Form.Group>

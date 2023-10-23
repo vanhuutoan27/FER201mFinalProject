@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { Session } from '../../../App';
+import { AuthContext } from '../../../App';
 import { GoogleSignIn } from '../../../components/Google';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
@@ -13,7 +13,7 @@ import axios from '../../../config/axios';
 import './Login.css';
 
 function Login() {
-  const session = useContext(Session);
+  const session = useContext(AuthContext);
 
   const [isLoading, setIsLoading] = useState(false);
 

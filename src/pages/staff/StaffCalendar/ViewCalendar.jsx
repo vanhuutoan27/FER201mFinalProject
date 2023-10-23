@@ -47,7 +47,7 @@ function ViewCalendar({ task, onClose, user }) {
           <Form>
             <Row>
               <Col sm={4}>
-                <Form.Group className="mb-3">
+                <Form.Group className="mb-2">
                   <Form.Label>Task ID</Form.Label>
                   <Form.Control
                     type="text"
@@ -62,7 +62,7 @@ function ViewCalendar({ task, onClose, user }) {
               </Col>
 
               <Col sm={4}>
-                <Form.Group className="mb-3">
+                <Form.Group className="mb-2">
                   <Form.Label>Date Created</Form.Label>
                   <Form.Control type="text" value={formatDate(task.start)} readOnly />
                 </Form.Group>
@@ -71,14 +71,14 @@ function ViewCalendar({ task, onClose, user }) {
 
             <Row>
               <Col>
-                <Form.Group className="mb-3">
+                <Form.Group className="mb-2">
                   <Form.Label>Full Name</Form.Label>
                   <Form.Control type="text" value={task.orderInfo.customerName} readOnly />
                 </Form.Group>
               </Col>
 
               <Col>
-                <Form.Group className="mb-3">
+                <Form.Group className="mb-2">
                   <Form.Label>Phone</Form.Label>
                   <Form.Control type="text" value={task.orderInfo.phone} readOnly />
                 </Form.Group>
@@ -94,7 +94,7 @@ function ViewCalendar({ task, onClose, user }) {
               </Col>
 
               <Col>
-                <Form.Group className="mb-3">
+                <Form.Group className="mb-2">
                   <Form.Label>Note</Form.Label>
                   <Form.Control type="text" value={task.orderInfo.note} readOnly />
                 </Form.Group>
@@ -103,7 +103,7 @@ function ViewCalendar({ task, onClose, user }) {
 
             <Row>
               <Col>
-                <Form.Group className="mb-3">
+                <Form.Group className="mb-2">
                   <Form.Label>Address</Form.Label>
                   <Form.Control type="text" value={task.orderInfo.address} readOnly />
                 </Form.Group>
@@ -112,14 +112,14 @@ function ViewCalendar({ task, onClose, user }) {
 
             <Row>
               <Col sm={6}>
-                <Form.Group className="mb-3">
+                <Form.Group className="mb-2">
                   <Form.Label>Service Name</Form.Label>
                   <Form.Control type="text" value={task.orderInfo.serviceName} readOnly />
                 </Form.Group>
               </Col>
 
               <Col>
-                <Form.Group className="mb-3">
+                <Form.Group className="mb-2">
                   <Form.Label>Total</Form.Label>
                   <Form.Control
                     type="text"
@@ -130,7 +130,7 @@ function ViewCalendar({ task, onClose, user }) {
               </Col>
 
               <Col>
-                <Form.Group className="mb-3">
+                <Form.Group className="mb-2">
                   <Form.Label>Payment Method</Form.Label>
                   <Form.Control type="text" value={task.orderInfo.paymentMethod} readOnly />
                 </Form.Group>

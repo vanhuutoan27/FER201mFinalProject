@@ -81,7 +81,7 @@ function CreatePackageService() {
         </Modal.Header>
         <Modal.Body>
           <Form onSubmit={formik.handleSubmit}>
-            <Form.Group className="mb-3" controlId="name">
+            <Form.Group className="mb-2" controlId="name">
               <Form.Label>Name</Form.Label>
               <Form.Control
                 type="text"
@@ -95,7 +95,7 @@ function CreatePackageService() {
               ) : null}
             </Form.Group>
 
-            <Form.Group className="mb-3" controlId="desc">
+            <Form.Group className="mb-2" controlId="desc">
               <Form.Label>Description</Form.Label>
               <Form.Control
                 as="textarea"
@@ -112,7 +112,7 @@ function CreatePackageService() {
 
             <Row>
               <Col>
-                <Form.Group className="mb-3" controlId="time">
+                <Form.Group className="mb-2" controlId="time">
                   <Form.Label>Time</Form.Label>
                   <Form.Control
                     type="text"
@@ -127,7 +127,7 @@ function CreatePackageService() {
                 </Form.Group>
               </Col>
               <Col>
-                <Form.Group className="mb-3" controlId="price">
+                <Form.Group className="mb-2" controlId="price">
                   <Form.Label>Price</Form.Label>
                   <Form.Control
                     type="text"
@@ -143,7 +143,7 @@ function CreatePackageService() {
               </Col>
             </Row>
 
-            <Form.Group className="mb-3" controlId="tag">
+            <Form.Group className="mb-2" controlId="tag">
               <Form.Label>Tag</Form.Label>
               <Form.Control
                 as="select"
@@ -164,7 +164,7 @@ function CreatePackageService() {
               ) : null}
             </Form.Group>
 
-            <Form.Group className="mb-3">
+            <Form.Group className="mb-2">
               <Form.Label>Image</Form.Label>
               <Form.Control
                 id="file"
