@@ -1,0 +1,61 @@
+.MyOrderPage {
+  background-color: var(--primary-color-0);
+
+  > .my-order-container {
+    padding: 120px 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .table-content,
+  .calendar-content {
+    width: 80vw;
+    padding: 0;
+  }
+
+  .table-widget {
+    min-height: 650px;
+  }
+
+  .table-widget th:first-child {
+    width: 100px;
+  }
+
+  .table-widget th:nth-child(2) {
+    width: 130px;
+  }
+
+  .table-widget th:nth-child(3) {
+    width: 130px;
+  }
+
+  .table-widget th:nth-child(4) {
+    width: 200px;
+  }
+
+  .table-widget th:nth-child(5) {
+    width: 150px;
+  }
+
+  .table-widget th:nth-child(6) {
+    width: 140px;
+  }
+
+  .table-widget th:nth-child(7) {
+    width: 200px;
+  }
+}
+.MyOrderPage {
+  .table-widget caption h2 {
+    margin-left: 4%;
+    margin-top: 8px;
+  }
+}
+
+.table-widget caption > input {
+  width: 60%;
+  padding-left: 20px;
+  margin-right: 10%;
+  background-color: var(--primary-color-0);
+}

@@ -10,6 +10,7 @@ import { formatDate } from '../../../utils/DateUtils';
 import { storage } from '../../../firebase';
 import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 import axios from '../../../config/axios';
+import { message } from 'antd';
 
 import './Profile.css';
 
@@ -23,12 +24,15 @@ function Profile() {
   const [isEditing, setIsEditing] = useState(false);
   const [updatedUser, setUpdatedUser] = useState(userInfo);
   const [uploadingImage, setUploadingImage] = useState(false);
-  const [isPasswordVisible, setIsPasswordVisible] = useState(false);
   const [isAvatarChanged, setIsAvatarChanged] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
 
-  const togglePasswordVisibility = () => {
-    setIsPasswordVisible(!isPasswordVisible);
+  const [messageApi, contextHolder] = message.useMessage();
+  const success = () => {
+    messageApi.success('User updated successfully');
+  };
+  const error = () => {
+    messageApi.error('Error updating user');
   };
 
   const handleEdit = () => {
@@ -42,16 +46,15 @@ function Profile() {
 
     try {
       await axios.put(`/UserManagements/${updatedUser.userId}`, updatedUser);
-      alert('User updated successfully');
-    } catch (error) {
-      alert('Error updating user');
-      console.error('Error updating user', error);
+      success();
+    } catch (err) {
+      error();
+      console.error('Error updating user', err);
     } finally {
       setIsLoading(false);
     }
   };
 
-  // Hàm chuyển đổi định dạng ngày tháng
   function convertToRequiredFormat(dateString) {
     const parts = dateString.split('/');
     if (parts.length === 3) {
@@ -248,6 +251,7 @@ function Profile() {
           </div>
         </div>
       </div>
+      {contextHolder}
     </div>
   );
 }

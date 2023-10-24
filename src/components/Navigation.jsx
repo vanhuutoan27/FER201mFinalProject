@@ -81,9 +81,6 @@ function Navigation() {
                           <li>
                             <a href="/admin-dashboard">Admin</a>
                           </li>
-                          <li>
-                            <a href="/staff-profile">Staff</a>
-                          </li>
                         </>
                       )}
                       {role === 'Staff' && (

@@ -16,7 +16,7 @@ function Login() {
   const session = useContext(AuthContext);
 
   const [isLoading, setIsLoading] = useState(false);
-
+  const [showPassword, setShowPassword] = useState(false);
   const [loginError, setLoginError] = useState(null);
 
   const [registerError, setRegisterError] = useState(null);
@@ -206,10 +206,12 @@ function Login() {
             <label htmlFor="password">Password</label>
             <input
               id="password"
-              type="password"
+              type={showPassword ? 'text' : 'password'}
               value={formik.values.password}
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
+              onClick={() => setShowPassword(!showPassword)}
+              style={{ cursor: 'pointer' }}
             />
             {formik.touched.password && formik.errors.password ? (
               <div className="error-msg">{formik.errors.password}</div>

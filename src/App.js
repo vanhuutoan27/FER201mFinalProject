@@ -62,10 +62,13 @@ function App() {
         })
         .catch((error) => {
           console.error(error);
+        })
+        .finally(() => {
+          setIsLoading(false);
         });
+    } else {
+      setIsLoading(false);
     }
-
-    setIsLoading(false);
   }, [accessToken]);
 
   return (
@@ -75,9 +78,9 @@ function App() {
           <Loading />
         ) : (
           <Routes>
-            {/* ROUTES FOR ADMIN */}
-            {role === 'Admin' && (
+            {role === 'Admin' ? (
               <>
+                {/* Admin Routes */}
                 <Route path="/admin-dashboard" element={<AdminDashboard />} />
                 <Route path="/admin-analysis" element={<AdminAnalysis />} />
                 <Route path="/admin-order-management" element={<OrderManagement />} />
@@ -89,27 +92,33 @@ function App() {
                   element={<PackageServiceManagement />}
                 />
               </>
+            ) : (
+              <Route path="/*" element={<Error404 />} />
             )}
 
-            {/* ROUTES FOR STAFF */}
-            {role === 'Staff' && (
+            {role === 'Staff' ? (
               <>
+                {/* Staff Routes */}
                 <Route path="/staff-profile" element={<StaffProfile />} />
                 <Route path="/staff-order" element={<StaffOrder />} />
                 <Route path="/staff-task" element={<StaffTask />} />
                 <Route path="/staff-calendar" element={<StaffCalendar />} />
               </>
+            ) : (
+              <Route path="/*" element={<Error404 />} />
             )}
 
-            {/* ROUTES FOR CUSTOMER */}
-            {role === 'Customer' && (
+            {role === 'Customer' ? (
               <>
+                {/* Customer Routes */}
                 <Route path="/profile/:id" element={<Profile />} />
                 <Route path="/my-order/:id" element={<MyOrder />} />
               </>
+            ) : (
+              <Route path="/*" element={<Error404 />} />
             )}
 
-            {/* ROUTES FOR COMMON */}
+            {/* Common Routes */}
             <Route path="/" element={<Home />} />
             <Route path="/login" element={<Login />} />
             <Route path="/about" element={<About />} />
@@ -119,11 +128,6 @@ function App() {
             <Route path="/order" element={<Order />} />
             <Route path="/order-completion" element={<Completion />} />
             <Route path="/not-found" element={<Error404 />} />
-
-            {/* Redirect to login for non-authenticated users */}
-            {(!role === 'Admin' || !role === 'Staff') && (
-              <Route path="*" element={<Navigate to="/not-found" />} />
-            )}
           </Routes>
         )}
       </div>

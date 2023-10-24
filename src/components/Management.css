@@ -166,7 +166,7 @@ button {
   background-color: var(--primary-color-1);
   border-radius: 12px;
   min-width: 98px;
-  padding: 18px 40px;
+  padding: 12px 32px;
   color: var(--primary-color-2);
   font-size: 1.4rem;
   font-weight: 600;
@@ -186,6 +186,16 @@ button {
     text-decoration: none;
     transform: scale(0.95);
     background-color: var(--primary-color-1);
+  }
+}
+
+.package-service-management-content {
+  .table-widget th:nth-child(2) {
+    width: 180px;
+  }
+
+  .table-widget th:nth-child(3) {
+    width: 280px;
   }
 }
 
@@ -257,7 +267,6 @@ button {
   display: inline-flex;
   align-items: center;
   margin-left: 16px;
-  margin-bottom: 8px;
   border-radius: 8px;
 }
 

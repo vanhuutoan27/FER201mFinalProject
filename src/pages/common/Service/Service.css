@@ -39,7 +39,6 @@
   line-height: 22px;
   font-size: 5.8rem;
   font-weight: 700;
-  margin-top: 25px;
 }
 
 .service-header .main .main_image {
@@ -52,7 +51,7 @@
   text-align: justify;
   line-height: 24px;
   color: #fff;
-  margin-top: 40px;
+  margin-top: 60px;
 }
 
 .service-header .btn {

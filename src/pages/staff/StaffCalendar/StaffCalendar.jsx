@@ -1,91 +1,89 @@
 import React, { useState, useEffect, useContext } from 'react';
-import { Calendar, momentLocalizer } from 'react-big-calendar';
-import moment from 'moment-timezone';
-import 'react-big-calendar/lib/css/react-big-calendar.css';
 import { AuthContext } from '../../../App';
-
+import { Badge, Calendar, Popover } from 'antd';
 import axios from '../../../config/axios';
 import StaffNavigation from '../../../components/StaffNavigation';
-import ViewCalendar from './ViewCalendar';
 
 import './StaffCalendar.css';
 
-moment.tz.setDefault('Asia/Ho_Chi_Minh');
-const localizer = momentLocalizer(moment);
+const fetchData = async (user, setAllEvents) => {
+  try {
+    const response = await axios.get('/StaffOrderManagements');
+    const staffOrderManagements = response.data;
+
+    const userEvents = staffOrderManagements.filter((staffOrder) => {
+      return staffOrder.staffId === user.user.userId;
+    });
+
+    const events = [];
+
+    for (const task of userEvents) {
+      const { orderId, staffId, dateShipping } = task;
+
+      const [orderResponse, staffResponse] = await Promise.all([
+        axios.get(`/OrderManagements/${orderId}`),
+        axios.get(`/UserManagements/${staffId}`),
+      ]);
+
+      const orderInfo = orderResponse.data;
+      const staffInfo = staffResponse.data;
+
+      const combinedTask = {
+        serviceName: orderInfo.serviceName,
+        customerName: orderInfo.customerName,
+        phone: orderInfo.phone,
+        address: orderInfo.address,
+        staffInfo,
+        dateShipping,
+        type: 'success',
+      };
+
+      events.push(combinedTask);
+    }
+
+    setAllEvents(events);
+  } catch (error) {
+    console.error(error);
+  }
+};
 
 function StaffCalendar() {
   const session = useContext(AuthContext);
   const user = session.user;
   const [eventsData, setEventsData] = useState([]);
-  const [isError, setIsError] = useState(false);
-  const [isTaskDetailModalVisible, setTaskDetailModalVisible] = useState(false);
-  const [selectedEvent, setSelectedEvent] = useState(null);
 
   useEffect(() => {
-    const fetchEvents = async () => {
-      try {
-        const staffOrderResponse = await axios.get('/StaffOrderManagements');
-        const staffOrderManagements = staffOrderResponse.data;
+    fetchData(user, setEventsData);
+  }, []);
 
-        const newEventsData = [];
+  const cellRender = (current, info) => {
+    if (info.type === 'date') {
+      const eventsForDate = eventsData.filter(
+        (event) => new Date(event.dateShipping).toDateString() === current.toDate().toDateString()
+      );
 
-        for (const staffOrder of staffOrderManagements) {
-          const orderId = staffOrder.orderId;
-          const staffId = staffOrder.staffId;
-          const dateShipping = staffOrder.dateShipping;
-
-          const staffResponse = await axios.get(`/UserManagements/${staffId}`);
-          const staff = staffResponse.data;
-          const staffEmail = staff.email;
-
-          if (staffEmail === user.email) {
-            if (orderId) {
-              const orderResponse = await axios.get(`/OrderManagements/${orderId}`);
-              const order = orderResponse.data;
-
-              if (order.status === 'Completed') {
-                continue;
+      return (
+        <ul>
+          {eventsForDate.map((event, index) => (
+            <Popover
+              title={event.serviceName}
+              content={
+                <div>
+                  <p>{`${event.customerName}, ${event.phone}`}</p>
+                  <p>{event.address}</p>
+                </div>
               }
+            >
+              <li key={index}>
+                <Badge status={event.type} text={event.serviceName} />
+              </li>
+            </Popover>
+          ))}
+        </ul>
+      );
+    }
 
-              const newEvent = {
-                title: order.serviceName,
-                start: new Date(dateShipping),
-                end: new Date(dateShipping),
-                orderInfo: order,
-              };
-
-              newEventsData.push(newEvent);
-            } else {
-              const taskTitle = staffOrder.taskTitle;
-              const newEvent = {
-                title: taskTitle,
-                start: new Date(dateShipping),
-                end: new Date(dateShipping),
-              };
-
-              newEventsData.push(newEvent);
-            }
-          }
-        }
-
-        setEventsData(newEventsData);
-      } catch (error) {
-        setIsError(true);
-        console.error('Error fetching staff orders:', error);
-      }
-    };
-
-    fetchEvents();
-  }, [user.email]);
-
-  const handleViewTaskDetailClick = (event) => {
-    setSelectedEvent(event);
-    setTaskDetailModalVisible(true);
-  };
-
-  const handleCloseTaskDetailModal = () => {
-    setSelectedEvent(null);
-    setTaskDetailModalVisible(false);
+    return info.originNode;
   };
 
   return (
@@ -94,10 +92,8 @@ function StaffCalendar() {
         <StaffNavigation />
       </div>
       <div className="calendar-content">
-        
+        <Calendar cellRender={cellRender} />
       </div>
-
-      {selectedEvent && <ViewCalendar task={selectedEvent} onClose={handleCloseTaskDetailModal} />}
     </div>
   );
 }

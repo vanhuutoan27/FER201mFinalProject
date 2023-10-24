@@ -18,7 +18,7 @@ import {
 
 function StaffNavigation() {
   const session = useContext(AuthContext);
-  const user = session.user;
+  const userInfo = session.user.user;
 
   const [allStaffs, setAllStaffs] = useState([]);
   const location = useLocation();
@@ -34,9 +34,9 @@ function StaffNavigation() {
   useEffect(() => {
     const accessToken = Cookies.get('accessToken');
     if (accessToken) {
-      console.log('Logged in with accessToken:', user);
+      console.log('Logged in with accessToken:', userInfo);
     }
-  }, [user]);
+  }, [userInfo]);
 
   useEffect(() => {
     axios
@@ -47,19 +47,19 @@ function StaffNavigation() {
 
   return (
     <div className="StaffNavigation">
-      {user ? (
+      {userInfo ? (
         <div className="vertical-nav">
           {/* HEADER */}
           <div className="vertical-nav-header">
             <div className="vertical-account">
               <a href="#!">
-                <img className="vertical-avatar" src={user.user.avatar} alt="" />
+                <img className="vertical-avatar" src={userInfo.avatar} alt="" />
               </a>
               <div className="vertical-info">
                 <div className="vertical-name">
-                  {user.user.firstName} {user.user.lastName}
+                  {userInfo.firstName} {userInfo.lastName}
                 </div>
-                <div className="vertical-mail">{user.user.email}</div>
+                <div className="vertical-mail">{userInfo.email}</div>
               </div>
               <div className="interface-essential-wrapper"></div>
             </div>

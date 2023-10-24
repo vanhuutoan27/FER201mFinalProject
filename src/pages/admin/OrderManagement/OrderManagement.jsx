@@ -4,8 +4,7 @@ import { faPen, faEye } from '@fortawesome/free-solid-svg-icons';
 import { Pagination } from 'antd';
 
 import AdminNavigation from '../../../components/AdminNavigation';
-import ViewOrder from './ViewOrder';
-
+import ViewOrder from './ViewOrder'; // Import ViewOrder
 import axios from '../../../config/axios';
 import { formatDate } from '../../../utils/DateUtils';
 import '../../../components/Management.css';
@@ -15,9 +14,7 @@ function OrderManagement() {
   const [selectedOrder, setSelectedOrder] = useState(null);
   const [updatingOrder, setUpdatingOrder] = useState(null);
   const [staffOrders, setStaffOrders] = useState([]);
-  const [allStaffs, setAllStaffs] = useState([]);
-  const [currentItems, setCurrentItems] = useState([]);
-  const [totalItems, setTotalItems] = useState(0);
+  const [allUsers, setAllUsers] = useState([]);
   const itemsPerPage = 6;
   const [currentPage, setCurrentPage] = useState(1);
   const [searchQuery, setSearchQuery] = useState('');
@@ -35,7 +32,7 @@ function OrderManagement() {
 
     axios
       .get('/UserManagements')
-      .then((response) => setAllStaffs(response.data))
+      .then((response) => setAllUsers(response.data))
       .catch((error) => console.log(error));
   }, []);
 
@@ -54,11 +51,11 @@ function OrderManagement() {
 
     const staffOrder = staffOrders.find((staffOrder) => staffOrder.orderId === order.orderId);
     if (staffOrder) {
-      const staff = allStaffs.find((staff) => staff.userId === staffOrder.staffId);
-      if (staff) {
+      const user = allUsers.find((user) => user.userId === staffOrder.staffId);
+      if (user) {
         staffInfo = {
-          firstName: staff.firstName,
-          lastName: staff.lastName,
+          firstName: user.firstName,
+          lastName: user.lastName,
         };
       }
     }
@@ -211,7 +208,11 @@ function OrderManagement() {
       </div>
 
       {selectedOrder && (
-        <ViewOrder selectedOrder={selectedOrder} onClose={() => setSelectedOrder(null)} />
+        <ViewOrder
+          selectedOrder={selectedOrder}
+          allUsers={allUsers}
+          onClose={() => setSelectedOrder(null)}
+        />
       )}
     </div>
   );

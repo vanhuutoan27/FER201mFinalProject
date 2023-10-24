@@ -5,7 +5,7 @@ import Col from 'react-bootstrap/Col';
 
 import { formatPriceWithDot } from '../../../utils/PriceUtils';
 
-function AdminViewService({ selectedService, onClose }) {
+function ViewService({ selectedService, onClose }) {
   return (
     <Modal show={!!selectedService} onHide={onClose} size="lg">
       <Modal.Header closeButton>
@@ -99,4 +99,4 @@ function AdminViewService({ selectedService, onClose }) {
   );
 }
 
-export default AdminViewService;
+export default ViewService;

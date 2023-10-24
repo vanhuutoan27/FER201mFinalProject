@@ -7,6 +7,7 @@ import { formatDate } from '../../../utils/DateUtils';
 import { storage } from '../../../firebase';
 import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 import axios from '../../../config/axios';
+import { message } from 'antd';
 
 import StaffNavigation from '../../../components/StaffNavigation';
 import '../../customer/Profile/Profile.css';
@@ -14,20 +15,25 @@ import './StaffProfile.css';
 
 function StaffProfile() {
   const session = useContext(AuthContext);
-  const user = session.user;
+  const userInfo = session.user.user;
   const { userId } = useParams();
 
   const [isLoading, setIsLoading] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
-  const [updatedUser, setUpdatedUser] = useState(user);
+  const [updatedUser, setUpdatedUser] = useState(userInfo);
   const [uploadingImage, setUploadingImage] = useState(false);
-  const [isPasswordVisible, setIsPasswordVisible] = useState(false);
   const [isAvatarChanged, setIsAvatarChanged] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
 
   const [totalOrders, setTotalOrders] = useState(0);
 
-  const togglePasswordVisibility = () => {
-    setIsPasswordVisible(!isPasswordVisible);
+  const [messageApi, contextHolder] = message.useMessage();
+
+  const success = () => {
+    messageApi.success('User updated successfully');
+  };
+  const error = () => {
+    messageApi.error('Error updating user');
   };
 
   const handleEdit = () => {
@@ -41,10 +47,10 @@ function StaffProfile() {
 
     try {
       await axios.put(`/UserManagements/${updatedUser.userId}`, updatedUser);
-      alert('User updated successfully');
-    } catch (error) {
-      alert('Error updating user');
-      console.error('Error updating user', error);
+      success();
+    } catch (err) {
+      error();
+      console.error('Error updating user', err);
     } finally {
       setIsLoading(false);
     }
@@ -66,26 +72,35 @@ function StaffProfile() {
       setUpdatedUser({ ...updatedUser, avatar: downloadURL });
       setUploadingImage(false);
       setIsAvatarChanged(true);
-    } catch (error) {
-      console.error('Error uploading image to Firebase', error);
+    } catch (err) {
+      console.error('Error uploading image to Firebase', err);
     }
   };
+
+  function convertToRequiredFormat(dateString) {
+    const parts = dateString.split('/');
+    if (parts.length === 3) {
+      const [day, month, year] = parts;
+      return `${year}-${month}-${day}`;
+    }
+    return dateString;
+  }
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         const response = await axios.get(`/StaffOrderManagements`);
         const staffOrders = response.data;
-        const filteredOrders = staffOrders.filter((order) => order.staffId === user.userId);
+        const filteredOrders = staffOrders.filter((order) => order.staffId === userInfo.userId);
         const totalOrders = filteredOrders.length;
         setTotalOrders(totalOrders);
-      } catch (error) {
-        console.error('Error fetching total orders', error);
+      } catch (err) {
+        console.error('Error fetching total orders', err);
       }
     };
 
     fetchData();
-  }, [user.userId]);
+  }, [userInfo.userId]);
 
   return (
     <div className="StaffProfilePage">
@@ -97,7 +112,7 @@ function StaffProfile() {
           <div className="card-avatar">
             <div className="card-avatar-header">
               <label htmlFor="imageUpload" className="image-upload-label">
-                <img src={updatedUser.user.avatar} alt="User Image" className="user-avatar" />
+                <img src={updatedUser.avatar} alt="User Image" className="user-avatar" />
               </label>
               <input
                 type="file"
@@ -106,8 +121,8 @@ function StaffProfile() {
                 style={{ display: 'none' }}
                 onChange={handleFileChange}
               />
-              <h3 className="title">{`${user.user.firstName} ${user.user.lastName}`}</h3>
-              <p>{user.user.email}</p>
+              <h3 className="title">{`${userInfo.firstName} ${userInfo.lastName}`}</h3>
+              <p>{userInfo.email}</p>
             </div>
             <div className="card-avatar-body">
               <h2 className="title">About</h2>
@@ -124,43 +139,47 @@ function StaffProfile() {
                     <Form.Control
                       type="text"
                       value={
-                        (user.user.role === 'Admin'
-                          ? 'A'
-                          : user.user.role === 'Staff'
-                          ? 'S'
-                          : 'C') +
-                        (user.user.userId < 10
-                          ? '00' + user.user.userId
-                          : user.user.userId < 100
-                          ? '0' + user.user.userId
-                          : user.user.userId)
+                        (userInfo.role === 'Admin' ? 'A' : userInfo.role === 'Staff' ? 'S' : 'C') +
+                        (userInfo.userId < 10
+                          ? '00' + userInfo.userId
+                          : userInfo.userId < 100
+                          ? '0' + userInfo.userId
+                          : userInfo.userId)
                       }
                       readOnly
                     />
                   </Form.Group>
-                  <Form.Group className="mb-2">
+                  <Form.Group>
                     <Form.Label>Date of Birth</Form.Label>
                     <Form.Control
                       type={isEditing ? 'date' : 'text'}
-                      value={formatDate(updatedUser.user.dob)}
-                      onChange={(e) => setUpdatedUser({ ...updatedUser, dob: e.target.value })}
+                      value={isEditing ? updatedUser.dob : formatDate(updatedUser.dob)}
+                      onChange={(e) =>
+                        setUpdatedUser({
+                          ...updatedUser,
+                          dob: isEditing ? e.target.value : convertToRequiredFormat(e.target.value),
+                        })
+                      }
                       readOnly={!isEditing}
                     />
                   </Form.Group>
 
-                  <Form.Group className="mb-2">
+                  <Form.Group>
                     <Form.Label>Password</Form.Label>
                     <div className="password-input-container">
                       <Form.Control
-                        type={isPasswordVisible ? 'text' : 'password'}
-                        value={updatedUser.user.password}
+                        type={isEditing ? 'text' : showPassword ? 'text' : 'password'}
+                        value={updatedUser.password}
                         onChange={(e) =>
-                          setUpdatedUser({ ...updatedUser, password: e.target.value })
+                          setUpdatedUser({
+                            ...updatedUser,
+                            password: e.target.value,
+                          })
                         }
                         readOnly={!isEditing}
                         className="password-toggle-icon"
-                        onClick={togglePasswordVisibility}
-                        style={{ cursor: 'pointer' }}
+                        onClick={!isEditing ? () => setShowPassword(!showPassword) : undefined}
+                        style={{ cursor: !isEditing ? 'pointer' : 'text' }}
                       />
                     </div>
                   </Form.Group>
@@ -170,7 +189,7 @@ function StaffProfile() {
                     <Form.Label>Date Created</Form.Label>
                     <Form.Control
                       type="text"
-                      value={formatDate(updatedUser.user.dateCreated)}
+                      value={formatDate(updatedUser.dateCreated)}
                       readOnly
                     />
                   </Form.Group>
@@ -178,7 +197,7 @@ function StaffProfile() {
                     <Form.Label>Phone</Form.Label>
                     <Form.Control
                       type="text"
-                      value={updatedUser.user.phone}
+                      value={updatedUser.phone}
                       onChange={(e) => setUpdatedUser({ ...updatedUser, phone: e.target.value })}
                       readOnly={!isEditing}
                     />
@@ -203,6 +222,7 @@ function StaffProfile() {
           </div>
         </div>
       </div>
+      {contextHolder}
     </div>
   );
 }

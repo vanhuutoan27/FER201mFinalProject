@@ -324,7 +324,7 @@
 
 /*==================== FEEDBACK ====================*/
 .feedback {
-  margin-top: 120px;
+  margin: 120px 0;
   display: flex;
   flex-direction: column;
 }

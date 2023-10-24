@@ -19,13 +19,13 @@ import './Order.css';
 
 function Order() {
   const session = useContext(AuthContext);
-  const user = session.user;
+  const userInfo = session.user.user;
   const [selectedPaymentMethod, setSelectedPaymentMethod] = useState('');
   const [isMomoPaymentSelected, setIsMomoPaymentSelected] = useState(false);
   const [randomCode, setRandomCode] = useState(generateRandomCode());
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [loginError, setLoginError] = useState(null);
-  const hasNoSession = session.user === null;
+  const hasNoSession = session.user.user === null;
   const isAccountSectionVisible = hasNoSession;
 
   const selectedService = JSON.parse(localStorage.getItem('selectedService'));
@@ -34,7 +34,6 @@ function Order() {
   const subTotal = parseFloat(subTotalWithoutCurrency);
   const tax = 0;
   const total = subTotal + tax;
-
   function generateRandomCode() {
     return Math.floor(100000 + Math.random() * 900000);
   }
@@ -111,14 +110,14 @@ function Order() {
 
   const sendOrderConfirmationEmail = () => {
     const emailData = {
-      to: user.user.email,
+      to: userInfo.email,
       subject: 'Order Confirmation',
       text: 'Your order has been confirmed. Thank you for your purchase!',
     };
 
     sendEmail(emailData)
       .then((response) => {
-        console.log('Email sent to:', user.user.email);
+        console.log('Email sent to:', userInfo.email);
       })
       .catch((error) => {
         console.error('Error sending email:', error);
@@ -142,9 +141,9 @@ function Order() {
 
     onSubmit: (values) => {
       const orderData = {
-        customerId: user.user.customerId,
+        customerId: userInfo.userId,
         customerName: values.fullName,
-        email: user.user.email,
+        email: userInfo.email,
         phone: values.phoneNumber,
         address: values.address,
         serviceId: selectedService.serviceId,

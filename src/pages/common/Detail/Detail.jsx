@@ -5,7 +5,6 @@ import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 
 import { formatPriceWithDot } from '../../../utils/PriceUtils';
-import './Detail.css';
 
 function Detail({ selectedService, onClose }) {
   // Use state to keep track of the image URL when clicked

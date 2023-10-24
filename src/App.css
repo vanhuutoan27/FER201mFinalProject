@@ -614,7 +614,6 @@ header .hero-img {
 .footer {
   display: flex;
   flex-flow: row wrap;
-  margin-top: 120px;
   padding: 30px 30px 20px 30px;
   height: 100vh;
   color: #fff;
@@ -640,7 +639,7 @@ header .hero-img {
 
 .footer__addr h2 {
   position: absolute;
-  top: 20px;
+  top: 16px;
   left: 123px;
   font-size: 2rem;
   font-weight: 700;
@@ -779,4 +778,8 @@ header .hero-img {
 /* ERROR PAGE */
 .ant-btn css-dev-only-do-not-override-xu9wm8 ant-btn-primary btn {
   padding: 20px;
+}
+
+textarea {
+  resize: none !important;
 }
