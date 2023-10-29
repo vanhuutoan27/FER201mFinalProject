@@ -53,12 +53,12 @@ function Completion() {
             </div>
             <hr />
             <div className="btn-action-completion">
-              <a href="/" className="btn">
+              <Link to="/" className="btn">
                 Return Home
-              </a>
-              <a href="/service" className="btn">
+              </Link>
+              <Link to="/service" className="btn">
                 Continue Order
-              </a>
+              </Link>
             </div>
           </div>
         </div>

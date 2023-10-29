@@ -10,6 +10,7 @@ import { sendEmail } from '../../../components/emailService';
 import './Contact.css';
 import Navigation from '../../../components/Navigation';
 import Footer from '../../../components/Footer';
+import { Link } from 'react-router-dom';
 
 function Contact() {
   const initialValues = {
@@ -87,27 +88,27 @@ function Contact() {
               </div>
               <ul className="sci">
                 <li>
-                  <a href="https://github.com/vanhuutoan27/4stu-swp-project">
+                  <Link to="https://github.com/vanhuutoan27/4stu-swp-project">
                     <img src="./assets/images/icon/github.svg" alt="" className="custom-icon" />
-                  </a>
+                  </Link>
                 </li>
                 <li>
-                  <a href="#!">
+                  <Link to="#!">
                     <img
                       src="../assets/images/icon/facebook-f.svg"
                       alt=""
                       className="custom-icon"
                     />
-                  </a>
+                  </Link>
                 </li>
                 <li>
-                  <a href="#!">
+                  <Link to="#!">
                     <img
                       src="./assets/images/icon/linkedin-in.svg"
                       alt=""
                       className="custom-icon"
                     />
-                  </a>
+                  </Link>
                 </li>
               </ul>
             </div>

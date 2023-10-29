@@ -5,7 +5,7 @@ import { faGithub } from '@fortawesome/free-brands-svg-icons';
 import Button from '@mui/material/Button';
 import { AuthContext } from '../../../App';
 import Navigation from '../../../components/Navigation';
-import { useParams } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import { formatDate } from '../../../utils/DateUtils';
 import { storage } from '../../../firebase';
 import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
@@ -110,9 +110,9 @@ function Profile() {
               <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolores dolorem ipsum.</p>
             </div>
             <div className="card-avatar-footer">
-              <a href="#!">
+              <Link to="#!">
                 <FontAwesomeIcon icon={faGithub} className="custom-icon" />
-              </a>
+              </Link>
             </div>
           </div>
           <div className="card-info">

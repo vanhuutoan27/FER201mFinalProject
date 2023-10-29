@@ -11,7 +11,6 @@ import {
   faBarsProgress,
   faBriefcase,
   faCartShopping,
-  faChartPie,
   faHouse,
   faRightFromBracket,
   faUser,
@@ -88,9 +87,9 @@ function AdminNavbar() {
         {/* ADMIN HEADER */}
         <div className="vertical-nav-header">
           <div className="vertical-account">
-            <a href="#!">
+            <Link to="#!">
               <img className="vertical-avatar" src={user.user.avatar} alt="" />
-            </a>
+            </Link>
             <div className="vertical-info">
               <div className="vertical-name">
                 {user.user.firstName} {user.user.lastName}
@@ -117,21 +116,6 @@ function AdminNavbar() {
               </div>
             </div>
           </Link>
-
-          <Link to="/admin-analysis">
-            <div
-              className={`frame-1 ${
-                location.pathname === '/admin-analysis' ? 'frame-selected' : ''
-              }`}
-            >
-              <div className="frame-content">
-                <FontAwesomeIcon icon={faChartPie} className="custom-icon-nav" />
-                Analysis
-              </div>
-            </div>
-          </Link>
-
-          <div className="boundary" />
 
           <Link to="/admin-order-management">
             <div
@@ -224,23 +208,23 @@ function AdminNavbar() {
           <div className="boundary" />
 
           {/* ADMIN FOOTER */}
-          <a href="/">
+          <Link to="/">
             <div className="frame-1">
               <div className="frame-content">
                 <FontAwesomeIcon icon={faHouse} className="custom-icon-nav" />
                 Home
               </div>
             </div>
-          </a>
+          </Link>
 
-          <a href="#!" onClick={handleLogout}>
+          <Link to="#!" onClick={handleLogout}>
             <div className="vertical-nav-footer logout">
               <div className="frame-content">
                 <FontAwesomeIcon icon={faRightFromBracket} className="custom-icon-nav" />
                 Logout
               </div>
             </div>
-          </a>
+          </Link>
         </div>
       </div>
     </div>

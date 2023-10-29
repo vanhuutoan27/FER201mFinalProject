@@ -5,10 +5,11 @@ import { faUsers, faCircleCheck, faClock } from '@fortawesome/free-solid-svg-ico
 import Button from '@mui/material/Button';
 
 import Navigation from '../../../components/Navigation';
-import Hero from '../../../components/Hero';
+import Hero from './Hero';
 import Footer from '../../../components/Footer';
 
 import './Home.css';
+import { Link } from 'react-router-dom';
 
 function Home() {
   const [customerCount, setCustomerCount] = useState('100,000+');
@@ -29,50 +30,59 @@ function Home() {
       <Navigation />
       <Hero />
 
-      <div className="popular">
-        <div className="popular-header">
-          <h2 className="title">
-            <a href="#popular-service">Most Popular Service On 4Stu</a>
-          </h2>
-        </div>
-        <div className="content" id="popular-service">
-          <div className="popular-1">
+      <div className="stats">
+        <div className="content">
+          <div className="row">
             <div className="info">
-              <h1 className="title">Complete House Cleaning</h1>
+              <h2 className="sub-title">Complete House Cleaning</h2>
               <p className="desc">
                 Experience the power of intensive stain treatment right in your home, with the
                 expertise of two or more of our skilled housekeeping professionals.
               </p>
-              <Button href="/service" variant="contained" className="btn cta">
-                View Details
-              </Button>
+              <Link to="/service">
+                <Button
+                  variant="contained"
+                  className="btn hero-cta cta"
+                  style={{ marginTop: '24px' }}
+                >
+                  View Details
+                </Button>
+              </Link>
             </div>
-
-            <img
-              src="../assets/images/complete-house-cleaning.png"
-              alt="Complete House Cleaning"
-              className="popular-1-img"
-            />
+            <div className="img-block">
+              <img
+                className="image"
+                src="../assets/images/complete-house-cleaning.svg"
+                alt="Complete House Cleaning"
+              />
+            </div>
           </div>
 
-          <div className="popular-2">
+          <div className="row">
+            <div className="img-block">
+              <img
+                className="image"
+                src="../assets/images/laundry-service.svg"
+                alt="Complete House Cleaning"
+              />
+            </div>
             <div className="info">
-              <h1 className="title">Laundry Service</h1>
+              <h2 className="sub-title">Laundry Service</h2>
               <p className="desc">
                 Easily collaborate with your colleagues by sharing notes with built-in white space.
                 Furthermore, you have the option to publish a note to the internet and share the URL
                 with anyone you choose.
               </p>
-              <Button href="/service" variant="contained" className="btn cta">
-                View Details
-              </Button>
+              <Link to="/service">
+                <Button
+                  variant="contained"
+                  className="btn hero-cta cta"
+                  style={{ marginTop: '24px' }}
+                >
+                  View Details
+                </Button>
+              </Link>
             </div>
-
-            <img
-              src="../assets/images/laundry-service.png"
-              alt="Complete House Cleaning"
-              className="popular-2-img"
-            />
           </div>
         </div>
       </div>
@@ -102,39 +112,50 @@ function Home() {
                 methods on our website.
               </p>
 
-              <Button href="#!" variant="contained" className="btn cta">
-                View Terms Of Use
-              </Button>
+              <Link to="#!">
+                <Button
+                  variant="contained"
+                  className="btn hero-cta cta"
+                  style={{ marginTop: '24px' }}
+                >
+                  View Terms Of Use
+                </Button>
+              </Link>
             </div>
           </div>
         </div>
       </div>
 
       <div className="your-choice">
-        <div className="content">
-          <div className="your-choice-content">
-            <div className="info">
-              <h1 className="title">Feel Satisfied With Your Choice</h1>
-              <p className="desc">
-                Our commitment is to ensure your environment is clean, safe, and refreshed, all
-                under one roof. Experience the convenience and peace of mind with our versatile
-                services, tailored to meet your specific requirements.
-              </p>
-              <Button href="/contact" variant="contained" className="btn cta">
-                Support
-              </Button>
+        <div className="stats">
+          <div className="content">
+            <div className="row">
+              <div className="img-block">
+                <img className="image" src="../assets/images/your-choice.svg" alt="Your Choice" />
+              </div>
+              <div className="info">
+                <h2 className="sub-title">Feel Satisfied With Your Choice!</h2>
+                <p className="desc">
+                  Our commitment is to ensure your environment is clean, safe, and refreshed, all
+                  under one roof. Experience the convenience and peace of mind with our versatile
+                  services, tailored to meet your specific requirements.
+                </p>
+                <Link to="/service">
+                  <Button
+                    variant="contained"
+                    className="btn hero-cta cta"
+                    style={{ marginTop: '24px' }}
+                  >
+                    View All Services
+                  </Button>
+                </Link>
+              </div>
             </div>
-
-            <img
-              src="../assets/images/your-choice.png"
-              alt="Your Choice"
-              className="your-choice-img"
-            />
           </div>
         </div>
       </div>
 
-      <div className="start-booking">
+      {/* <div className="start-booking">
         <div className="content">
           <div className="booking">
             <div className="info">
@@ -143,9 +164,12 @@ function Home() {
                 Ready to embark on your 4Stu journey? Let's get started with your very first
                 appointment today!
               </p>
-              <Button href="/service" variant="contained" className="btn cta">
-                Let's Go
-              </Button>
+
+              <Link to="/service">
+                <Button variant="contained" className="btn cta">
+                  Let's Go
+                </Button>
+              </Link>
             </div>
 
             <img
@@ -153,6 +177,40 @@ function Home() {
               alt="start-booking"
               className="booking-img"
             />
+          </div>
+        </div>
+      </div> */}
+
+      <div className="start-booking">
+        <div className="stats">
+          <div className="content">
+            <div className="row">
+              <div className="info">
+                <h2 className="sub-title" style={{ color: '#fff' }}>
+                  Start Booking
+                </h2>
+                <p className="desc" style={{ color: '#fff' }}>
+                  Ready to embark on your 4Stu journey? Let's get started with your very first
+                  appointment today!
+                </p>
+                <Link to="/service">
+                  <Button
+                    variant="contained"
+                    className="btn hero-cta cta"
+                    style={{ marginTop: '24px' }}
+                  >
+                    Let's go
+                  </Button>
+                </Link>
+              </div>
+              <div className="img-block">
+                <img
+                  className="image"
+                  src="../assets/images/start-booking - Copy.png"
+                  alt="start-booking"
+                />
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -226,9 +284,11 @@ function Home() {
                 <span>{customerCount}+</span> Customers Use 4Stu
               </h1>
 
-              <Button href="#!" variant="contained" className="btn cta">
-                Read More
-              </Button>
+              <Link to="#!">
+                <Button variant="contained" className="btn cta">
+                  Read More
+                </Button>
+              </Link>
             </div>
             <div className="service-datas">
               <div className="service-item">

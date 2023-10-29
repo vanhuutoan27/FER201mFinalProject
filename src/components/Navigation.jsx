@@ -1,9 +1,7 @@
-// Navigation.js
 import React, { useContext, useEffect } from 'react';
-import { useLocation } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { AuthContext } from '../App';
 import Cookies from 'js-cookie';
-
 import Button from '@mui/material/Button';
 
 function Navigation() {
@@ -28,94 +26,154 @@ function Navigation() {
   }, [user]);
 
   return (
-    <header className="header fixed-header">
-      <div className="content">
-        <nav className="navbar">
-          <img src="../assets/images/4Stu-Logo.svg" alt="4Stu" />
+    <div>
+      <header className="fixed-header">
+        <div className="content">
+          <nav className="navbar">
+            <label htmlFor="menu-checkbox" className="toggle-menu">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512">
+                <path
+                  fill="currentColor"
+                  d="M0 96C0 78.3 14.3 64 32 64H416c17.7 0 32 14.3 32 32s-14.3 32-32 32H32C14.3 128 0 113.7 0 96zM0 256c0-17.7 14.3-32 32-32H416c17.7 0 32 14.3 32 32s-14.3 32-32 32H32c-17.7 0-32-14.3-32-32zM448 416c0 17.7-14.3 32-32 32H32c-17.7 0-32-14.3-32-32s14.3-32 32-32H416c17.7 0 32 14.3 32 32z"
+                />
+              </svg>
+            </label>
 
-          <span>
-            <a href="/">4Stu</a>
-          </span>
+            <Link to="/">
+              <img className="logo" src="../assets/images/4Stu-Logo.svg" alt="4Stu" />
+            </Link>
+            <h1 style={{ color: '#fff', marginLeft: '4px' }}>4Stu</h1>
+
+            <ul className="navWay">
+              <li className={location.pathname === '/' ? 'chosen' : ''}>
+                <Link to="/">Home</Link>
+              </li>
+              <li className={location.pathname === '/about' ? 'chosen' : ''}>
+                <Link to="/about">About</Link>
+              </li>
+              <li className={location.pathname === '/service' ? 'chosen' : ''}>
+                <Link to="/service">Service</Link>
+              </li>
+              <li className={location.pathname === '/contact' ? 'chosen' : ''}>
+                <Link to="/contact">Contact</Link>
+              </li>
+            </ul>
+
+            <div className="actions">
+              {user ? (
+                <div className="user-actions">
+                  <ul className="user-profile">
+                    <li className="user-list">
+                      <div>
+                        <span>
+                          {user.user.firstName} {user.user.lastName}
+                        </span>
+                        <img src={user.user.avatar} alt="" />
+                      </div>
+                      <ul className="sub-nav-user">
+                        {role === 'Admin' && (
+                          <>
+                            <li>
+                              <Link to="/admin-dashboard">Admin</Link>
+                            </li>
+                          </>
+                        )}
+                        {role === 'Staff' && (
+                          <li>
+                            <Link to="/staff-profile">Staff</Link>
+                          </li>
+                        )}
+                        {role === 'Customer' && (
+                          <>
+                            <li>
+                              <Link to={`/profile/${user.userId}`}>Profile</Link>
+                            </li>
+                            <li>
+                              <Link to={`/my-order/${user.userId}`}>Order</Link>
+                            </li>
+                          </>
+                        )}
+                        <li>
+                          <Link to="#!" onClick={handleLogout}>
+                            Logout
+                          </Link>
+                        </li>
+                      </ul>
+                    </li>
+                  </ul>
+                </div>
+              ) : (
+                <Link to="/login">
+                  <Button variant="contained" className="btn action-btn">
+                    Login
+                  </Button>
+                </Link>
+              )}
+            </div>
+          </nav>
+        </div>
+      </header>
+
+      <header className="mobile-header">
+        <input type="checkbox" name="" id="menu-checkbox" className="menu-checkbox" hidden />
+
+        <label htmlFor="menu-checkbox" className="menu-overlay"></label>
+
+        <div className="menu-drawer">
           <ul>
             <li className={location.pathname === '/' ? 'chosen' : ''}>
-              <a href="/">Home</a>
+              <Link to="/">Home</Link>
             </li>
             <li className={location.pathname === '/about' ? 'chosen' : ''}>
-              <a href="/about">About</a>
+              <Link to="/about">About</Link>
             </li>
             <li className={location.pathname === '/service' ? 'chosen' : ''}>
-              <a href="/service">Service</a>
+              <Link to="/service">Service</Link>
             </li>
             <li className={location.pathname === '/contact' ? 'chosen' : ''}>
-              <a href="/contact">Contact</a>
+              <Link to="/contact">Contact</Link>
             </li>
-            {/* <li>
-              <a href="#!">
-                More <FontAwesomeIcon icon={faCaretDown} className="custom-icon-white" />
-              </a>
-              <ul className="sub-nav">
-                <li>
-                  <a href="/news">News</a>
-                </li>
-                <li>
-                  <a href="/faqs">FAQs</a>
-                </li>
-              </ul>
-            </li> */}
-          </ul>
-
-          <div className="actions">
             {user ? (
-              <div className="user-actions">
-                <ul className="user-profile">
-                  <li className="user-list">
-                    <div>
-                      <span>
-                        {user.user.firstName} {user.user.lastName}
-                      </span>
-                      <img src={user.user.avatar} alt="" />
-                    </div>
-                    <ul className="sub-nav-user">
-                      {role === 'Admin' && (
-                        <>
-                          <li>
-                            <a href="/admin-dashboard">Admin</a>
-                          </li>
-                        </>
-                      )}
-                      {role === 'Staff' && (
-                        <li>
-                          <a href="/staff-profile">Staff</a>
-                        </li>
-                      )}
-                      {role === 'Customer' && (
-                        <>
-                          <li>
-                            <a href={`/profile/${user.userId}`}>Profile</a>
-                          </li>
-                          <li>
-                            <a href={`/my-order/${user.userId}`}>Order</a>
-                          </li>
-                        </>
-                      )}
+              <li className="user-list">
+                <ul className="sub-nav-user">
+                  {role === 'Admin' && (
+                    <>
                       <li>
-                        <a href="#!" onClick={handleLogout}>
-                          Logout
-                        </a>
+                        <Link to="/admin-dashboard">Admin</Link>
                       </li>
-                    </ul>
+                    </>
+                  )}
+                  {role === 'Staff' && (
+                    <li>
+                      <Link to="/staff-profile">Staff</Link>
+                    </li>
+                  )}
+                  {role === 'Customer' && (
+                    <>
+                      <li>
+                        <Link to={`/profile/${user.userId}`}>Profile</Link>
+                      </li>
+                      <li>
+                        <Link to={`/my-order/${user.userId}`}>Order</Link>
+                      </li>
+                    </>
+                  )}
+                  <li>
+                    <Link to="#!" onClick={handleLogout}>
+                      Logout
+                    </Link>
                   </li>
                 </ul>
-              </div>
+              </li>
             ) : (
-              <Button href="/login" variant="contained" className="btn action-btn">
-                Login
-              </Button>
+              <li>
+                <Link to="/login">Login</Link>
+              </li>
             )}
-          </div>
-        </nav>
-      </div>
-    </header>
+          </ul>
+        </div>
+      </header>
+    </div>
   );
 }
 

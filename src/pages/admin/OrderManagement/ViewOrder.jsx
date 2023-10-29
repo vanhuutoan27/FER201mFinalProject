@@ -105,14 +105,14 @@ function ViewOrder({ selectedOrder, onClose }) {
                     <Form.Control type="text" value={selectedOrder.phone} readOnly />
                   </Form.Group>
                 </Col>
-              </Row>
-              <Row>
                 <Col>
                   <Form.Group className="mb-3 form-name">
                     <Form.Label>Email</Form.Label>
                     <Form.Control type="email" value={selectedOrder.email} readOnly />
                   </Form.Group>
                 </Col>
+              </Row>
+              <Row>
                 <Col>
                   <Form.Group className="mb-2">
                     <Form.Label>Address</Form.Label>

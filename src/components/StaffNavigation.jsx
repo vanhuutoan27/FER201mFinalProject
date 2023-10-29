@@ -52,9 +52,9 @@ function StaffNavigation() {
           {/* HEADER */}
           <div className="vertical-nav-header">
             <div className="vertical-account">
-              <a href="#!">
+              <Link to="#!">
                 <img className="vertical-avatar" src={userInfo.avatar} alt="" />
-              </a>
+              </Link>
               <div className="vertical-info">
                 <div className="vertical-name">
                   {userInfo.firstName} {userInfo.lastName}
@@ -123,22 +123,22 @@ function StaffNavigation() {
             <div className="boundary" />
 
             {/* FOOTER */}
-            <a href="/">
+            <Link to="/">
               <div className="frame-1">
                 <div className="frame-content">
                   <FontAwesomeIcon icon={faHouse} className="custom-icon-nav" /> Home
                 </div>
               </div>
-            </a>
+            </Link>
 
-            <a href="#!" onClick={handleLogout}>
+            <Link to="#!" onClick={handleLogout}>
               <div className="vertical-nav-footer logout">
                 <div className="frame-content">
                   <FontAwesomeIcon icon={faRightFromBracket} className="custom-icon-nav" />
                   Logout
                 </div>
               </div>
-            </a>
+            </Link>
           </div>
         </div>
       ) : null}

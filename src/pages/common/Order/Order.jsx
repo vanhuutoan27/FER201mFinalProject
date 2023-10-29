@@ -29,6 +29,7 @@ function Order() {
   const isAccountSectionVisible = hasNoSession;
 
   const selectedService = JSON.parse(localStorage.getItem('selectedService'));
+  const selectedPackageService = JSON.parse(localStorage.getItem('selectedPackageService'));
   const subTotalString = selectedService.price;
   const subTotalWithoutCurrency = subTotalString.replace(/\D/g, '');
   const subTotal = parseFloat(subTotalWithoutCurrency);
@@ -124,6 +125,12 @@ function Order() {
       });
   };
 
+  const selectedServiceInfo = selectedService || selectedPackageService;
+  const serviceId = selectedServiceInfo ? selectedServiceInfo.serviceId : null;
+  const serviceName = selectedServiceInfo ? selectedServiceInfo.serviceName : null;
+  const packageServiceId = selectedServiceInfo ? selectedServiceInfo.packageServiceId : null;
+  const packageServiceName = selectedServiceInfo ? selectedServiceInfo.packageServiceName : null;
+
   const shippingFormik = useFormik({
     initialValues: {
       fullName: '',
@@ -146,8 +153,8 @@ function Order() {
         email: userInfo.email,
         phone: values.phoneNumber,
         address: values.address,
-        serviceId: selectedService.serviceId,
-        serviceName: selectedService.serviceName,
+        serviceId: serviceId || packageServiceId,
+        serviceName: serviceName || packageServiceName,
         price: total.toString(),
         note: values.note,
         paymentMethod: selectedPaymentMethod,
@@ -397,19 +404,37 @@ function Order() {
 
         <div className="order-section">
           <h2>Order Summary</h2>
-          {selectedService && (
+          {selectedService || selectedPackageService ? (
             <>
-              <img src={selectedService.longImage} alt={selectedService.serviceName} />
-              <p>{selectedService.serviceName}</p>
-              <h3>{formatPriceWithDot(selectedService.price)} VND</h3>
+              <img
+                src={selectedService ? selectedService.longImage : selectedPackageService.longImage}
+                alt={
+                  selectedService
+                    ? selectedService.serviceName
+                    : selectedPackageService.packageServiceName
+                }
+              />
+              <p>
+                {selectedService
+                  ? selectedService.serviceName
+                  : selectedPackageService.packageServiceName}
+              </p>
+              <h3>
+                {formatPriceWithDot(
+                  selectedService ? selectedService.price : selectedPackageService.price
+                )}{' '}
+                VND
+              </h3>
             </>
+          ) : (
+            <p>No service selected.</p>
           )}
           <div className="price-content">
             <div className="discount-section">
               <Form.Control type="text" placeholder="Discount Code" />
-              <a href="#!" className="btn">
+              <Link to="#!" className="btn">
                 Apply
-              </a>
+              </Link>
             </div>
 
             <div className="sub-total">

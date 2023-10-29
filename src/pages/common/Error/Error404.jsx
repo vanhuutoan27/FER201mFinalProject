@@ -1,5 +1,6 @@
 import { Box, Heading, Text } from '@chakra-ui/react';
 import Button from '@mui/material/Button';
+import { Link } from 'react-router-dom';
 
 function Error404() {
   return (
@@ -29,9 +30,11 @@ function Error404() {
           The page you&apos;re looking for does not seem to exist
         </Text>
 
-        <Button href="/" variant="contained" className="btn">
-          Go to Home
-        </Button>
+        <Link to="/">
+          <Button variant="contained" className="btn">
+            Go to Home
+          </Button>
+        </Link>
       </Box>
     </div>
   );

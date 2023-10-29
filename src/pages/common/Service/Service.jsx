@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faStar } from '@fortawesome/free-solid-svg-icons';
-import Cookies from 'js-cookie'; // Import thư viện js-cookie
+import Cookies from 'js-cookie';
 import { Link } from 'react-router-dom';
 import Detail from '../../common/Detail/Detail';
 
@@ -19,6 +19,7 @@ function Service() {
   const [allPackageServices, setAllPackageServices] = useState([]);
   const [loggedIn, setLoggedIn] = useState(false);
   const [selectedService, setSelectedService] = useState(null);
+  const [selectedPackageService, setSelectedPackageService] = useState(null);
   const [isDetailModalVisible, setDetailModalVisible] = useState(false);
 
   const handleOrderClick = (service) => {
@@ -28,6 +29,11 @@ function Service() {
 
   const handleViewServiceDetailClick = (service) => {
     setSelectedService(service);
+    setDetailModalVisible(true);
+  };
+
+  const handleViewPackageServiceDetailClick = (packageService) => {
+    setSelectedPackageService(packageService);
     setDetailModalVisible(true);
   };
 
@@ -45,7 +51,13 @@ function Service() {
 
     axios
       .get('/PackageServiceManagements')
-      .then((response) => setAllPackageServices(response.data))
+      .then((response) => {
+        const packageServicesWithRating = response.data.map((packageService) => ({
+          ...packageService,
+          rating: packageService.rating,
+        }));
+        setAllPackageServices(packageServicesWithRating);
+      })
       .catch((error) => console.log(error));
 
     const accessToken = Cookies.get('accessToken');
@@ -98,9 +110,12 @@ function Service() {
 
   const renderPackageService = (packageServices) => {
     return packageServices.map((packageService, index) => (
-      <div className="gallary_image" key={index}>
+      <div
+        className="gallary_image"
+        key={index}
+        onClick={() => handleViewPackageServiceDetailClick(packageService)}
+      >
         <img src="../assets/images/4Stu-Logo.svg" alt="4Stu Logo" />
-
         <h3>{packageService.packageServiceName}</h3>
         <p>{packageService.packageServiceDesc}</p>
         <Button
@@ -131,9 +146,12 @@ function Service() {
                 convenience and time-saving solutions to your student community through perfect
                 daily life services.
               </p>
-              <Button href="#order-now" variant="contained" className="btn">
-                Order Now
-              </Button>
+
+              <Link to="#order-now">
+                <Button variant="contained" className="btn">
+                  Order Now
+                </Button>
+              </Link>
             </div>
 
             <div className="main_image">
@@ -181,9 +199,11 @@ function Service() {
               </ol>
             </div>
           </div>
-          <Button href="#order-now" variant="contained" className="btn">
-            Order Now
-          </Button>
+          <Link to="#order-now">
+            <Button variant="contained" className="btn">
+              Order Now
+            </Button>
+          </Link>
         </div>
       </div>
 
@@ -209,6 +229,13 @@ function Service() {
 
       {isDetailModalVisible && (
         <Detail selectedService={selectedService} onClose={() => setDetailModalVisible(false)} />
+      )}
+
+      {isDetailModalVisible && (
+        <Detail
+          selectedPackageService={selectedPackageService}
+          onClose={() => setDetailModalVisible(false)}
+        />
       )}
 
       <div className="review" id="Review">

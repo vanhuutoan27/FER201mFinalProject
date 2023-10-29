@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/img-redundant-alt */
 import React, { useState } from 'react';
 import { Modal, Form } from 'react-bootstrap';
 
@@ -6,40 +7,49 @@ import Col from 'react-bootstrap/Col';
 
 import { formatPriceWithDot } from '../../../utils/PriceUtils';
 
-function Detail({ selectedService, onClose }) {
-  // Use state to keep track of the image URL when clicked
+function Detail({ selectedService, selectedPackageService, onClose }) {
   const [clickedImage, setClickedImage] = useState(null);
 
-  // Function to open the image in the modal
   const openImageInModal = (imageUrl) => {
     setClickedImage(imageUrl);
   };
 
   return (
     <div className="DetailPage">
-      <Modal show={!!selectedService} onHide={onClose} size="lg">
+      <Modal show={!!selectedService || !!selectedPackageService} onHide={onClose} size="lg">
         <Modal.Header closeButton>
-          <Modal.Title>View Service Details</Modal.Title>
+          <Modal.Title>View Details</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          {selectedService && (
+          {(selectedService || selectedPackageService) && (
             <Form>
               <Row>
                 <Col sm={4}>
                   <Form.Group className="mb-3 service-image-container">
-                    {/* <div className="service-image-virtual"></div> */}
                     <img
-                      src={selectedService.image}
+                      src={selectedService ? selectedService.image : selectedPackageService.image}
                       alt="Service Image"
                       className="service-image"
-                      onClick={() => openImageInModal(selectedService.image)}
+                      onClick={() =>
+                        openImageInModal(
+                          selectedService ? selectedService.image : selectedPackageService.image
+                        )
+                      }
                     />
                   </Form.Group>
                 </Col>
                 <Col>
                   <Form.Group className="mb-2">
                     <Form.Label>Name</Form.Label>
-                    <Form.Control type="text" value={selectedService.serviceName} readOnly />
+                    <Form.Control
+                      type="text"
+                      value={
+                        selectedService
+                          ? selectedService.serviceName
+                          : selectedPackageService.packageServiceName
+                      }
+                      readOnly
+                    />
                   </Form.Group>
 
                   <Form.Group className="mb-2">
@@ -47,7 +57,11 @@ function Detail({ selectedService, onClose }) {
                     <Form.Control
                       as="textarea"
                       rows={3}
-                      value={selectedService.serviceDesc}
+                      value={
+                        selectedService
+                          ? selectedService.serviceDesc
+                          : selectedPackageService.packageServiceDesc
+                      }
                       readOnly
                     />
                   </Form.Group>
@@ -57,17 +71,12 @@ function Detail({ selectedService, onClose }) {
               <Row>
                 <Col>
                   <Form.Group className="mb-2">
-                    <Form.Label>Feedback</Form.Label>
-                    <Form.Control type="text" value={selectedService.rating} readOnly />
-                  </Form.Group>
-                </Col>
-
-                <Col>
-                  <Form.Group className="mb-2">
                     <Form.Label>Price (VND)</Form.Label>
                     <Form.Control
                       type="text"
-                      value={formatPriceWithDot(selectedService.price)}
+                      value={formatPriceWithDot(
+                        selectedService ? selectedService.price : selectedPackageService.price
+                      )}
                       readOnly
                     />
                   </Form.Group>
@@ -76,7 +85,24 @@ function Detail({ selectedService, onClose }) {
                 <Col>
                   <Form.Group className="mb-2">
                     <Form.Label>Time (Mins)</Form.Label>
-                    <Form.Control type="text" value={selectedService.time} readOnly />
+                    <Form.Control
+                      type="text"
+                      value={selectedService ? selectedService.time : selectedPackageService.time}
+                      readOnly
+                    />
+                  </Form.Group>
+                </Col>
+
+                <Col>
+                  <Form.Group className="mb-2">
+                    <Form.Label>Rating</Form.Label>
+                    <Form.Control
+                      type="text"
+                      value={
+                        selectedService ? selectedService.rating : selectedPackageService.rating
+                      }
+                      readOnly
+                    />
                   </Form.Group>
                 </Col>
               </Row>
@@ -85,14 +111,24 @@ function Detail({ selectedService, onClose }) {
                 <Col>
                   <Form.Group className="mb-2">
                     <Form.Label>Tag</Form.Label>
-                    <Form.Control type="text" value={selectedService.tag} readOnly />
+                    <Form.Control
+                      type="text"
+                      value={selectedService ? selectedService.tag : ''}
+                      readOnly
+                    />
                   </Form.Group>
                 </Col>
 
                 <Col>
                   <Form.Group className="mb-2">
                     <Form.Label>Status</Form.Label>
-                    <Form.Control type="text" value={selectedService.status} readOnly />
+                    <Form.Control
+                      type="text"
+                      value={
+                        selectedService ? selectedService.status : selectedPackageService.status
+                      }
+                      readOnly
+                    />
                   </Form.Group>
                 </Col>
               </Row>

@@ -11,16 +11,13 @@ import Button from '@mui/material/Button';
 import { sendEmail } from '../../../components/emailService';
 import axios from '../../../config/axios';
 import './Login.css';
+import { Link } from 'react-router-dom';
 
 function Login() {
   const session = useContext(AuthContext);
 
   const [isLoading, setIsLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
-  const [loginError, setLoginError] = useState(null);
-
-  const [registerError, setRegisterError] = useState(null);
-  const [isRegistered, setIsRegistered] = useState(false);
 
   const formik = useFormik({
     //! Giá trị khởi tạo của form
@@ -60,7 +57,6 @@ function Login() {
           });
         })
         .catch((error) => {
-          setLoginError('Invalid email or password. Please try again.');
           console.log(error);
 
           Swal.fire({
@@ -109,9 +105,6 @@ function Login() {
           confirmPassword: values.confirmPassword,
         })
         .then((response) => {
-          setIsRegistered(true);
-          setRegisterError(null);
-
           Swal.fire({
             icon: 'success',
             title: 'Registration Successful!',
@@ -121,9 +114,6 @@ function Login() {
           sendRegisterConfirmationEmail();
         })
         .catch((error) => {
-          // Đăng ký thất bại, cập nhật trạng thái lỗi
-          setIsRegistered(false);
-
           Swal.fire({
             icon: 'error',
             title: 'Registration Failed!',
@@ -218,7 +208,7 @@ function Login() {
             ) : null}
 
             <div className="pass-link">
-              <a href="#!">Forgot password?</a>
+              <Link to="#!">Forgot password?</Link>
             </div>
 
             <Button variant="contained" className="btn" type="submit">
