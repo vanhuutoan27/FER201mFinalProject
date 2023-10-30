@@ -3,12 +3,12 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faStar } from '@fortawesome/free-solid-svg-icons';
 import Cookies from 'js-cookie';
 import { Link } from 'react-router-dom';
-import Detail from '../../common/Detail/Detail';
 
 import Button from '@mui/material/Button';
 
 import Navigation from '../../../components/Navigation';
 import Footer from '../../../components/Footer';
+import Detail from '../../common/Detail/Detail';
 
 import axios from '../../../config/axios';
 import { formatPriceWithDot } from '../../../utils/PriceUtils';
@@ -17,10 +17,13 @@ import './Service.css';
 function Service() {
   const [allServices, setAllServices] = useState([]);
   const [allPackageServices, setAllPackageServices] = useState([]);
+  const [feedbackRatings, setFeedbackRatings] = useState({});
   const [loggedIn, setLoggedIn] = useState(false);
   const [selectedService, setSelectedService] = useState(null);
   const [selectedPackageService, setSelectedPackageService] = useState(null);
   const [isDetailModalVisible, setDetailModalVisible] = useState(false);
+  const [staffOrders, setStaffOrders] = useState([]);
+  const [combinedData, setCombinedData] = useState([]);
 
   const handleOrderClick = (service) => {
     localStorage.setItem('selectedService', JSON.stringify(service));
@@ -30,11 +33,13 @@ function Service() {
   const handleViewServiceDetailClick = (service) => {
     setSelectedService(service);
     setDetailModalVisible(true);
+    document.body.style.overflow = 'hidden';
   };
 
   const handleViewPackageServiceDetailClick = (packageService) => {
     setSelectedPackageService(packageService);
     setDetailModalVisible(true);
+    document.body.style.overflow = 'hidden';
   };
 
   useEffect(() => {
@@ -43,7 +48,7 @@ function Service() {
       .then((response) => {
         const servicesWithRating = response.data.map((service) => ({
           ...service,
-          rating: service.rating,
+          rating: calculateAverageRating(feedbackRatings, service.serviceId),
         }));
         setAllServices(servicesWithRating);
       })
@@ -54,7 +59,7 @@ function Service() {
       .then((response) => {
         const packageServicesWithRating = response.data.map((packageService) => ({
           ...packageService,
-          rating: packageService.rating,
+          rating: calculateAverageRating(feedbackRatings, packageService.serviceId),
         }));
         setAllPackageServices(packageServicesWithRating);
       })
@@ -64,7 +69,68 @@ function Service() {
     if (accessToken) {
       setLoggedIn(true);
     }
+
+    axios
+      .get('/FeedbackManagements')
+      .then((response) => {
+        const feedbackRatings = {};
+
+        response.data.forEach((feedback) => {
+          const serviceId = feedback.serviceId;
+          const rating = feedback.rating;
+
+          if (!feedbackRatings[serviceId]) {
+            feedbackRatings[serviceId] = [rating];
+          } else {
+            feedbackRatings[serviceId].push(rating);
+          }
+        });
+
+        setFeedbackRatings(feedbackRatings);
+      })
+      .catch((error) => console.log(error));
+
+    axios
+      .get('/StaffOrderManagements')
+      .then((response) => setStaffOrders(response.data))
+      .catch((error) => console.log(error));
   }, []);
+
+  useEffect(() => {
+    axios
+      .get('/UserManagements')
+      .then((userResponse) => {
+        const users = userResponse.data;
+
+        axios
+          .get('/StaffManagements')
+          .then((staffResponse) => {
+            const staffs = staffResponse.data;
+
+            // Khi cả hai API request đã hoàn thành, kết hợp thông tin
+            const combinedData = staffs.map((staff) => {
+              const user = users.find((user) => user.userId === staff.staffId);
+              return { ...staff, user };
+            });
+
+            setCombinedData(combinedData);
+          })
+          .catch((error) => console.log(error));
+      })
+      .catch((error) => console.log(error));
+  }, []);
+
+  function calculateAverageRating(feedbackRatings, serviceId) {
+    const ratings = feedbackRatings[serviceId];
+    if (!ratings || ratings.length === 0) {
+      return 0;
+    }
+
+    const sum = ratings.reduce((total, rating) => total + rating, 0);
+    const average = sum / ratings.length;
+
+    return average;
+  }
 
   function renderStars(rating) {
     const stars = [];
@@ -77,6 +143,10 @@ function Service() {
     }
     return stars;
   }
+
+  const averageRating = selectedService
+    ? calculateAverageRating(feedbackRatings, selectedService.serviceId)
+    : 0;
 
   const renderService = (services) => {
     return services.map((service, index) => (
@@ -92,7 +162,15 @@ function Service() {
         <div className="menu_info">
           <h2 onClick={() => handleViewServiceDetailClick(service)}>{service.serviceName}</h2>
           <h3>{formatPriceWithDot(service.price)} VND</h3>
-          <div className="menu_icon">{renderStars(service.rating)}</div>
+          <div className="menu_icon">
+            {feedbackRatings[service.serviceId]
+              ? renderStars(calculateAverageRating(feedbackRatings, service.serviceId))
+              : Array(5)
+                  .fill()
+                  .map((_, i) => (
+                    <FontAwesomeIcon key={i} icon={faStar} className="outline-star" />
+                  ))}
+          </div>
 
           <Button
             variant="contained"
@@ -130,6 +208,18 @@ function Service() {
       </div>
     ));
   };
+
+  function filterActiveServices(services) {
+    return services.map((service) => ({
+      ...service,
+    }));
+  }
+
+  function filterActivePackageServices(packageServices) {
+    return packageServices.map((packageService) => ({
+      ...packageService,
+    }));
+  }
 
   return (
     <div className="ServicePage">
@@ -170,31 +260,32 @@ function Service() {
 
             <div className="about_text">
               <h2>
-                Why Choose <span>4Stu Services</span>?
+                Discover the Benefits of <span>4Stu Services</span>
               </h2>
               <ol>
                 <li>
-                  <span>Exceptional Convenience</span> <br />
-                  4Stu helps students save time and effort by providing convenient daily services
-                  like cleaning, sanitation, and water delivery, allowing them to focus on their
-                  studies and enjoy student life.
+                  <span>Unmatched Convenience</span> <br />
+                  4Stu is dedicated to making the lives of students easier. We provide a wide range
+                  of daily services, including cleaning, sanitation, and water delivery, so you can
+                  focus on your studies and enjoy student life without worrying about chores.
                 </li>
                 <li>
                   <span>High-Quality Service Packages</span> <br />
-                  We offer high-quality service packages specifically designed for student
-                  apartments. Our commitment ensures that you receive services that exceed your
-                  expectations.
+                  Our service packages are tailor-made for student apartments. We are committed to
+                  delivering services that not only meet but exceed your expectations in terms of
+                  quality and reliability.
                 </li>
                 <li>
-                  <span> Reliable and Trustworthy</span> <br />
-                  With 4Stu, you can trust in our reliability and credibility. Our professional
-                  staff is always ready to ensure your requests are handled promptly and
-                  efficiently.
+                  <span>Reliable and Trustworthy</span> <br />
+                  At 4Stu, reliability and trust are at the core of our values. Our professional
+                  staff is always on hand to promptly and efficiently handle your requests, ensuring
+                  a seamless experience.
                 </li>
                 <li>
-                  <span>Customized Solutions</span> <br /> We understand that each student community
-                  is unique. That's why we provide customizable service packages, allowing you to
-                  select services that best fit your specific needs.
+                  <span>Customized Solutions</span> <br />
+                  We recognize that each student community is unique. That's why we offer
+                  customizable service packages, allowing you to select services that best suit your
+                  specific needs and preferences.
                 </li>
               </ol>
             </div>
@@ -213,7 +304,7 @@ function Service() {
             Our<span>Services</span>
           </h1>
 
-          <div className="menu_box">{renderService(allServices)}</div>
+          <div className="menu_box">{renderService(filterActiveServices(allServices))}</div>
         </div>
       </div>
 
@@ -223,17 +314,17 @@ function Service() {
             Our<span>Package Services</span>
           </h1>
 
-          <div className="gallary_image_box">{renderPackageService(allPackageServices)}</div>
+          <div className="gallary_image_box">
+            {renderPackageService(filterActivePackageServices(allPackageServices))}
+          </div>
         </div>
       </div>
 
       {isDetailModalVisible && (
-        <Detail selectedService={selectedService} onClose={() => setDetailModalVisible(false)} />
-      )}
-
-      {isDetailModalVisible && (
         <Detail
+          selectedService={selectedService}
           selectedPackageService={selectedPackageService}
+          rating={averageRating}
           onClose={() => setDetailModalVisible(false)}
         />
       )}
@@ -253,8 +344,9 @@ function Service() {
               <h2 className="name">Choose A Service</h2>
 
               <p>
-                We offer over 20 convenient utility services ready to assist you whenever you need.
-                Simply use your phone to visit the 4Stu website and choose the service you desire.
+                Our software system offers a range of service packages designed for student
+                apartments. Each package includes services such as cleaning, sanitation, and water
+                delivery. Select the package that best suits your needs.
               </p>
             </div>
           </div>
@@ -265,12 +357,12 @@ function Service() {
             </div>
 
             <div className="review_text">
-              <h2 className="name">Confirm Information</h2>
+              <h2 className="name">Confirm Your Details</h2>
 
               <p>
                 Provide your full name, contact phone number, preferred date and time, and specific
-                location where you would like to use the service. This process can be completed in
-                less than a minute.
+                location within your apartment complex where you'd like to receive the services.
+                This process is quick and easy, taking less than a minute.
               </p>
             </div>
           </div>
@@ -281,12 +373,11 @@ function Service() {
             </div>
 
             <div className="review_text">
-              <h2 className="name">Proceed The Task</h2>
+              <h2 className="name">Get the Services Done</h2>
 
               <p>
-                Provide your full name, contact phone number, preferred date and time, and specific
-                location where you would like to use the service. This process can be completed in
-                less than a minute.
+                Our dedicated staff will perform the services as requested. They will update the
+                results of the services to ensure a smooth process.
               </p>
             </div>
           </div>
@@ -297,59 +388,42 @@ function Service() {
             </div>
 
             <div className="review_text">
-              <h2 className="name">Feedback And Rating</h2>
+              <h2 className="name">Provide Feedback and Ratings</h2>
 
               <p>
-                You can assess the quality of the services through the Feedback section for 4Stu.
-                This allows us to make changes and further develop the quality of services in the
-                future.
+                After each service, you have the opportunity to provide feedback and ratings. Your
+                input is valuable as it helps us improve the quality of our services for the future.
               </p>
             </div>
           </div>
         </div>
       </div>
 
-      <div className="team">
+      <div className="team" style={{ marginBottom: '140px' }}>
         <h1>
-          Our<span>Staff</span>
+          Our<span>Staffs</span>
         </h1>
 
         <div className="team_box">
-          <div className="profile">
-            <img src="../assets/images/avatar/avatar-nobita.svg" alt="Staff" />
+          {combinedData.map((item, index) => {
+            return (
+              <div className="profile" key={index}>
+                <img
+                  src={item.user.avatar || '../assets/images/avatar/avatar-nobita.svg'}
+                  alt={item.user.firstName + ' ' + item.user.lastName}
+                />
 
-            <div className="info">
-              <h2 className="name">Staff</h2>
-              <p className="bio">Lorem ipsum dolor sit amet consectetur adipisicing elit.</p>
-            </div>
-          </div>
-
-          <div className="profile">
-            <img src="../assets/images/avatar/avatar-nobita.svg" alt="Staff" />
-
-            <div className="info">
-              <h2 className="name">Staff</h2>
-              <p className="bio">Lorem ipsum dolor sit amet consectetur adipisicing elit.</p>
-            </div>
-          </div>
-
-          <div className="profile">
-            <img src="../assets/images/avatar/avatar-nobita.svg" alt="Staff" />
-
-            <div className="info">
-              <h2 className="name">Staff</h2>
-              <p className="bio">Lorem ipsum dolor sit amet consectetur adipisicing elit.</p>
-            </div>
-          </div>
-
-          <div className="profile">
-            <img src="../assets/images/avatar/avatar-nobita.svg" alt="Staff" />
-
-            <div className="info">
-              <h2 className="name">Staff</h2>
-              <p className="bio">Lorem ipsum dolor sit amet consectetur adipisicing elit.</p>
-            </div>
-          </div>
+                <div className="info">
+                  <h2 className="name">
+                    {item.user.firstName && item.user.lastName
+                      ? `${item.user.firstName} ${item.user.lastName}`
+                      : item.firstName || 'Staff'}
+                  </h2>
+                  <p className="bio">{item.bio || ''}</p>
+                </div>
+              </div>
+            );
+          })}
         </div>
       </div>
       <Footer />

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Modal, Form } from 'react-bootstrap';
+import { Modal, Form, Button } from 'react-bootstrap';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 
@@ -7,7 +7,9 @@ import { formatDate } from '../../../utils/DateUtils';
 import { formatPriceWithDot } from '../../../utils/PriceUtils';
 import axios from '../../../config/axios';
 
-function ViewOrder({ selectedOrder, onClose }) {
+function UpdateOrder({ selectedOrder, onClose }) {
+  const [updatedOrder, setUpdatedOrder] = useState(selectedOrder);
+  const [isLoading, setIsLoading] = useState(false);
   const [orderRatings, setOrderRatings] = useState({});
 
   console.log(selectedOrder);
@@ -29,10 +31,36 @@ function ViewOrder({ selectedOrder, onClose }) {
       .catch((error) => console.log(error));
   }, []);
 
+  const handleSave = async () => {
+    setIsLoading(true);
+
+    try {
+      // Gửi yêu cầu cập nhật đơn hàng với thông tin trong updatedOrder
+      await axios.put(`/OrderManagements/${updatedOrder.orderId}`, updatedOrder);
+      alert('Order updated successfully');
+      onClose();
+      window.location.reload(); // Tải lại trang để cập nhật dữ liệu
+    } catch (error) {
+      alert('Error updating order');
+      console.error('Error updating order', error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  // Xử lý thay đổi giá trị trong trường nhập liệu và cập nhật updatedOrder
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setUpdatedOrder({
+      ...updatedOrder,
+      [name]: value,
+    });
+  };
+
   return (
     <Modal show={!!selectedOrder} onHide={onClose} size="lg" style={{ marginTop: '52px' }}>
       <Modal.Header closeButton>
-        <Modal.Title>View Order</Modal.Title>
+        <Modal.Title>Update Order</Modal.Title>
       </Modal.Header>
       <Modal.Body>
         {selectedOrder && (
@@ -65,7 +93,6 @@ function ViewOrder({ selectedOrder, onClose }) {
                     <Form.Control
                       type="text"
                       value={orderRatings[selectedOrder.orderId] || 'Null'}
-                      readOnly
                     />
                   </Form.Group>
                 </Col>
@@ -90,12 +117,9 @@ function ViewOrder({ selectedOrder, onClose }) {
                     <Form.Label className="ms-3">Date Shipping</Form.Label>
                     <Form.Control
                       type="text"
-                      value={
-                        selectedOrder.dateShipping
-                          ? formatDate(selectedOrder.dateShipping)
-                          : '--/--/----'
-                      }
-                      readOnly
+                      name="dateShipping"
+                      value={updatedOrder.dateShipping || ''}
+                      onChange={handleInputChange}
                     />
                   </Form.Group>
                 </Col>
@@ -104,12 +128,9 @@ function ViewOrder({ selectedOrder, onClose }) {
                     <Form.Label className="ms-3">Date Completed</Form.Label>
                     <Form.Control
                       type="text"
-                      value={
-                        selectedOrder.dateCompleted
-                          ? formatDate(selectedOrder.dateCompleted)
-                          : '--/--/----'
-                      }
-                      readOnly
+                      name="dateCompleted"
+                      value={updatedOrder.dateCompleted || ''}
+                      onChange={handleInputChange}
                     />
                   </Form.Group>
                 </Col>
@@ -118,19 +139,34 @@ function ViewOrder({ selectedOrder, onClose }) {
                 <Col>
                   <Form.Group className="mb-2">
                     <Form.Label className="ms-3">Full Name</Form.Label>
-                    <Form.Control type="text" value={selectedOrder.customerName} readOnly />
+                    <Form.Control
+                      type="text"
+                      name="customerName"
+                      value={updatedOrder.customerName || ''}
+                      onChange={handleInputChange}
+                    />
                   </Form.Group>
                 </Col>
                 <Col>
                   <Form.Group className="mb-2">
                     <Form.Label className="ms-3">Phone</Form.Label>
-                    <Form.Control type="text" value={selectedOrder.phone} readOnly />
+                    <Form.Control
+                      type="text"
+                      name="phone"
+                      value={updatedOrder.phone || ''}
+                      onChange={handleInputChange}
+                    />
                   </Form.Group>
                 </Col>
                 <Col>
                   <Form.Group className="mb-3 form-name">
                     <Form.Label className="ms-3">Email</Form.Label>
-                    <Form.Control type="email" value={selectedOrder.email} readOnly />
+                    <Form.Control
+                      type="email"
+                      name="email"
+                      value={updatedOrder.email || ''}
+                      onChange={handleInputChange}
+                    />
                   </Form.Group>
                 </Col>
               </Row>
@@ -138,7 +174,12 @@ function ViewOrder({ selectedOrder, onClose }) {
                 <Col>
                   <Form.Group className="mb-2">
                     <Form.Label className="ms-3">Address</Form.Label>
-                    <Form.Control type="text" value={selectedOrder.address} readOnly />
+                    <Form.Control
+                      type="text"
+                      name="address"
+                      value={updatedOrder.address || ''}
+                      onChange={handleInputChange}
+                    />
                   </Form.Group>
                 </Col>
               </Row>
@@ -179,12 +220,15 @@ function ViewOrder({ selectedOrder, onClose }) {
         )}
       </Modal.Body>
       <Modal.Footer>
-        <button className="button-modal" onClick={onClose}>
+        <button className="button-modal close-btn" onClick={onClose}>
           Close
+        </button>
+        <button className="button-modal" onClick={handleSave} disabled={isLoading}>
+          {isLoading ? 'Saving...' : 'Save'}
         </button>
       </Modal.Footer>
     </Modal>
   );
 }
 
-export default ViewOrder;
+export default UpdateOrder;

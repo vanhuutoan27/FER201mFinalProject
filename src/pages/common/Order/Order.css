@@ -330,3 +330,7 @@
     background-color: #fff;
   }
 }
+
+.total-discounted {
+  color: var(--primary-color-1);
+}

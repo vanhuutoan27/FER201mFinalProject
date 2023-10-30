@@ -23,7 +23,7 @@ function UpdatePackageService({ selectedPackageService, onClose }) {
     try {
       // Send the request to update the service through axios
       await axios.put(
-        `/ServiceManagements/${updatedPackageService.packageServiceId}`,
+        `/PackageServiceManagements/${updatedPackageService.packageServiceId}`,
         updatedPackageService
       );
       alert('Package updated successfully');
@@ -69,7 +69,7 @@ function UpdatePackageService({ selectedPackageService, onClose }) {
   };
 
   return (
-    <Modal show={!!selectedPackageService} onHide={onClose} size="lg">
+    <Modal show={!!selectedPackageService} onHide={onClose} size="lg" style={{ margin: '52px' }}>
       <Modal.Header closeButton>
         <Modal.Title>Update Package Service</Modal.Title>
       </Modal.Header>
@@ -77,31 +77,32 @@ function UpdatePackageService({ selectedPackageService, onClose }) {
         {selectedPackageService && (
           <Form>
             <Row>
-              <Form.Group className="mb-3 service-image-container">
-                <div className="service-image-virtual"></div>
-                <label htmlFor="imageUpload" className="image-upload-label">
-                  <img
-                    src={updatedPackageService.image}
-                    alt="Service Image"
-                    className="service-image"
-                    onClick={() => {
-                      document.getElementById('imageUpload');
-                    }}
+              <Col sm={4}>
+                <Form.Group className="mb-3 service-image-container">
+                  <div className="service-image-virtual"></div>
+                  <label htmlFor="imageUpload" className="image-upload-label">
+                    <img
+                      src={updatedPackageService.image}
+                      alt="Service Image"
+                      className="service-image"
+                      onClick={() => {
+                        document.getElementById('imageUpload');
+                      }}
+                    />
+                  </label>
+                  <input
+                    type="file"
+                    id="imageUpload"
+                    accept="image/*"
+                    style={{ display: 'none' }}
+                    onChange={handleFileChange}
                   />
-                </label>
-                <input
-                  type="file"
-                  id="imageUpload"
-                  accept="image/*"
-                  style={{ display: 'none' }}
-                  onChange={handleFileChange}
-                />
-              </Form.Group>
+                </Form.Group>
+              </Col>
 
-              <Col sm={4}></Col>
-              <Col sm={8}>
+              <Col sm={4}>
                 <Form.Group className="mb-3 form-id">
-                  <Form.Label>ID</Form.Label>
+                  <Form.Label className="ms-3">ID</Form.Label>
                   <Form.Control
                     type="text"
                     value={`P${
@@ -112,14 +113,22 @@ function UpdatePackageService({ selectedPackageService, onClose }) {
                     readOnly
                   />
                 </Form.Group>
-              </Col>
-            </Row>
 
-            <Row>
-              <Col sm={4}></Col>
-              <Col sm={8}>
+                <Form.Group className="mb-2">
+                  <Form.Label className="ms-3">Price (VND)</Form.Label>
+                  <Form.Control
+                    type="text"
+                    value={updatedPackageService.price}
+                    onChange={(e) =>
+                      setUpdatedPackageService({ ...updatedPackageService, price: e.target.value })
+                    }
+                  />
+                </Form.Group>
+              </Col>
+
+              <Col sm={4}>
                 <Form.Group className="mb-3 form-name">
-                  <Form.Label>Name</Form.Label>
+                  <Form.Label className="ms-3">Name</Form.Label>
                   <Form.Control
                     type="text"
                     value={updatedPackageService.packageServiceName}
@@ -131,46 +140,9 @@ function UpdatePackageService({ selectedPackageService, onClose }) {
                     }
                   />
                 </Form.Group>
-              </Col>
-            </Row>
 
-            <Row>
-              <Col sm={4}></Col>
-              <Col sm={8}>
-                <Form.Group className="mb-3 form-desc">
-                  <Form.Label>Description</Form.Label>
-                  <Form.Control
-                    as="textarea"
-                    rows={3}
-                    value={updatedPackageService.packageServiceDesc}
-                    onChange={(e) =>
-                      setUpdatedPackageService({
-                        ...updatedPackageService,
-                        packageServiceDesc: e.target.value,
-                      })
-                    }
-                  />
-                </Form.Group>
-              </Col>
-            </Row>
-
-            <Row>
-              <Col>
                 <Form.Group className="mb-2">
-                  <Form.Label>Price (VND)</Form.Label>
-                  <Form.Control
-                    type="text"
-                    value={updatedPackageService.price}
-                    onChange={(e) =>
-                      setUpdatedPackageService({ ...updatedPackageService, price: e.target.value })
-                    }
-                  />
-                </Form.Group>
-              </Col>
-
-              <Col>
-                <Form.Group className="mb-2">
-                  <Form.Label>Time (Mins)</Form.Label>
+                  <Form.Label className="ms-3">Time (Mins)</Form.Label>
                   <Form.Control
                     type="text"
                     value={updatedPackageService.time}
@@ -183,30 +155,40 @@ function UpdatePackageService({ selectedPackageService, onClose }) {
             </Row>
 
             <Row>
+              <Form.Group className="mb-3 form-desc">
+                <Form.Label className="ms-3">Description</Form.Label>
+                <Form.Control
+                  as="textarea"
+                  rows={3}
+                  value={updatedPackageService.packageServiceDesc}
+                  onChange={(e) =>
+                    setUpdatedPackageService({
+                      ...updatedPackageService,
+                      packageServiceDesc: e.target.value,
+                    })
+                  }
+                />
+              </Form.Group>
+            </Row>
+
+            <Row>
               <Col>
                 <Form.Group className="mb-2">
-                  <Form.Label>Tag</Form.Label>
+                  <Form.Label className="ms-3">Tag</Form.Label>
                   <Form.Control
-                    as="select"
                     value={updatedPackageService.tag}
                     onChange={(e) =>
                       setUpdatedPackageService({ ...updatedPackageService, tag: e.target.value })
                     }
                     className="custom-select"
-                  >
-                    <option value="Cleaning And Tidying Up">Cleaning And Tidying Up</option>
-                    <option value="Shopping And Ordering">Shopping And Ordering</option>
-                    <option value="Laundry And Clothing Replacement">
-                      Laundry And Clothing Replacement
-                    </option>
-                    <option value="Repair And Maintenance">Repair And Maintenance</option>
-                  </Form.Control>
+                    readOnly
+                  ></Form.Control>
                 </Form.Group>
               </Col>
 
               <Col>
                 <Form.Group className="mb-2">
-                  <Form.Label>Status</Form.Label>
+                  <Form.Label className="ms-3">Status</Form.Label>
                   <Form.Control
                     as="select"
                     value={updatedPackageService.status}
@@ -225,7 +207,7 @@ function UpdatePackageService({ selectedPackageService, onClose }) {
         )}
       </Modal.Body>
       <Modal.Footer>
-        <button className="button-modal" onClick={onClose}>
+        <button className="button-modal close-btn" onClick={onClose}>
           Close
         </button>
         <button className="button-modal" onClick={handleSave} disabled={isLoading}>

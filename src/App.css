@@ -200,23 +200,16 @@ a {
   user-select: none;
   border: none;
 
-  /* &:hover {
-    opacity: 0.8;
-    transform: scale(0.98);
-    background-color: var(--primary-color-1);
-    color: var(--primary-color-2);
-  }
-
-  &:active {
-    text-decoration: none;
-    transform: scale(0.95);
-    background-color: var(--primary-color-1);
-    color: var(--primary-color-2);
-  } */
-
   &:active {
     text-decoration: none;
   }
+}
+
+.btn.feedback {
+  background-color: chartreuse !important;
+  min-width: 32px !important;
+  padding: 8px 20px !important;
+  font-size: 1.2rem !important;
 }
 
 div:where(.swal2-container).swal2-center > .swal2-popup {
@@ -984,4 +977,16 @@ textarea {
   .stats-trend {
     left: 20px;
   }
+}
+
+.chakra-ui-light .modal-open {
+  padding-right: 0 !important;
+}
+
+.fade .modal .show {
+  padding-right: 0 !important;
+}
+
+.swal2-shown .swal2-height-auto {
+  padding-right: 0 !important;
 }

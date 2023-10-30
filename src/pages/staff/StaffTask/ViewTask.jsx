@@ -7,7 +7,7 @@ import axios from '../../../config/axios';
 import { formatDate } from '../../../utils/DateUtils';
 import { formatPriceWithDot } from '../../../utils/PriceUtils';
 
-function ViewCalendar({ task, onClose, user }) {
+function ViewTask({ task, onClose, user }) {
   const [isLoading, setIsLoading] = useState(false);
   const [selectedOrder, setSelectedOrder] = useState(null);
 
@@ -163,4 +163,4 @@ function ViewCalendar({ task, onClose, user }) {
   );
 }
 
-export default ViewCalendar;
+export default ViewTask;

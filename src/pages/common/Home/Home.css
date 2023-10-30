@@ -9,6 +9,7 @@
 
 .stats .row {
   display: flex;
+  margin-bottom: 120px;
 }
 
 .stats .img-block {
@@ -226,8 +227,11 @@
 }
 
 .service-usage .info {
-  width: 50%;
+  width: 60%;
   margin-top: 25px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
 }
 
 .service-usage .title {

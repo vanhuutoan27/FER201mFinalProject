@@ -4,7 +4,8 @@ import { faPen, faEye } from '@fortawesome/free-solid-svg-icons';
 import { Pagination } from 'antd';
 
 import AdminNavigation from '../../../components/AdminNavigation';
-import ViewOrder from './ViewOrder'; // Import ViewOrder
+import ViewOrder from './ViewOrder';
+import UpdateOrder from './UpdateOrder';
 import axios from '../../../config/axios';
 import { formatDate } from '../../../utils/DateUtils';
 import '../../../components/Management.css';
@@ -63,6 +64,8 @@ function OrderManagement() {
     return { ...order, ...staffInfo };
   });
 
+  console.log('Updated Orders:', updatedOrders);
+
   const handleViewServiceClick = (order) => {
     setSelectedOrder(order);
   };
@@ -74,6 +77,10 @@ function OrderManagement() {
   const handleSearchChange = (event) => {
     setSearchQuery(event.target.value);
     setCurrentPage(1);
+  };
+
+  const handlePageChange = (page) => {
+    setCurrentPage(page);
   };
 
   const filteredOrders = updatedOrders.filter((order) => {
@@ -96,10 +103,6 @@ function OrderManagement() {
   const startIndex = (currentPage - 1) * itemsPerPage;
   const endIndex = startIndex + itemsPerPage;
   const displayedOrders = filteredOrders.slice(startIndex, endIndex);
-
-  const handlePageChange = (page) => {
-    setCurrentPage(page);
-  };
 
   return (
     <div className="order-management-content">
@@ -156,7 +159,7 @@ function OrderManagement() {
 
                     <td>
                       <span className="service-name">
-                        {order.dateComplete ? formatDate(order.dateComplete) : '--/--/----'}
+                        {order.dateCompleted ? formatDate(order.dateCompleted) : '--/--/----'}
                       </span>
                     </td>
 
@@ -206,12 +209,18 @@ function OrderManagement() {
           </div>
         </div>
       </div>
-
-      {selectedOrder && (
+      {selectedOrder && !updatingOrder && (
         <ViewOrder
           selectedOrder={selectedOrder}
           allUsers={allUsers}
           onClose={() => setSelectedOrder(null)}
+        />
+      )}
+      {updatingOrder && (
+        <UpdateOrder
+          selectedOrder={updatingOrder}
+          allUsers={allUsers}
+          onClose={() => setUpdatingOrder(null)}
         />
       )}
     </div>

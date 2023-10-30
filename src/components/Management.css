@@ -465,13 +465,6 @@ button {
   padding: 0;
 }
 
-.mb-3.form-desc {
-  position: absolute;
-  top: 160px;
-  left: 360px;
-  width: 48%;
-}
-
 .custom-select option {
   background-color: #eee;
   color: var(--primary-color-4);

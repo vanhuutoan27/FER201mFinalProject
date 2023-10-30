@@ -7,7 +7,7 @@ import Col from 'react-bootstrap/Col';
 
 import { formatPriceWithDot } from '../../../utils/PriceUtils';
 
-function Detail({ selectedService, selectedPackageService, onClose }) {
+function Detail({ selectedService, selectedPackageService, rating, onClose }) {
   const [clickedImage, setClickedImage] = useState(null);
 
   const openImageInModal = (imageUrl) => {
@@ -16,7 +16,12 @@ function Detail({ selectedService, selectedPackageService, onClose }) {
 
   return (
     <div className="DetailPage">
-      <Modal show={!!selectedService || !!selectedPackageService} onHide={onClose} size="lg">
+      <Modal
+        show={!!selectedService || !!selectedPackageService}
+        onHide={onClose}
+        size="lg"
+        style={{ marginTop: '60px' }}
+      >
         <Modal.Header closeButton>
           <Modal.Title>View Details</Modal.Title>
         </Modal.Header>
@@ -96,13 +101,7 @@ function Detail({ selectedService, selectedPackageService, onClose }) {
                 <Col>
                   <Form.Group className="mb-2">
                     <Form.Label>Rating</Form.Label>
-                    <Form.Control
-                      type="text"
-                      value={
-                        selectedService ? selectedService.rating : selectedPackageService.rating
-                      }
-                      readOnly
-                    />
+                    <Form.Control type="text" value={Math.ceil(rating)} readOnly />
                   </Form.Group>
                 </Col>
               </Row>

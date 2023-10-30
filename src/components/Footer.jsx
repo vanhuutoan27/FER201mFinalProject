@@ -4,10 +4,6 @@ import Button from '@mui/material/Button';
 import { Link } from 'react-router-dom';
 
 function Footer() {
-  function scrollToTop() {
-    window.scrollTo(0, 0);
-  }
-
   return (
     <div>
       <footer className="footer">
@@ -72,7 +68,7 @@ function Footer() {
               <img src="../assets/images/4Stu-Logo.svg" alt="" />
               <h2>Contact</h2>
 
-              <Link to="/contact" onClick={scrollToTop()} className="btn2">
+              <Link to="/contact" className="btn2">
                 <Button variant="contained" className="btn">
                   Email Us
                 </Button>

@@ -22,7 +22,7 @@ function CreateService() {
       time: '0',
       price: '0',
       tag: 'null',
-      image: null, // Use null for the image field
+      image: null,
     },
 
     validationSchema: Yup.object({
@@ -31,7 +31,7 @@ function CreateService() {
       time: Yup.string().required('Time is required'),
       price: Yup.string().required('Price is required'),
       tag: Yup.string().required('Tag is required'),
-      image: Yup.mixed().required('Image is required'), // Use Yup.mixed() for file validation
+      image: Yup.mixed().required('Image is required'),
     }),
 
     onSubmit: async (values) => {
@@ -53,7 +53,7 @@ function CreateService() {
           time: values.time,
           price: values.price,
           tag: values.tag,
-          image: downloadURL, // Use the URL obtained from Firebase
+          image: downloadURL,
         });
 
         alert('Service created successfully!');
@@ -75,14 +75,14 @@ function CreateService() {
         Add Service
       </button>
 
-      <Modal show={show} onHide={handleClose} size="lg">
+      <Modal show={show} onHide={handleClose} size="lg" style={{ marginTop: '52px' }}>
         <Modal.Header closeButton>
           <Modal.Title>Create A New Service</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <Form onSubmit={formik.handleSubmit}>
             <Form.Group className="mb-2" controlId="name">
-              <Form.Label>Name</Form.Label>
+              <Form.Label className="ms-3">Name</Form.Label>
               <Form.Control
                 type="text"
                 name="name"
@@ -96,7 +96,7 @@ function CreateService() {
             </Form.Group>
 
             <Form.Group className="mb-2" controlId="desc">
-              <Form.Label>Description</Form.Label>
+              <Form.Label className="ms-3">Description</Form.Label>
               <Form.Control
                 as="textarea"
                 rows={3}
@@ -113,7 +113,7 @@ function CreateService() {
             <Row>
               <Col>
                 <Form.Group className="mb-2" controlId="time">
-                  <Form.Label>Time</Form.Label>
+                  <Form.Label className="ms-3">Time</Form.Label>
                   <Form.Control
                     type="text"
                     name="time"
@@ -128,7 +128,7 @@ function CreateService() {
               </Col>
               <Col>
                 <Form.Group className="mb-2" controlId="price">
-                  <Form.Label>Price</Form.Label>
+                  <Form.Label className="ms-3">Price</Form.Label>
                   <Form.Control
                     type="text"
                     name="price"
@@ -144,7 +144,7 @@ function CreateService() {
             </Row>
 
             <Form.Group className="mb-2" controlId="tag">
-              <Form.Label>Tag</Form.Label>
+              <Form.Label className="ms-3">Tag</Form.Label>
               <Form.Control
                 as="select"
                 name="tag"
@@ -165,7 +165,7 @@ function CreateService() {
             </Form.Group>
 
             <Form.Group className="mb-2">
-              <Form.Label>Image</Form.Label>
+              <Form.Label className="ms-3">Image</Form.Label>
               <Form.Control
                 id="file"
                 type="file"

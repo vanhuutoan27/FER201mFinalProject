@@ -5,31 +5,37 @@ import { Link } from 'react-router-dom';
 
 function Hero() {
   return (
-    <div className="hero">
+    <div className="hero-wrap">
       <div className="content">
-        <div className="hero-content">
-          <div className="info">
-            <h1 className="title" style={{ fontSize: '48px', marginTop: '24px' }}>
-              Service Excellence, For Student Housing
-            </h1>
-            <p className="desc">
-              More than just a service, it's our commitment to ensure maximum satisfaction for all
-              customers.
-            </p>
+        <div className="info">
+          <p className="sub-title" style={{ fontSize: '32px', fontWeight: '600' }}>
+            Service Excellence,
+          </p>
+          <h1 className="title" style={{ fontSize: '50px' }}>
+            For Student Housing
+          </h1>
+          <p className="desc">
+            More than just a service, it's our commitment to ensure maximum satisfaction for all
+            customers.
+          </p>
 
-            <Link to="#!">
-              <Button variant="contained" className="btn hero-cta cta">
-                About Us
-              </Button>
-            </Link>
-          </div>
-
-          <img
-            src="../assets/images/about-hero.png"
-            alt="Service Excellence, For Student Housing"
-            style={{ width: '550px', position: 'relative', top: '-100px', right: '0' }}
-          />
+          <Link to="/service">
+            <Button
+              variant="contained"
+              className="btn hero-cta cta"
+              style={{ marginBottom: '100px' }}
+            >
+              About Us
+            </Button>
+          </Link>
         </div>
+
+        <img
+          src="../assets/images/about-hero.png"
+          alt="Service Excellence, For Student Housing."
+          className="hero-img"
+          style={{ width: '550px', top: '20px' }}
+        />
       </div>
     </div>
   );

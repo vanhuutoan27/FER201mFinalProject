@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useRef, useState } from 'react';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import Cookies from 'js-cookie';
@@ -31,10 +31,14 @@ function Order() {
   const selectedService = JSON.parse(localStorage.getItem('selectedService'));
   const selectedPackageService = JSON.parse(localStorage.getItem('selectedPackageService'));
   const subTotalString = selectedService.price;
+  const [discountCode, setDiscountCode] = useState('');
+  const [discountPercentage, setDiscountPercentage] = useState(0);
   const subTotalWithoutCurrency = subTotalString.replace(/\D/g, '');
   const subTotal = parseFloat(subTotalWithoutCurrency);
   const tax = 0;
-  const total = subTotal + tax;
+  const discountAmount = (discountPercentage / 100) * subTotal;
+  const total = subTotal + tax - discountAmount;
+
   function generateRandomCode() {
     return Math.floor(100000 + Math.random() * 900000);
   }
@@ -187,6 +191,35 @@ function Order() {
         });
     },
   });
+
+  const discountCodeRef = useRef(null);
+
+  const applyDiscount = () => {
+    const code = discountCodeRef.current.value;
+    if (code === 'Halo4Stu' || code === '4StuServices') {
+      setDiscountPercentage(20); // Đặt mức giảm giá là 20%
+      // Thêm class total-discounted để thay đổi màu của total thành màu đỏ
+      document.querySelector('.total').classList.add('total-discounted');
+
+      // Show a success message when the discount is applied
+      Swal.fire({
+        icon: 'success',
+        title: 'Discount Applied!',
+        text: 'Your discount code has been applied successfully.',
+      });
+    } else {
+      setDiscountPercentage(0); // Nếu mã không hợp lệ, mức giảm giá là 0%
+      // Loại bỏ class total-discounted để trả lại màu mặc định
+      document.querySelector('.total').classList.remove('total-discounted');
+
+      // Show an error message when the discount code is not valid
+      Swal.fire({
+        icon: 'error',
+        title: 'Invalid Discount Code',
+        text: 'The discount code you entered is not valid. Please try again.',
+      });
+    }
+  };
 
   return (
     <div className="OrderPage">
@@ -431,8 +464,19 @@ function Order() {
           )}
           <div className="price-content">
             <div className="discount-section">
-              <Form.Control type="text" placeholder="Discount Code" />
-              <Link to="#!" className="btn">
+              <Form.Control
+                type="text"
+                placeholder="Discount Code"
+                value={discountCode}
+                onChange={(e) => setDiscountCode(e.target.value)}
+                onKeyPress={(e) => {
+                  if (e.key === 'Enter') {
+                    applyDiscount();
+                  }
+                }}
+                ref={discountCodeRef} // Attach the ref to the input field
+              />
+              <Link to="#!" className="btn" onClick={applyDiscount}>
                 Apply
               </Link>
             </div>

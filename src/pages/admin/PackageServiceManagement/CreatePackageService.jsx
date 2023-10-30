@@ -75,14 +75,14 @@ function CreatePackageService() {
         Add Package
       </button>
 
-      <Modal show={show} onHide={handleClose} size="lg">
+      <Modal show={show} onHide={handleClose} size="lg" style={{ marginTop: '52px' }}>
         <Modal.Header closeButton>
           <Modal.Title>Create A New Service</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <Form onSubmit={formik.handleSubmit}>
             <Form.Group className="mb-2" controlId="name">
-              <Form.Label>Name</Form.Label>
+              <Form.Label className="ms-3">Name</Form.Label>
               <Form.Control
                 type="text"
                 name="name"
@@ -96,7 +96,7 @@ function CreatePackageService() {
             </Form.Group>
 
             <Form.Group className="mb-2" controlId="desc">
-              <Form.Label>Description</Form.Label>
+              <Form.Label className="ms-3">Description</Form.Label>
               <Form.Control
                 as="textarea"
                 rows={3}
@@ -113,7 +113,7 @@ function CreatePackageService() {
             <Row>
               <Col>
                 <Form.Group className="mb-2" controlId="time">
-                  <Form.Label>Time</Form.Label>
+                  <Form.Label className="ms-3">Time</Form.Label>
                   <Form.Control
                     type="text"
                     name="time"
@@ -128,7 +128,7 @@ function CreatePackageService() {
               </Col>
               <Col>
                 <Form.Group className="mb-2" controlId="price">
-                  <Form.Label>Price</Form.Label>
+                  <Form.Label className="ms-3">Price</Form.Label>
                   <Form.Control
                     type="text"
                     name="price"
@@ -144,7 +144,7 @@ function CreatePackageService() {
             </Row>
 
             <Form.Group className="mb-2" controlId="tag">
-              <Form.Label>Tag</Form.Label>
+              <Form.Label className="ms-3">Tag</Form.Label>
               <Form.Control
                 as="select"
                 name="tag"
@@ -165,7 +165,7 @@ function CreatePackageService() {
             </Form.Group>
 
             <Form.Group className="mb-2">
-              <Form.Label>Image</Form.Label>
+              <Form.Label className="ms-3">Image</Form.Label>
               <Form.Control
                 id="file"
                 type="file"

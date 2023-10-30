@@ -63,7 +63,7 @@ function AdminUpdateService({ selectedService, onClose }) {
   };
 
   return (
-    <Modal show={!!selectedService} onHide={onClose} size="lg">
+    <Modal show={!!selectedService} onHide={onClose} size="lg" style={{ margin: '52px' }}>
       <Modal.Header closeButton>
         <Modal.Title>Update Service</Modal.Title>
       </Modal.Header>
@@ -71,13 +71,13 @@ function AdminUpdateService({ selectedService, onClose }) {
         {selectedService && (
           <Form>
             <Row>
-              <Col>
+              <Col sm={4}>
                 <Form.Group className="mb-3 service-image-container">
                   <div className="service-image-virtual"></div>
                   <label htmlFor="imageUpload" className="image-upload-label">
                     <img
                       src={updatedService.image}
-                      alt="Service Image"
+                      alt={updatedService.serviceName}
                       className="service-image"
                       onClick={() => {
                         document.getElementById('imageUpload');
@@ -94,9 +94,9 @@ function AdminUpdateService({ selectedService, onClose }) {
                 </Form.Group>
               </Col>
 
-              <Col>
+              <Col sm={4}>
                 <Form.Group className="mb-3 form-id">
-                  <Form.Label>ID</Form.Label>
+                  <Form.Label className="ms-3">ID</Form.Label>
                   <Form.Control
                     type="text"
                     value={`S${
@@ -108,35 +108,8 @@ function AdminUpdateService({ selectedService, onClose }) {
                   />
                 </Form.Group>
 
-                <Form.Group className="mb-3 form-name">
-                  <Form.Label>Name</Form.Label>
-                  <Form.Control
-                    type="text"
-                    value={updatedService.serviceName}
-                    onChange={(e) =>
-                      setUpdatedService({ ...updatedService, serviceName: e.target.value })
-                    }
-                  />
-                </Form.Group>
-
-                <Form.Group className="mb-3 form-desc">
-                  <Form.Label>Description</Form.Label>
-                  <Form.Control
-                    as="textarea"
-                    rows={3}
-                    value={updatedService.serviceDesc}
-                    onChange={(e) =>
-                      setUpdatedService({ ...updatedService, serviceDesc: e.target.value })
-                    }
-                  />
-                </Form.Group>
-              </Col>
-            </Row>
-
-            <Row>
-              <Col>
                 <Form.Group className="mb-2">
-                  <Form.Label>Price (VND)</Form.Label>
+                  <Form.Label className="ms-3">Price (VND)</Form.Label>
                   <Form.Control
                     type="text"
                     value={updatedService.price}
@@ -147,9 +120,20 @@ function AdminUpdateService({ selectedService, onClose }) {
                 </Form.Group>
               </Col>
 
-              <Col>
+              <Col sm={4}>
+                <Form.Group className="mb-3 form-name">
+                  <Form.Label className="ms-3">Name</Form.Label>
+                  <Form.Control
+                    type="text"
+                    value={updatedService.serviceName}
+                    onChange={(e) =>
+                      setUpdatedService({ ...updatedService, serviceName: e.target.value })
+                    }
+                  />
+                </Form.Group>
+
                 <Form.Group className="mb-2">
-                  <Form.Label>Time (Mins)</Form.Label>
+                  <Form.Label className="ms-3">Time (Mins)</Form.Label>
                   <Form.Control
                     type="text"
                     value={updatedService.time}
@@ -159,10 +143,22 @@ function AdminUpdateService({ selectedService, onClose }) {
               </Col>
             </Row>
 
+            <Form.Group className="mb-3 form-desc">
+              <Form.Label className="ms-3">Description</Form.Label>
+              <Form.Control
+                as="textarea"
+                rows={3}
+                value={updatedService.serviceDesc}
+                onChange={(e) =>
+                  setUpdatedService({ ...updatedService, serviceDesc: e.target.value })
+                }
+              />
+            </Form.Group>
+
             <Row>
               <Col>
                 <Form.Group className="mb-2">
-                  <Form.Label>Tag</Form.Label>
+                  <Form.Label className="ms-3">Tag</Form.Label>
                   <Form.Control
                     as="select"
                     value={updatedService.tag}
@@ -181,7 +177,7 @@ function AdminUpdateService({ selectedService, onClose }) {
 
               <Col>
                 <Form.Group className="mb-2">
-                  <Form.Label>Status</Form.Label>
+                  <Form.Label className="ms-3">Status</Form.Label>
                   <Form.Control
                     as="select"
                     value={updatedService.status}

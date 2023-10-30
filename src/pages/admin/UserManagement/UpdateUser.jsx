@@ -54,7 +54,7 @@ function UpdateUser({ selectedUser, onClose }) {
   };
 
   return (
-    <Modal show={!!selectedUser} onHide={onClose} size="lg">
+    <Modal show={!!selectedUser} onHide={onClose} size="lg" style={{ marginTop: '20px' }}>
       <Modal.Header closeButton>
         <Modal.Title>Update User</Modal.Title>
       </Modal.Header>
@@ -87,7 +87,7 @@ function UpdateUser({ selectedUser, onClose }) {
 
               <Col sm={4}>
                 <Form.Group className="mb-3 form-user-id">
-                  <Form.Label>ID</Form.Label>
+                  <Form.Label className="ms-3">ID</Form.Label>
                   <Form.Control
                     type="text"
                     value={`${
@@ -104,7 +104,7 @@ function UpdateUser({ selectedUser, onClose }) {
                 </Form.Group>
 
                 <Form.Group className="mb-2">
-                  <Form.Label>Status</Form.Label>
+                  <Form.Label className="ms-3">Status</Form.Label>
                   <Form.Control
                     as="select"
                     value={updatedUser.status}
@@ -119,7 +119,7 @@ function UpdateUser({ selectedUser, onClose }) {
 
               <Col sm={4}>
                 <Form.Group className="mb-2">
-                  <Form.Label>Role</Form.Label>
+                  <Form.Label className="ms-3">Role</Form.Label>
                   <Form.Control
                     as="select"
                     value={updatedUser.role}
@@ -133,14 +133,14 @@ function UpdateUser({ selectedUser, onClose }) {
                 </Form.Group>
 
                 <Form.Group className="mb-3 form-date-created">
-                  <Form.Label>Date Created</Form.Label>
+                  <Form.Label className="ms-3">Date Created</Form.Label>
                   <Form.Control type="text" value={formatDate(updatedUser.dateCreated)} readOnly />
                 </Form.Group>
               </Col>
 
               <Col sm={6}>
                 <Form.Group className="mb-3 form-firstname">
-                  <Form.Label>First Name</Form.Label>
+                  <Form.Label className="ms-3">First Name</Form.Label>
                   <Form.Control
                     type="text"
                     value={updatedUser.firstName}
@@ -151,7 +151,7 @@ function UpdateUser({ selectedUser, onClose }) {
 
               <Col sm={6}>
                 <Form.Group className="mb-3 form-lastname">
-                  <Form.Label>Last Name</Form.Label>
+                  <Form.Label className="ms-3">Last Name</Form.Label>
                   <Form.Control
                     type="text"
                     value={updatedUser.lastName}
@@ -162,7 +162,7 @@ function UpdateUser({ selectedUser, onClose }) {
 
               <Col sm={6}>
                 <Form.Group className="mb-3 form-name">
-                  <Form.Label>Email</Form.Label>
+                  <Form.Label className="ms-3">Email</Form.Label>
                   <Form.Control
                     type="email"
                     value={updatedUser.email}
@@ -173,7 +173,7 @@ function UpdateUser({ selectedUser, onClose }) {
 
               <Col sm={6}>
                 <Form.Group className="mb-2">
-                  <Form.Label>Phone</Form.Label>
+                  <Form.Label className="ms-3">Phone</Form.Label>
                   <Form.Control
                     type="text"
                     value={updatedUser.phone}
@@ -184,7 +184,7 @@ function UpdateUser({ selectedUser, onClose }) {
 
               <Col sm={6}>
                 <Form.Group className="mb-2">
-                  <Form.Label>Password</Form.Label>
+                  <Form.Label className="ms-3">Password</Form.Label>
                   <Form.Control
                     type="text"
                     value={updatedUser.password}
@@ -195,7 +195,7 @@ function UpdateUser({ selectedUser, onClose }) {
 
               <Col sm={6}>
                 <Form.Group className="mb-2">
-                  <Form.Label>Date of Birth</Form.Label>
+                  <Form.Label className="ms-3">Date of Birth</Form.Label>
                   <Form.Control
                     type="date"
                     value={updatedUser.dob}

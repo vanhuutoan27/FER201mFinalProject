@@ -1,12 +1,15 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { Pagination } from 'antd';
 import { AuthContext } from '../../../App';
-import { useParams } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
+import StarIcon from '@mui/icons-material/Star';
 
 import axios from '../../../config/axios';
 import { formatPriceWithDot } from '../../../utils/PriceUtils';
 import { formatDate } from '../../../utils/DateUtils';
+import Button from '@mui/material/Button';
 
+import Feedback from './Feedback';
 import Navigation from '../../../components/Navigation';
 import Footer from '../../../components/Footer';
 import './MyOrder.css';
@@ -20,10 +23,11 @@ function MyOrder() {
   const [allOrders, setAllOrders] = useState([]);
   const [staffOrders, setStaffOrders] = useState([]);
   const [allStaffs, setAllStaffs] = useState([]);
+  const [orderRatings, setOrderRatings] = useState({});
+  const [orderComments, setOrderComments] = useState({});
   const itemsPerPage = 6;
   const [currentPage, setCurrentPage] = useState(1);
   const [searchQuery, setSearchQuery] = useState('');
-
   useEffect(() => {
     axios
       .get('/OrderManagements')
@@ -43,7 +47,23 @@ function MyOrder() {
       .get('/UserManagements')
       .then((response) => setAllStaffs(response.data))
       .catch((error) => console.log(error));
-  }, [userInfo.userId]); // Đảm bảo sử dụng lại effect khi userInfo hoặc userId thay đổi
+
+    axios
+      .get('/FeedbackManagements')
+      .then((response) => {
+        const feedbackRatings = {};
+        const feedbackComments = {};
+
+        response.data.forEach((feedback) => {
+          feedbackRatings[feedback.orderId] = feedback.rating;
+          feedbackComments[feedback.orderId] = feedback.comment;
+        });
+
+        setOrderRatings(feedbackRatings);
+        setOrderComments(feedbackComments);
+      })
+      .catch((error) => console.log(error));
+  }, [userInfo.userId]);
 
   const staffOrderDateShippingMap = new Map();
   staffOrders.forEach((staffOrder) => {
@@ -126,8 +146,8 @@ function MyOrder() {
                     <th>Date Complete</th>
                     <th>Service</th>
                     <th>Price</th>
-                    <th>Payment Method</th>
                     <th>Note</th>
+                    <th>Feedback</th>
                     <th>Status</th>
                   </tr>
                 </thead>
@@ -159,15 +179,31 @@ function MyOrder() {
                       </td>
 
                       <td>
-                        <span className="service-name">
-                          {order.paymentMethod === 'momo'
-                            ? 'Payment via Momo'
-                            : 'Payment on Completion'}
-                        </span>
+                        <span className="service-name">{order.note}</span>
                       </td>
 
                       <td>
-                        <span className="service-name">{order.note}</span>
+                        <span className="service-name">
+                          {orderRatings[order.orderId] ? (
+                            <>
+                              {orderRatings[order.orderId]}{' '}
+                              <StarIcon
+                                style={{
+                                  fontSize: '16px',
+                                  marginBottom: '3px',
+                                  color: 'var(--primary-color-1)',
+                                }}
+                              />
+                              {orderComments[order.orderId] || 'Null'}
+                            </>
+                          ) : (
+                            <Link to="/feedback">
+                              <Button variant="contained" className="btn feedback">
+                                Feedback
+                              </Button>
+                            </Link>
+                          )}
+                        </span>
                       </td>
 
                       <td>

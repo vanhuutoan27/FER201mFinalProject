@@ -155,32 +155,6 @@ function Home() {
         </div>
       </div>
 
-      {/* <div className="start-booking">
-        <div className="content">
-          <div className="booking">
-            <div className="info">
-              <h1 className="title">Start Booking</h1>
-              <p className="desc">
-                Ready to embark on your 4Stu journey? Let's get started with your very first
-                appointment today!
-              </p>
-
-              <Link to="/service">
-                <Button variant="contained" className="btn cta">
-                  Let's Go
-                </Button>
-              </Link>
-            </div>
-
-            <img
-              src="../assets/images/start-booking - Copy.png"
-              alt="start-booking"
-              className="booking-img"
-            />
-          </div>
-        </div>
-      </div> */}
-
       <div className="start-booking">
         <div className="stats">
           <div className="content">
@@ -283,13 +257,8 @@ function Home() {
               <h1 className="title">
                 <span>{customerCount}+</span> Customers Use 4Stu
               </h1>
-
-              <Link to="#!">
-                <Button variant="contained" className="btn cta">
-                  Read More
-                </Button>
-              </Link>
             </div>
+
             <div className="service-datas">
               <div className="service-item">
                 <h2 className="data">
