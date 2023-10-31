@@ -1,73 +1,97 @@
-import {
-  Box,
-  chakra,
-  SimpleGrid,
-  Stat,
-  StatLabel,
-  StatNumber,
-  useColorModeValue,
-} from '@chakra-ui/react';
+import React, { useEffect, useState } from 'react';
 
-interface StatsCardProps {
-  title: string;
-  stat: string;
-}
+import CountUp from 'react-countup';
+import axios from '../../../config/axios';
 
-function StatsCard(props: StatsCardProps) {
-  const { title, stat } = props;
-  return (
-    <Stat
-      px={{ base: 4, md: 8 }}
-      py={'15'}
-      shadow={'xl'}
-      border={'4px solid'}
-      borderColor={useColorModeValue('gray.800', 'gray.500')}
-      rounded={'lg'}
-      style={{
-        borderColor: 'var(--primary-color-2)',
-      }}
-    >
-      <StatLabel
-        fontSize={'2.4rem'}
-        fontWeight={'bold'}
-        isTruncated
-        style={{ color: 'var(--primary-color-1)' }}
-      >
-        {title}
-      </StatLabel>
-      <StatNumber fontSize={'2rem'} fontWeight={'medium'}>
-        {stat}
-      </StatNumber>
-    </Stat>
-  );
-}
+import './About.css';
 
 function Statistics() {
+  const [customerCount, setCustomerCount] = useState(0);
+  const [orderCount, setOrderCount] = useState(0);
+  const [feedbackCount, setFeedbackCount] = useState(0);
+
+  useEffect(() => {
+    axios
+      .get('/UserManagements')
+      .then((response) => {
+        const customerData = response.data;
+        const customerCount = customerData.length;
+        setCustomerCount(customerCount);
+      })
+      .catch((error) => console.error(error));
+
+    axios
+      .get('/OrderManagements')
+      .then((response) => {
+        const orders = response.data;
+        const orderCount = orders.length;
+        setOrderCount(orderCount);
+      })
+      .catch((error) => console.error(error));
+
+    axios
+      .get('/FeedbackManagements')
+      .then((response) => {
+        const feedbackData = response.data;
+        const feedbackCount = feedbackData.length;
+        setFeedbackCount(feedbackCount);
+      })
+      .catch((error) => console.error(error));
+  }, []);
+
   return (
-    <Box
-      maxW="9xl"
-      mx={'auto'}
-      py={12}
-      px={{ base: 2, sm: 12, md: 17 }}
-      style={{
-        padding: '120px 16%',
-      }}
-    >
-      <chakra.h1
-        textAlign={'center'}
-        fontSize={'4rem'}
-        marginBottom="12px"
-        fontWeight={'bold'}
-        color={'var(--primary-color-2)'}
-      >
-        What We Offer
-      </chakra.h1>
-      <SimpleGrid columns={{ base: 1, md: 3 }} spacing={{ base: 5, lg: 10 }}>
-        <StatsCard title={'Quality Services'} stat={'Delivering the best services.'} />
-        <StatsCard title={'Global Reach'} stat={'Serving customers in over 30 countries.'} />
-        <StatsCard title={'Diversity'} stat={'Supporting 100 different languages.'} />
-      </SimpleGrid>
-    </Box>
+    <div id="resources" className="statistics">
+      <div className="content">
+        <div className="row">
+          <div className="img-block">
+            <img
+              className="image"
+              src="./assets/images/towfiqu-barbhuiya-nApaSgkzaxg-unsplash.jpg"
+              alt="Empowering Student Apartments"
+            />
+
+            <div className="statistics-trend">
+              <div className="row" style={{ marginBottom: '40px' }}>
+                <strong className="value">40,000+</strong>
+              </div>
+              <p className="desc">Apartments Enhanced with Our Service Packages</p>
+              <div className="separate"></div>
+            </div>
+          </div>
+          <div className="info">
+            <h2 className="sub-title" style={{ fontSize: '3.6rem' }}>
+              Empowering Student Apartments
+            </h2>
+            <p className="desc">
+              We offer convenient service packages designed to enhance apartment living. Each
+              package may include essential services such as cleaning, sanitation, water supply,
+              etc. You have the flexibility to choose service packages based on your needs, with
+              options for usage time, recurrence period and service cycle limits.
+            </p>
+          </div>
+        </div>
+        <div className="row-qty">
+          <div className="qty-item">
+            <strong className="qty">
+              <CountUp end={customerCount} duration={3} />+
+            </strong>
+            <p className="qty-desc">Cutomers</p>
+          </div>
+          <div className="qty-item">
+            <strong className="qty">
+              <CountUp end={orderCount} duration={3} />+
+            </strong>
+            <p className="qty-desc">Orders</p>
+          </div>
+          <div className="qty-item">
+            <strong className="qty">
+              <CountUp end={feedbackCount} duration={3} />+
+            </strong>
+            <p className="qty-desc">Feedbacks</p>
+          </div>
+        </div>
+      </div>
+    </div>
   );
 }
 

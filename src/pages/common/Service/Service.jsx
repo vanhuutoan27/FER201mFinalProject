@@ -8,7 +8,8 @@ import Button from '@mui/material/Button';
 
 import Navigation from '../../../components/Navigation';
 import Footer from '../../../components/Footer';
-import Detail from '../../common/Detail/Detail';
+import Detail from './Detail';
+import Hero from './Hero';
 
 import axios from '../../../config/axios';
 import { formatPriceWithDot } from '../../../utils/PriceUtils';
@@ -224,32 +225,7 @@ function Service() {
   return (
     <div className="ServicePage">
       <Navigation />
-      <div className="service-header">
-        <div className="content">
-          <div className="main">
-            <div className="men_text">
-              <h1>Choose Your </h1>
-              <h2>Service Package</h2>
-              <p>
-                We're delighted to introduce our specialized software system designed to provide
-                high-quality service packages for student apartments. Our commitment is to bring
-                convenience and time-saving solutions to your student community through perfect
-                daily life services.
-              </p>
-
-              <Link to="#order-now">
-                <Button variant="contained" className="btn">
-                  Order Now
-                </Button>
-              </Link>
-            </div>
-
-            <div className="main_image">
-              <img src="../assets/manypixels/hero-employee-b.svg" alt="" />
-            </div>
-          </div>
-        </div>
-      </div>
+      <Hero />
 
       <div className="about">
         <div className="content">

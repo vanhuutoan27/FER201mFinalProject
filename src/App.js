@@ -28,7 +28,6 @@ import Home from './pages/common/Home/Home';
 import About from './pages/common/About/About';
 import Service from './pages/common/Service/Service';
 import Contact from './pages/common/Contact/Contact';
-import Detail from './pages/common/Detail/Detail';
 import Order from './pages/common/Order/Order';
 import Completion from './pages/common/Order/Completion';
 import Error404 from './pages/common/Error/Error404';
@@ -124,7 +123,6 @@ function App() {
             <Route path="/login" element={<Login />} />
             <Route path="/about" element={<About />} />
             <Route path="/service" element={<Service />} />
-            <Route path="/detail" element={<Detail />} />
             <Route path="/contact" element={<Contact />} />
             <Route path="/order" element={<Order />} />
             <Route path="/order-completion" element={<Completion />} />

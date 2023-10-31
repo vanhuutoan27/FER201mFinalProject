@@ -1,10 +1,10 @@
 import React from 'react';
 
 import Hero from './Hero';
+import Guide from './Guide';
 import Features from './Features';
-import Features2 from './Features2';
 import Statistics from './Statistics';
-import Order from './Order';
+import Subscription from './Subscription';
 
 import Navigation from '../../../components/Navigation';
 import Footer from '../../../components/Footer';
@@ -16,10 +16,10 @@ function About() {
     <div className="AboutPage">
       <Navigation />
       <Hero />
+      <Guide />
       <Features />
-      <Features2 />
       <Statistics />
-      <Order />
+      <Subscription />
       <Footer />
     </div>
   );

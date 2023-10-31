@@ -23,7 +23,7 @@ function Hero() {
             <Button
               variant="contained"
               className="btn hero-cta cta"
-              style={{ marginBottom: '100px' }}
+              style={{ marginBottom: '80px' }}
             >
               About Us
             </Button>
