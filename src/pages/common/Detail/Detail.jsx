@@ -44,8 +44,8 @@ function Detail({ selectedService, selectedPackageService, rating, onClose }) {
                   </Form.Group>
                 </Col>
                 <Col>
-                  <Form.Group className="mb-2">
-                    <Form.Label>Name</Form.Label>
+                  <Form.Group className="mb-3">
+                    <Form.Label className="mb-2 ms-3">Name</Form.Label>
                     <Form.Control
                       type="text"
                       value={
@@ -57,8 +57,8 @@ function Detail({ selectedService, selectedPackageService, rating, onClose }) {
                     />
                   </Form.Group>
 
-                  <Form.Group className="mb-2">
-                    <Form.Label>Description</Form.Label>
+                  <Form.Group className="mb-3">
+                    <Form.Label className="mb-2 ms-3">Description</Form.Label>
                     <Form.Control
                       as="textarea"
                       rows={3}
@@ -75,8 +75,8 @@ function Detail({ selectedService, selectedPackageService, rating, onClose }) {
 
               <Row>
                 <Col>
-                  <Form.Group className="mb-2">
-                    <Form.Label>Price (VND)</Form.Label>
+                  <Form.Group className="mb-3">
+                    <Form.Label className="mb-2 ms-3">Price (VND)</Form.Label>
                     <Form.Control
                       type="text"
                       value={formatPriceWithDot(
@@ -88,8 +88,8 @@ function Detail({ selectedService, selectedPackageService, rating, onClose }) {
                 </Col>
 
                 <Col>
-                  <Form.Group className="mb-2">
-                    <Form.Label>Time (Mins)</Form.Label>
+                  <Form.Group className="mb-3">
+                    <Form.Label className="mb-2 ms-3">Time (Mins)</Form.Label>
                     <Form.Control
                       type="text"
                       value={selectedService ? selectedService.time : selectedPackageService.time}
@@ -99,8 +99,8 @@ function Detail({ selectedService, selectedPackageService, rating, onClose }) {
                 </Col>
 
                 <Col>
-                  <Form.Group className="mb-2">
-                    <Form.Label>Rating</Form.Label>
+                  <Form.Group className="mb-3">
+                    <Form.Label className="mb-2 ms-3">Rating</Form.Label>
                     <Form.Control type="text" value={Math.ceil(rating)} readOnly />
                   </Form.Group>
                 </Col>
@@ -108,8 +108,8 @@ function Detail({ selectedService, selectedPackageService, rating, onClose }) {
 
               <Row>
                 <Col>
-                  <Form.Group className="mb-2">
-                    <Form.Label>Tag</Form.Label>
+                  <Form.Group className="mb-3">
+                    <Form.Label className="mb-2 ms-3">Tag</Form.Label>
                     <Form.Control
                       type="text"
                       value={selectedService ? selectedService.tag : ''}
@@ -119,8 +119,8 @@ function Detail({ selectedService, selectedPackageService, rating, onClose }) {
                 </Col>
 
                 <Col>
-                  <Form.Group className="mb-2">
-                    <Form.Label>Status</Form.Label>
+                  <Form.Group className="mb-3">
+                    <Form.Label className="mb-2 ms-3">Status</Form.Label>
                     <Form.Control
                       type="text"
                       value={

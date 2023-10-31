@@ -101,8 +101,8 @@ function UpdatePackageService({ selectedPackageService, onClose }) {
               </Col>
 
               <Col sm={4}>
-                <Form.Group className="mb-3 form-id">
-                  <Form.Label className="ms-3">ID</Form.Label>
+                <Form.Group className="mb-3">
+                  <Form.Label className="mb-2 ms-3">ID</Form.Label>
                   <Form.Control
                     type="text"
                     value={`P${
@@ -114,8 +114,8 @@ function UpdatePackageService({ selectedPackageService, onClose }) {
                   />
                 </Form.Group>
 
-                <Form.Group className="mb-2">
-                  <Form.Label className="ms-3">Price (VND)</Form.Label>
+                <Form.Group className="mb-3">
+                  <Form.Label className="mb-2 ms-3">Price (VND)</Form.Label>
                   <Form.Control
                     type="text"
                     value={updatedPackageService.price}
@@ -127,8 +127,8 @@ function UpdatePackageService({ selectedPackageService, onClose }) {
               </Col>
 
               <Col sm={4}>
-                <Form.Group className="mb-3 form-name">
-                  <Form.Label className="ms-3">Name</Form.Label>
+                <Form.Group className="mb-3">
+                  <Form.Label className="mb-2 ms-3">Name</Form.Label>
                   <Form.Control
                     type="text"
                     value={updatedPackageService.packageServiceName}
@@ -141,8 +141,8 @@ function UpdatePackageService({ selectedPackageService, onClose }) {
                   />
                 </Form.Group>
 
-                <Form.Group className="mb-2">
-                  <Form.Label className="ms-3">Time (Mins)</Form.Label>
+                <Form.Group className="mb-3">
+                  <Form.Label className="mb-2 ms-3">Time (Mins)</Form.Label>
                   <Form.Control
                     type="text"
                     value={updatedPackageService.time}
@@ -155,8 +155,8 @@ function UpdatePackageService({ selectedPackageService, onClose }) {
             </Row>
 
             <Row>
-              <Form.Group className="mb-3 form-desc">
-                <Form.Label className="ms-3">Description</Form.Label>
+              <Form.Group className="mb-3">
+                <Form.Label className="mb-2 ms-3">Description</Form.Label>
                 <Form.Control
                   as="textarea"
                   rows={3}
@@ -173,8 +173,8 @@ function UpdatePackageService({ selectedPackageService, onClose }) {
 
             <Row>
               <Col>
-                <Form.Group className="mb-2">
-                  <Form.Label className="ms-3">Tag</Form.Label>
+                <Form.Group className="mb-3">
+                  <Form.Label className="mb-2 ms-3">Tag</Form.Label>
                   <Form.Control
                     value={updatedPackageService.tag}
                     onChange={(e) =>
@@ -187,8 +187,8 @@ function UpdatePackageService({ selectedPackageService, onClose }) {
               </Col>
 
               <Col>
-                <Form.Group className="mb-2">
-                  <Form.Label className="ms-3">Status</Form.Label>
+                <Form.Group className="mb-3">
+                  <Form.Label className="mb-2 ms-3">Status</Form.Label>
                   <Form.Control
                     as="select"
                     value={updatedPackageService.status}

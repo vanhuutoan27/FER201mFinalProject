@@ -117,6 +117,7 @@ button {
 .StaffProfilePage {
   display: flex;
   background-color: var(--primary-color-0);
+  margin-left: 300px;
 }
 
 .management-container .table-content {
@@ -484,4 +485,17 @@ button {
   height: 70%;
   margin-right: 50px;
   background-color: var(--primary-color-0);
+}
+/* Responsive */
+@media (max-width: 991px) {
+  .order-management-content,
+  .user-management-content,
+  .service-management-content,
+  .package-service-management-content,
+  .StaffTaskPage,
+  .StaffCalendarPage,
+  .StaffOrderPage,
+  .StaffProfilePage {
+    margin-left: 100px;
+  }
 }

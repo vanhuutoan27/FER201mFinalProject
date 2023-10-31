@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faPen, faEye } from '@fortawesome/free-solid-svg-icons';
+import { faPen, faEye, faSortUp, faSortDown } from '@fortawesome/free-solid-svg-icons';
 import { Pagination } from 'antd';
 
 import AdminNavigation from '../../../components/AdminNavigation';
@@ -19,6 +19,8 @@ function OrderManagement() {
   const itemsPerPage = 6;
   const [currentPage, setCurrentPage] = useState(1);
   const [searchQuery, setSearchQuery] = useState('');
+  const [sortOrder, setSortOrder] = useState('asc');
+  const [filteredOrders, setFilteredOrders] = useState([]);
 
   useEffect(() => {
     axios
@@ -42,29 +44,31 @@ function OrderManagement() {
     staffOrderDateShippingMap.set(staffOrder.orderId, staffOrder.dateShipping);
   });
 
-  const updatedOrders = allOrders.map((order) => {
-    const dateShipping = staffOrderDateShippingMap.get(order.orderId);
-    let staffInfo = {};
+  useEffect(() => {
+    const updatedOrders = allOrders.map((order) => {
+      const dateShipping = staffOrderDateShippingMap.get(order.orderId);
+      let staffInfo = {};
 
-    if (dateShipping) {
-      order = { ...order, dateShipping };
-    }
-
-    const staffOrder = staffOrders.find((staffOrder) => staffOrder.orderId === order.orderId);
-    if (staffOrder) {
-      const user = allUsers.find((user) => user.userId === staffOrder.staffId);
-      if (user) {
-        staffInfo = {
-          firstName: user.firstName,
-          lastName: user.lastName,
-        };
+      if (dateShipping) {
+        order = { ...order, dateShipping };
       }
-    }
 
-    return { ...order, ...staffInfo };
-  });
+      const staffOrder = staffOrders.find((staffOrder) => staffOrder.orderId === order.orderId);
+      if (staffOrder) {
+        const user = allUsers.find((user) => user.userId === staffOrder.staffId);
+        if (user) {
+          staffInfo = {
+            firstName: user.firstName,
+            lastName: user.lastName,
+          };
+        }
+      }
 
-  console.log('Updated Orders:', updatedOrders);
+      return { ...order, ...staffInfo };
+    });
+
+    setFilteredOrders(updatedOrders);
+  }, [allOrders, staffOrders, allUsers]);
 
   const handleViewServiceClick = (order) => {
     setSelectedOrder(order);
@@ -83,22 +87,27 @@ function OrderManagement() {
     setCurrentPage(page);
   };
 
-  const filteredOrders = updatedOrders.filter((order) => {
-    const orderString = JSON.stringify(order).toLowerCase();
-    const searchQueryLower = searchQuery.toLowerCase();
+  const handleSortStatus = () => {
+    const sortedOrders = [...filteredOrders];
+    sortedOrders.sort((a, b) => {
+      const orderStatusOrder = {
+        Pending: 1,
+        Processing: 2,
+        Completed: 3,
+      };
+      const comparison =
+        orderStatusOrder[a.status] - orderStatusOrder[b.status] || a.orderId - b.orderId;
+      if (sortOrder === 'asc') {
+        setSortOrder('desc');
+        return comparison;
+      } else {
+        setSortOrder('asc');
+        return -comparison;
+      }
+    });
 
-    return orderString.includes(searchQueryLower);
-  });
-
-  filteredOrders.sort((a, b) => {
-    const orderStatusOrder = {
-      Completed: 1,
-      Processing: 2,
-      Pending: 3,
-    };
-
-    return orderStatusOrder[a.status] - orderStatusOrder[b.status] || b.orderId - a.orderId;
-  });
+    setFilteredOrders(sortedOrders);
+  };
 
   const startIndex = (currentPage - 1) * itemsPerPage;
   const endIndex = startIndex + itemsPerPage;
@@ -134,7 +143,25 @@ function OrderManagement() {
                   <th>Date Complete</th>
                   <th>Service</th>
                   <th>Staff</th>
-                  <th>Status</th>
+                  <th
+                    className="sort-button"
+                    onClick={handleSortStatus}
+                    style={{ cursor: 'pointer' }}
+                  >
+                    Status
+                    {sortOrder === 'asc' ? (
+                      <FontAwesomeIcon
+                        icon={faSortUp}
+                        style={{ marginLeft: '2px', marginTop: '4px' }}
+                      />
+                    ) : (
+                      <FontAwesomeIcon
+                        icon={faSortDown}
+                        style={{ marginLeft: '2px', marginBottom: '3px' }}
+                      />
+                    )}
+                  </th>
+
                   <th>Action</th>
                 </tr>
               </thead>
@@ -143,7 +170,12 @@ function OrderManagement() {
                   <tr key={index}>
                     <td>
                       <span className={`serviceID`}>
-                        O{order.orderId < 10 ? '00' + order.orderId : '0' + order.orderId}
+                        O
+                        {order.orderId < 10
+                          ? `00${order.orderId}`
+                          : order.orderId < 100
+                          ? `0${order.orderId}`
+                          : order.orderId}
                       </span>
                     </td>
 

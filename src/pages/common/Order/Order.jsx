@@ -19,13 +19,13 @@ import './Order.css';
 
 function Order() {
   const session = useContext(AuthContext);
-  const userInfo = session.user.user;
+  const userInfo = session && session.user && session.user.user;
+  const hasNoSession = !session || !session.user || !session.user.user;
   const [selectedPaymentMethod, setSelectedPaymentMethod] = useState('');
   const [isMomoPaymentSelected, setIsMomoPaymentSelected] = useState(false);
   const [randomCode, setRandomCode] = useState(generateRandomCode());
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [loginError, setLoginError] = useState(null);
-  const hasNoSession = session.user.user === null;
   const isAccountSectionVisible = hasNoSession;
 
   const selectedService = JSON.parse(localStorage.getItem('selectedService'));
@@ -33,6 +33,8 @@ function Order() {
   const subTotalString = selectedService.price;
   const [discountCode, setDiscountCode] = useState('');
   const [discountPercentage, setDiscountPercentage] = useState(0);
+  const [isDiscountApplied, setIsDiscountApplied] = useState(false);
+  const [currentDiscountCode, setCurrentDiscountCode] = useState('');
   const subTotalWithoutCurrency = subTotalString.replace(/\D/g, '');
   const subTotal = parseFloat(subTotalWithoutCurrency);
   const tax = 0;
@@ -108,6 +110,17 @@ function Order() {
         text: 'Please select a payment method before placing your order!',
       });
     } else {
+      if (isDiscountApplied) {
+        shippingFormik.setValues({
+          ...shippingFormik.values,
+          price: formatPriceWithDot(total), // Sử dụng giá đã giảm nếu mã giảm giá đã được áp dụng
+        });
+      } else {
+        shippingFormik.setValues({
+          ...shippingFormik.values,
+          price: formatPriceWithDot(subTotal), // Sử dụng giá ban đầu nếu không có mã giảm giá
+        });
+      }
       shippingFormik.handleSubmit();
     }
     sendOrderConfirmationEmail();
@@ -197,7 +210,8 @@ function Order() {
   const applyDiscount = () => {
     const code = discountCodeRef.current.value;
     if (code === 'Halo4Stu' || code === '4StuServices') {
-      setDiscountPercentage(20); // Đặt mức giảm giá là 20%
+      setDiscountPercentage(20);
+      setIsDiscountApplied(true); // Đánh dấu rằng mã giảm giá đã được áp dụng
       // Thêm class total-discounted để thay đổi màu của total thành màu đỏ
       document.querySelector('.total').classList.add('total-discounted');
 
@@ -208,7 +222,8 @@ function Order() {
         text: 'Your discount code has been applied successfully.',
       });
     } else {
-      setDiscountPercentage(0); // Nếu mã không hợp lệ, mức giảm giá là 0%
+      setDiscountPercentage(0);
+      setIsDiscountApplied(false); // Đánh dấu rằng mã giảm giá không được áp dụng
       // Loại bỏ class total-discounted để trả lại màu mặc định
       document.querySelector('.total').classList.remove('total-discounted');
 
@@ -218,6 +233,18 @@ function Order() {
         title: 'Invalid Discount Code',
         text: 'The discount code you entered is not valid. Please try again.',
       });
+    }
+  };
+
+  const handleDiscountCodeChange = (code) => {
+    if (code === 'Halo4Stu' || code === '4StuServices') {
+      setDiscountPercentage(20);
+      setIsDiscountApplied(true);
+      document.querySelector('.total').classList.add('total-discounted');
+    } else {
+      setDiscountPercentage(0);
+      setIsDiscountApplied(false);
+      document.querySelector('.total').classList.remove('total-discounted');
     }
   };
 
@@ -268,7 +295,7 @@ function Order() {
                 <h2>Account Details</h2>
                 <Form className="account-form" onSubmit={accountFormik.handleSubmit}>
                   <Form.Group>
-                    <Form.Label>Email</Form.Label>
+                    <Form.Label className="mb-2 ms-3">Email</Form.Label>
                     {accountFormik.touched.email && accountFormik.errors.email ? (
                       <div className="error-msg">{accountFormik.errors.email}</div>
                     ) : null}
@@ -281,7 +308,7 @@ function Order() {
                     />
                   </Form.Group>
                   <Form.Group>
-                    <Form.Label>Password</Form.Label>
+                    <Form.Label className="mb-2 ms-3">Password</Form.Label>
                     {accountFormik.touched.password && accountFormik.errors.password ? (
                       <div className="error-msg">{accountFormik.errors.password}</div>
                     ) : null}
@@ -315,7 +342,7 @@ function Order() {
                 <Row>
                   <Col sm={7}>
                     <Form.Group>
-                      <Form.Label>Full Name</Form.Label>
+                      <Form.Label className="mb-2 ms-3">Full Name</Form.Label>
                       <Form.Control
                         type="text"
                         name="fullName"
@@ -327,7 +354,7 @@ function Order() {
                   </Col>
                   <Col sm={5}>
                     <Form.Group>
-                      <Form.Label>Phone Number</Form.Label>
+                      <Form.Label className="mb-2 ms-3">Phone Number</Form.Label>
                       <Form.Control
                         type="text"
                         name="phoneNumber"
@@ -340,7 +367,7 @@ function Order() {
                 </Row>
 
                 <Form.Group>
-                  <Form.Label>Address</Form.Label>
+                  <Form.Label className="mb-2 ms-3">Address</Form.Label>
                   <Form.Control
                     type="text"
                     name="address"
@@ -353,7 +380,7 @@ function Order() {
                 <Row>
                   <Col>
                     <Form.Group>
-                      <Form.Label>Note</Form.Label>
+                      <Form.Label className="mb-2 ms-3">Note</Form.Label>
                       <Form.Control
                         type="text"
                         name="note"
@@ -366,7 +393,7 @@ function Order() {
 
                   <Col>
                     <Form.Group>
-                      <Form.Label>Payment Methods</Form.Label>
+                      <Form.Label className="mb-2 ms-3">Payment Methods</Form.Label>
                       <Form.Control
                         as="select"
                         className="custom-select"
@@ -402,18 +429,18 @@ function Order() {
 
                   <Col sm={8}>
                     <Form.Group>
-                      <Form.Label></Form.Label>
+                      <Form.Label className="mb-2 ms-3"></Form.Label>
                       <Form.Control type="text" value={'Van Huu Toan'} readOnly />
                     </Form.Group>
                     <Form.Group>
-                      <Form.Label></Form.Label>
+                      <Form.Label className="mb-2 ms-3"></Form.Label>
                       <Form.Control type="text" value={'0792766979'} readOnly />
                     </Form.Group>
                   </Col>
                 </Row>
 
                 <Form.Group>
-                  <Form.Label>Payment Content</Form.Label>
+                  <Form.Label className="mb-2 ms-3">Payment Content</Form.Label>
                   <Form.Control
                     type="text"
                     value={`YOUR FULL NAME - YOUR PHONE - ${randomCode}`}
@@ -467,14 +494,12 @@ function Order() {
               <Form.Control
                 type="text"
                 placeholder="Discount Code"
-                value={discountCode}
-                onChange={(e) => setDiscountCode(e.target.value)}
-                onKeyPress={(e) => {
-                  if (e.key === 'Enter') {
-                    applyDiscount();
-                  }
+                value={currentDiscountCode}
+                onChange={(e) => {
+                  setCurrentDiscountCode(e.target.value);
+                  handleDiscountCodeChange(e.target.value);
                 }}
-                ref={discountCodeRef} // Attach the ref to the input field
+                ref={discountCodeRef}
               />
               <Link to="#!" className="btn" onClick={applyDiscount}>
                 Apply
@@ -492,8 +517,8 @@ function Order() {
             </div>
 
             <div className="shipping">
-              <p>Shipping</p>
-              <p>Free</p>
+              <p>Discount</p>
+              <p>{discountPercentage ? discountPercentage : 0}%</p>
             </div>
 
             <div className="total">

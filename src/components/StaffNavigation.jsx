@@ -76,9 +76,8 @@ function StaffNavigation() {
                 }`}
               >
                 <div className="frame-content">
-                  {' '}
                   <FontAwesomeIcon icon={faUser} className="custom-icon-nav" />
-                  Profile
+                  <span>Profile</span>
                 </div>
               </div>
             </Link>
@@ -91,7 +90,7 @@ function StaffNavigation() {
               >
                 <div className="frame-content">
                   <FontAwesomeIcon icon={faCartShopping} className="custom-icon-nav" />
-                  Order
+                  <span>Order</span>
                 </div>
               </div>
             </Link>
@@ -102,7 +101,7 @@ function StaffNavigation() {
               >
                 <div className="frame-content">
                   <FontAwesomeIcon icon={faListCheck} className="custom-icon-nav" />
-                  Task
+                  <span>Task</span>
                 </div>
               </div>
             </Link>
@@ -115,7 +114,7 @@ function StaffNavigation() {
               >
                 <div className="frame-content">
                   <FontAwesomeIcon icon={faCalendarDays} className="custom-icon-nav" />
-                  Calendar
+                  <span>Calendar</span>
                 </div>
               </div>
             </Link>
@@ -126,7 +125,8 @@ function StaffNavigation() {
             <Link to="/">
               <div className="frame-1">
                 <div className="frame-content">
-                  <FontAwesomeIcon icon={faHouse} className="custom-icon-nav" /> Home
+                  <FontAwesomeIcon icon={faHouse} className="custom-icon-nav" />
+                  <span>Home</span>
                 </div>
               </div>
             </Link>
@@ -135,7 +135,7 @@ function StaffNavigation() {
               <div className="vertical-nav-footer logout">
                 <div className="frame-content">
                   <FontAwesomeIcon icon={faRightFromBracket} className="custom-icon-nav" />
-                  Logout
+                  <span>Logout</span>
                 </div>
               </div>
             </Link>

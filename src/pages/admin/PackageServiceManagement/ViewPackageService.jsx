@@ -29,8 +29,8 @@ function ViewPackageService({ selectedPackageService, onClose }) {
               </Col>
 
               <Col sm={4}>
-                <Form.Group className="mb-3 form-id">
-                  <Form.Label className="ms-3">ID</Form.Label>
+                <Form.Group className="mb-3">
+                  <Form.Label className="mb-2 ms-3">ID</Form.Label>
                   <Form.Control
                     type="text"
                     value={`P${
@@ -42,8 +42,8 @@ function ViewPackageService({ selectedPackageService, onClose }) {
                   />
                 </Form.Group>
 
-                <Form.Group className="mb-2">
-                  <Form.Label className="ms-3">Price (VND)</Form.Label>
+                <Form.Group className="mb-3">
+                  <Form.Label className="mb-2 ms-3">Price (VND)</Form.Label>
                   <Form.Control
                     type="text"
                     value={formatPriceWithDot(selectedPackageService.price)}
@@ -53,8 +53,8 @@ function ViewPackageService({ selectedPackageService, onClose }) {
               </Col>
 
               <Col sm={4}>
-                <Form.Group className="mb-3 form-name">
-                  <Form.Label className="ms-3">Name</Form.Label>
+                <Form.Group className="mb-3">
+                  <Form.Label className="mb-2 ms-3">Name</Form.Label>
                   <Form.Control
                     type="text"
                     value={selectedPackageService.packageServiceName}
@@ -62,16 +62,16 @@ function ViewPackageService({ selectedPackageService, onClose }) {
                   />
                 </Form.Group>
 
-                <Form.Group className="mb-2">
-                  <Form.Label className="ms-3">Time (Mins)</Form.Label>
+                <Form.Group className="mb-3">
+                  <Form.Label className="mb-2 ms-3">Time (Mins)</Form.Label>
                   <Form.Control type="text" value={selectedPackageService.time} readOnly />
                 </Form.Group>
               </Col>
             </Row>
 
             <Row>
-              <Form.Group className="mb-3 form-desc">
-                <Form.Label className="ms-3">Description</Form.Label>
+              <Form.Group className="mb-3">
+                <Form.Label className="mb-2 ms-3">Description</Form.Label>
                 <Form.Control
                   as="textarea"
                   rows={3}
@@ -83,15 +83,15 @@ function ViewPackageService({ selectedPackageService, onClose }) {
 
             <Row>
               <Col>
-                <Form.Group className="mb-2">
-                  <Form.Label className="ms-3">Tag</Form.Label>
+                <Form.Group className="mb-3">
+                  <Form.Label className="mb-2 ms-3">Tag</Form.Label>
                   <Form.Control type="text" value={selectedPackageService.tag} readOnly />
                 </Form.Group>
               </Col>
 
               <Col>
-                <Form.Group className="mb-2">
-                  <Form.Label className="ms-3">Status</Form.Label>
+                <Form.Group className="mb-3">
+                  <Form.Label className="mb-2 ms-3">Status</Form.Label>
                   <Form.Control type="text" value={selectedPackageService.status} readOnly />
                 </Form.Group>
               </Col>

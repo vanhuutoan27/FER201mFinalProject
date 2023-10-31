@@ -95,8 +95,8 @@ function AdminUpdateService({ selectedService, onClose }) {
               </Col>
 
               <Col sm={4}>
-                <Form.Group className="mb-3 form-id">
-                  <Form.Label className="ms-3">ID</Form.Label>
+                <Form.Group className="mb-3">
+                  <Form.Label className="mb-2 ms-3">ID</Form.Label>
                   <Form.Control
                     type="text"
                     value={`S${
@@ -108,8 +108,8 @@ function AdminUpdateService({ selectedService, onClose }) {
                   />
                 </Form.Group>
 
-                <Form.Group className="mb-2">
-                  <Form.Label className="ms-3">Price (VND)</Form.Label>
+                <Form.Group className="mb-3">
+                  <Form.Label className="mb-2 ms-3">Price (VND)</Form.Label>
                   <Form.Control
                     type="text"
                     value={updatedService.price}
@@ -121,8 +121,8 @@ function AdminUpdateService({ selectedService, onClose }) {
               </Col>
 
               <Col sm={4}>
-                <Form.Group className="mb-3 form-name">
-                  <Form.Label className="ms-3">Name</Form.Label>
+                <Form.Group className="mb-3">
+                  <Form.Label className="mb-2 ms-3">Name</Form.Label>
                   <Form.Control
                     type="text"
                     value={updatedService.serviceName}
@@ -132,8 +132,8 @@ function AdminUpdateService({ selectedService, onClose }) {
                   />
                 </Form.Group>
 
-                <Form.Group className="mb-2">
-                  <Form.Label className="ms-3">Time (Mins)</Form.Label>
+                <Form.Group className="mb-3">
+                  <Form.Label className="mb-2 ms-3">Time (Mins)</Form.Label>
                   <Form.Control
                     type="text"
                     value={updatedService.time}
@@ -143,8 +143,8 @@ function AdminUpdateService({ selectedService, onClose }) {
               </Col>
             </Row>
 
-            <Form.Group className="mb-3 form-desc">
-              <Form.Label className="ms-3">Description</Form.Label>
+            <Form.Group className="mb-3">
+              <Form.Label className="mb-2 ms-3">Description</Form.Label>
               <Form.Control
                 as="textarea"
                 rows={3}
@@ -157,8 +157,8 @@ function AdminUpdateService({ selectedService, onClose }) {
 
             <Row>
               <Col>
-                <Form.Group className="mb-2">
-                  <Form.Label className="ms-3">Tag</Form.Label>
+                <Form.Group className="mb-3">
+                  <Form.Label className="mb-2 ms-3">Tag</Form.Label>
                   <Form.Control
                     as="select"
                     value={updatedService.tag}
@@ -176,8 +176,8 @@ function AdminUpdateService({ selectedService, onClose }) {
               </Col>
 
               <Col>
-                <Form.Group className="mb-2">
-                  <Form.Label className="ms-3">Status</Form.Label>
+                <Form.Group className="mb-3">
+                  <Form.Label className="mb-2 ms-3">Status</Form.Label>
                   <Form.Control
                     as="select"
                     value={updatedService.status}

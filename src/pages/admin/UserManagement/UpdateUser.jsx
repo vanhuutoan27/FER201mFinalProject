@@ -64,11 +64,10 @@ function UpdateUser({ selectedUser, onClose }) {
             <Row>
               <Col sm={4}>
                 <Form.Group className="mb-3 service-image-container">
-                  {/* <div className="service-image-virtual"></div> */}
                   <label htmlFor="imageUpload" className="image-upload-label">
                     <img
                       src={updatedUser.avatar}
-                      alt="User Image"
+                      alt={`${selectedUser.firstName} ${selectedUser.lastName}`}
                       className="service-image"
                       onClick={() => {
                         document.getElementById('imageUpload');
@@ -87,7 +86,7 @@ function UpdateUser({ selectedUser, onClose }) {
 
               <Col sm={4}>
                 <Form.Group className="mb-3 form-user-id">
-                  <Form.Label className="ms-3">ID</Form.Label>
+                  <Form.Label className="mb-2 ms-3">ID</Form.Label>
                   <Form.Control
                     type="text"
                     value={`${
@@ -103,8 +102,8 @@ function UpdateUser({ selectedUser, onClose }) {
                   />
                 </Form.Group>
 
-                <Form.Group className="mb-2">
-                  <Form.Label className="ms-3">Status</Form.Label>
+                <Form.Group className="mb-3">
+                  <Form.Label className="mb-2 ms-3">Status</Form.Label>
                   <Form.Control
                     as="select"
                     value={updatedUser.status}
@@ -118,8 +117,8 @@ function UpdateUser({ selectedUser, onClose }) {
               </Col>
 
               <Col sm={4}>
-                <Form.Group className="mb-2">
-                  <Form.Label className="ms-3">Role</Form.Label>
+                <Form.Group className="mb-3">
+                  <Form.Label className="mb-2 ms-3">Role</Form.Label>
                   <Form.Control
                     as="select"
                     value={updatedUser.role}
@@ -132,15 +131,15 @@ function UpdateUser({ selectedUser, onClose }) {
                   </Form.Control>
                 </Form.Group>
 
-                <Form.Group className="mb-3 form-date-created">
-                  <Form.Label className="ms-3">Date Created</Form.Label>
+                <Form.Group className="mb-3">
+                  <Form.Label className="mb-2 ms-3">Date Created</Form.Label>
                   <Form.Control type="text" value={formatDate(updatedUser.dateCreated)} readOnly />
                 </Form.Group>
               </Col>
 
               <Col sm={6}>
-                <Form.Group className="mb-3 form-firstname">
-                  <Form.Label className="ms-3">First Name</Form.Label>
+                <Form.Group className="mb-3">
+                  <Form.Label className="mb-2 ms-3">First Name</Form.Label>
                   <Form.Control
                     type="text"
                     value={updatedUser.firstName}
@@ -150,8 +149,8 @@ function UpdateUser({ selectedUser, onClose }) {
               </Col>
 
               <Col sm={6}>
-                <Form.Group className="mb-3 form-lastname">
-                  <Form.Label className="ms-3">Last Name</Form.Label>
+                <Form.Group className="mb-3">
+                  <Form.Label className="mb-2 ms-3">Last Name</Form.Label>
                   <Form.Control
                     type="text"
                     value={updatedUser.lastName}
@@ -161,8 +160,8 @@ function UpdateUser({ selectedUser, onClose }) {
               </Col>
 
               <Col sm={6}>
-                <Form.Group className="mb-3 form-name">
-                  <Form.Label className="ms-3">Email</Form.Label>
+                <Form.Group className="mb-3">
+                  <Form.Label className="mb-2 ms-3">Email</Form.Label>
                   <Form.Control
                     type="email"
                     value={updatedUser.email}
@@ -172,8 +171,8 @@ function UpdateUser({ selectedUser, onClose }) {
               </Col>
 
               <Col sm={6}>
-                <Form.Group className="mb-2">
-                  <Form.Label className="ms-3">Phone</Form.Label>
+                <Form.Group className="mb-3">
+                  <Form.Label className="mb-2 ms-3">Phone</Form.Label>
                   <Form.Control
                     type="text"
                     value={updatedUser.phone}
@@ -183,8 +182,8 @@ function UpdateUser({ selectedUser, onClose }) {
               </Col>
 
               <Col sm={6}>
-                <Form.Group className="mb-2">
-                  <Form.Label className="ms-3">Password</Form.Label>
+                <Form.Group className="mb-3">
+                  <Form.Label className="mb-2 ms-3">Password</Form.Label>
                   <Form.Control
                     type="text"
                     value={updatedUser.password}
@@ -194,8 +193,8 @@ function UpdateUser({ selectedUser, onClose }) {
               </Col>
 
               <Col sm={6}>
-                <Form.Group className="mb-2">
-                  <Form.Label className="ms-3">Date of Birth</Form.Label>
+                <Form.Group className="mb-3">
+                  <Form.Label className="mb-2 ms-3">Date of Birth</Form.Label>
                   <Form.Control
                     type="date"
                     value={updatedUser.dob}

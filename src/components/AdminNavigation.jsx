@@ -112,7 +112,7 @@ function AdminNavbar() {
             >
               <div className="frame-content">
                 <FontAwesomeIcon icon={faBarsProgress} className="custom-icon-nav" />
-                Dashboard
+                <span>Dashboard</span>
               </div>
             </div>
           </Link>
@@ -126,7 +126,7 @@ function AdminNavbar() {
               <div className="div">
                 <div className="frame-content">
                   <FontAwesomeIcon icon={faCartShopping} className="custom-icon-nav" />
-                  Order
+                  <span>Order</span>
                 </div>
               </div>
               <div className="frame-data">
@@ -144,7 +144,7 @@ function AdminNavbar() {
               <div className="div">
                 <div className="frame-content">
                   <FontAwesomeIcon icon={faUserTie} className="custom-icon-nav" />
-                  Staff
+                  <span>Staff</span>
                 </div>
               </div>
               <div className="frame-data">
@@ -162,7 +162,7 @@ function AdminNavbar() {
               <div className="div">
                 <div className="frame-content">
                   <FontAwesomeIcon icon={faUser} className="custom-icon-nav" />
-                  User
+                  <span>User</span>
                 </div>
               </div>
               <div className="frame-data">
@@ -180,7 +180,7 @@ function AdminNavbar() {
               <div className="div">
                 <div className="frame-content">
                   <FontAwesomeIcon icon={faBagShopping} className="custom-icon-nav" />
-                  Service
+                  <span>Service</span>
                 </div>
               </div>
               <div className="frame-data">
@@ -198,7 +198,7 @@ function AdminNavbar() {
               <div className="div">
                 <div className="frame-content">
                   <FontAwesomeIcon icon={faBriefcase} className="custom-icon-nav" />
-                  Package Service
+                  <span>Package Service</span>
                 </div>
               </div>
               <div className="frame-data">{packageServiceCount}</div>
@@ -212,7 +212,7 @@ function AdminNavbar() {
             <div className="frame-1">
               <div className="frame-content">
                 <FontAwesomeIcon icon={faHouse} className="custom-icon-nav" />
-                Home
+                <span>Home</span>
               </div>
             </div>
           </Link>
@@ -221,7 +221,7 @@ function AdminNavbar() {
             <div className="vertical-nav-footer logout">
               <div className="frame-content">
                 <FontAwesomeIcon icon={faRightFromBracket} className="custom-icon-nav" />
-                Logout
+                <span>Logout</span>
               </div>
             </div>
           </Link>

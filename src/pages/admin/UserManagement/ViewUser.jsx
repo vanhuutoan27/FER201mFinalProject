@@ -19,13 +19,17 @@ function ViewUser({ selectedUser, onClose }) {
               <Col sm={4}>
                 <Form.Group className="mb-3 service-image-container">
                   {/* <div className="service-image-virtual"></div> */}
-                  <img src={selectedUser.avatar} alt="User Image" className="service-image" />
+                  <img
+                    src={selectedUser.avatar}
+                    alt={`${selectedUser.firstName} ${selectedUser.lastName}`}
+                    className="service-image"
+                  />
                 </Form.Group>
               </Col>
 
               <Col sm={4}>
-                <Form.Group className="mb-2">
-                  <Form.Label className="ms-3">ID</Form.Label>
+                <Form.Group className="mb-3">
+                  <Form.Label className="mb-2 ms-3">ID</Form.Label>
                   <Form.Control
                     type="text"
                     value={`${
@@ -45,62 +49,62 @@ function ViewUser({ selectedUser, onClose }) {
                   />
                 </Form.Group>
 
-                <Form.Group className="mb-2">
-                  <Form.Label className="ms-3">Status</Form.Label>
+                <Form.Group className="mb-3">
+                  <Form.Label className="mb-2 ms-3">Status</Form.Label>
                   <Form.Control type="text" value={selectedUser.status} readOnly />
                 </Form.Group>
               </Col>
 
               <Col sm={4}>
-                <Form.Group className="mb-2">
-                  <Form.Label className="ms-3">Role</Form.Label>
+                <Form.Group className="mb-3">
+                  <Form.Label className="mb-2 ms-3">Role</Form.Label>
                   <Form.Control type="text" value={selectedUser.role} readOnly />
                 </Form.Group>
 
-                <Form.Group className="mb-2">
-                  <Form.Label className="ms-3">Date Created</Form.Label>
+                <Form.Group className="mb-3">
+                  <Form.Label className="mb-2 ms-3">Date Created</Form.Label>
                   <Form.Control type="text" value={formatDate(selectedUser.dateCreated)} readOnly />
                 </Form.Group>
               </Col>
 
               <Col sm={6}>
-                <Form.Group className="mb-2">
-                  <Form.Label className="ms-3">First Name</Form.Label>
+                <Form.Group className="mb-3">
+                  <Form.Label className="mb-2 ms-3">First Name</Form.Label>
                   <Form.Control type="text" value={selectedUser.firstName} readOnly />
                 </Form.Group>
               </Col>
 
               <Col sm={6}>
-                <Form.Group className="mb-2">
-                  <Form.Label className="ms-3">Last Name</Form.Label>
+                <Form.Group className="mb-3">
+                  <Form.Label className="mb-2 ms-3">Last Name</Form.Label>
                   <Form.Control type="text" value={selectedUser.lastName} readOnly />
                 </Form.Group>
               </Col>
 
               <Col sm={6}>
-                <Form.Group className="mb-2">
-                  <Form.Label className="ms-3">Email</Form.Label>
+                <Form.Group className="mb-3">
+                  <Form.Label className="mb-2 ms-3">Email</Form.Label>
                   <Form.Control type="email" value={selectedUser.email} readOnly />
                 </Form.Group>
               </Col>
 
               <Col sm={6}>
-                <Form.Group className="mb-2">
-                  <Form.Label className="ms-3">Phone</Form.Label>
+                <Form.Group className="mb-3">
+                  <Form.Label className="mb-2 ms-3">Phone</Form.Label>
                   <Form.Control type="text" value={selectedUser.phone} readOnly />
                 </Form.Group>
               </Col>
 
               <Col sm={6}>
-                <Form.Group className="mb-2">
-                  <Form.Label className="ms-3">Password</Form.Label>
+                <Form.Group className="mb-3">
+                  <Form.Label className="mb-2 ms-3">Password</Form.Label>
                   <Form.Control type="text" value={selectedUser.password} readOnly />
                 </Form.Group>
               </Col>
 
               <Col sm={6}>
-                <Form.Group className="mb-2">
-                  <Form.Label className="ms-3">Date of Birth</Form.Label>
+                <Form.Group className="mb-3">
+                  <Form.Label className="mb-2 ms-3">Date of Birth</Form.Label>
                   <Form.Control type="text" value={formatDate(selectedUser.dob)} readOnly />
                 </Form.Group>
               </Col>

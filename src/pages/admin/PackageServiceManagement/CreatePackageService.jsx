@@ -75,14 +75,14 @@ function CreatePackageService() {
         Add Package
       </button>
 
-      <Modal show={show} onHide={handleClose} size="lg" style={{ marginTop: '52px' }}>
+      <Modal show={show} onHide={handleClose} size="lg" style={{ marginTop: '25px' }}>
         <Modal.Header closeButton>
           <Modal.Title>Create A New Service</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <Form onSubmit={formik.handleSubmit}>
-            <Form.Group className="mb-2" controlId="name">
-              <Form.Label className="ms-3">Name</Form.Label>
+            <Form.Group className="mb-3" controlId="name">
+              <Form.Label className="mb-2 ms-3">Name</Form.Label>
               <Form.Control
                 type="text"
                 name="name"
@@ -95,8 +95,8 @@ function CreatePackageService() {
               ) : null}
             </Form.Group>
 
-            <Form.Group className="mb-2" controlId="desc">
-              <Form.Label className="ms-3">Description</Form.Label>
+            <Form.Group className="mb-3" controlId="desc">
+              <Form.Label className="mb-2 ms-3">Description</Form.Label>
               <Form.Control
                 as="textarea"
                 rows={3}
@@ -112,8 +112,8 @@ function CreatePackageService() {
 
             <Row>
               <Col>
-                <Form.Group className="mb-2" controlId="time">
-                  <Form.Label className="ms-3">Time</Form.Label>
+                <Form.Group className="mb-3" controlId="time">
+                  <Form.Label className="mb-2 ms-3">Time</Form.Label>
                   <Form.Control
                     type="text"
                     name="time"
@@ -127,8 +127,8 @@ function CreatePackageService() {
                 </Form.Group>
               </Col>
               <Col>
-                <Form.Group className="mb-2" controlId="price">
-                  <Form.Label className="ms-3">Price</Form.Label>
+                <Form.Group className="mb-3" controlId="price">
+                  <Form.Label className="mb-2 ms-3">Price</Form.Label>
                   <Form.Control
                     type="text"
                     name="price"
@@ -143,8 +143,8 @@ function CreatePackageService() {
               </Col>
             </Row>
 
-            <Form.Group className="mb-2" controlId="tag">
-              <Form.Label className="ms-3">Tag</Form.Label>
+            <Form.Group className="mb-3" controlId="tag">
+              <Form.Label className="mb-2 ms-3">Tag</Form.Label>
               <Form.Control
                 as="select"
                 name="tag"
@@ -164,8 +164,8 @@ function CreatePackageService() {
               ) : null}
             </Form.Group>
 
-            <Form.Group className="mb-2">
-              <Form.Label className="ms-3">Image</Form.Label>
+            <Form.Group className="mb-3">
+              <Form.Label className="mb-2 ms-3">Image</Form.Label>
               <Form.Control
                 id="file"
                 type="file"
@@ -186,7 +186,7 @@ function CreatePackageService() {
           </Form>
         </Modal.Body>
         <Modal.Footer>
-          <button className="button-modal" onClick={handleClose}>
+          <button className="button-modal close-btn" onClick={handleClose}>
             Close
           </button>
           <button
