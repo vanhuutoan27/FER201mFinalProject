@@ -8,6 +8,7 @@ import Col from 'react-bootstrap/Col';
 import { storage } from '../../../firebase';
 import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 import axios from '../../../config/axios';
+import { Button } from '@mui/material';
 
 function CreatePackageService() {
   const [show, setShow] = useState(false);
@@ -71,9 +72,9 @@ function CreatePackageService() {
 
   return (
     <>
-      <button className="button-modal" onClick={handleShow}>
+      <Button variant="contained" className="btn" onClick={handleShow}>
         Add Package
-      </button>
+      </Button>
 
       <Modal show={show} onHide={handleClose} size="lg" style={{ marginTop: '25px' }}>
         <Modal.Header closeButton>

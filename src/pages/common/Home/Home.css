@@ -45,6 +45,7 @@
   font-size: 5rem;
   line-height: 1.29;
   color: var(--primary-color-2);
+  cursor: pointer;
 }
 
 .stats .sub-title::before {
@@ -81,6 +82,8 @@
   font-size: 4.2rem;
   font-weight: 700;
   line-height: 1.2;
+  cursor: pointer;
+
 }
 
 .service-package .desc {
@@ -241,8 +244,8 @@
   line-height: 1.19;
 }
 
-.service-usage .title span {
-  font-size: 7.3rem;
+.service-usage .title h3 {
+  font-size: 10rem;
   background: var(--primary-color-1);
   -webkit-background-clip: text;
   background-clip: text;
@@ -333,6 +336,7 @@
 }
 
 .feedback-msg p {
+  min-height: 90px;
   font-size: 1.4rem;
   line-height: 1.2;
   font-weight: 500;
@@ -351,6 +355,7 @@
   width: 70px;
   border-radius: 999px;
   margin-left: 20px;
+  background-color: #eee;
 }
 
 .feedback-user {
@@ -367,8 +372,8 @@
 }
 
 .feedback-desc {
-  margin: 8px 4px;
-  font-size: 1rem;
+  margin: 8px 0;
+  font-size: 1.2rem;
   line-height: 1.2;
 }
 

@@ -3,6 +3,10 @@ import Button from '@mui/material/Button';
 import { Link } from 'react-router-dom';
 
 function Hero2() {
+  function scrollOnTop() {
+    window.scrollTo(0, 0);
+  }
+
   return (
     <div className="hero-wrap">
       <div className="content">
@@ -13,7 +17,7 @@ function Hero2() {
             Here we have all the cleaning, sanitation, water delivery services you need.
           </p>
 
-          <Link to="/service">
+          <Link to="/service" onClick={scrollOnTop}>
             <Button variant="contained" className="btn hero-cta cta">
               Start Order NOW
             </Button>

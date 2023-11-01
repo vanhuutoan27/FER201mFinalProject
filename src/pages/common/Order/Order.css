@@ -195,7 +195,7 @@
 }
 
 .info-section {
-  background-color: #fff;
+  background-color: var(--primary-color-0);
   width: 778px;
   /* height: 572px; */
   border-radius: 16px;
@@ -204,7 +204,7 @@
 }
 
 .order-section {
-  background-color: #fff;
+  background-color: var(--primary-color-0);
   width: 513px;
   /* height: 600px; */
   border-radius: 16px;
@@ -313,23 +313,6 @@
 
 .total {
   font-weight: 700;
-}
-
-.discount-section > .btn {
-  background-color: #fff;
-  border-radius: 12px;
-  padding: 12px 20px;
-  color: var(--primary-color-2);
-  font-size: 1.4rem;
-  border: 2px var(--primary-color-2) solid;
-
-  &:hover {
-    background-color: #fff;
-  }
-
-  &:active {
-    background-color: #fff;
-  }
 }
 
 .total-discounted {

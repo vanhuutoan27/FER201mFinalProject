@@ -99,7 +99,7 @@
 }
 
 .close-btn {
-  background-color: #fff !important;
+  background-color: #eeedff !important;
   border: 2px solid var(--primary-color-2) !important;
 }
 
@@ -161,33 +161,6 @@ button {
 
 .table-widget caption h2 {
   line-height: 45px;
-}
-
-.button-modal {
-  background-color: var(--primary-color-1);
-  border-radius: 12px;
-  min-width: 98px;
-  padding: 12px 32px;
-  color: var(--primary-color-2);
-  font-size: 1.4rem;
-  font-weight: 600;
-  cursor: pointer;
-  transition: 0.3s ease-in-out;
-  -webkit-user-select: none;
-  user-select: none;
-  border: none;
-  margin-left: auto;
-
-  &:hover {
-    opacity: 0.8;
-    transform: scale(0.98);
-  }
-
-  &:active {
-    text-decoration: none;
-    transform: scale(0.95);
-    background-color: var(--primary-color-1);
-  }
 }
 
 .package-service-management-content {
@@ -428,7 +401,7 @@ button {
 }
 
 .form-control:not(input[type='file']) {
-  background-color: #eeeeee;
+  background-color: #eeedff;
   border-radius: 10px;
   border: none;
   padding: 12px 16px;
@@ -458,7 +431,7 @@ button {
 
 .service-image {
   width: 90%;
-  background-color: #eee;
+  background-color: #eeedff;
 }
 
 .image-upload-label {
@@ -467,7 +440,7 @@ button {
 }
 
 .custom-select option {
-  background-color: #eee;
+  background-color: #eeedff;
   color: var(--primary-color-4);
 }
 

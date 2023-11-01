@@ -6,6 +6,10 @@ import Button from '@mui/material/Button';
 import { Link } from 'react-router-dom';
 
 function Guide() {
+  function scrollOnTop() {
+    window.scrollTo(0, 0);
+  }
+
   return (
     <div id="services" className="guides" style={{ padding: '140px 0 70px 0' }}>
       <div className="content">
@@ -56,7 +60,7 @@ function Guide() {
         </ul>
 
         <div className="guide-cta">
-          <Link to="/">
+          <Link to="/" onClick={scrollOnTop}>
             <Button variant="contained" className="btn hero-cta cta">
               Sell Full Guidelines
             </Button>

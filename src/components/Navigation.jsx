@@ -1,21 +1,29 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { AuthContext } from '../App';
 import Cookies from 'js-cookie';
 import Button from '@mui/material/Button';
+
+import Loading from './Loading';
 
 function Navigation() {
   const session = useContext(AuthContext);
   const user = session.user;
   const role = session.role;
   const location = useLocation();
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleLogout = (e) => {
     e.preventDefault();
-    session.setUser(null);
-    localStorage.removeItem('accessToken');
-    Cookies.remove('accessToken');
-    window.location.href = '/';
+    setIsLoading(true); // Set isLoading to true
+
+    // Simulate a delay of 2 seconds using setTimeout
+    setTimeout(() => {
+      session.setUser(null);
+      localStorage.removeItem('accessToken');
+      Cookies.remove('accessToken');
+      window.location.href = '/';
+    }, 1000);
   };
 
   useEffect(() => {
@@ -86,10 +94,10 @@ function Navigation() {
                         {role === 'Customer' && (
                           <>
                             <li>
-                              <Link to={`/profile/${user.userId}`}>Profile</Link>
+                              <Link to={`/profile/${user.user.userId}`}>Profile</Link>
                             </li>
                             <li>
-                              <Link to={`/my-order/${user.userId}`}>Order</Link>
+                              <Link to={`/my-order/${user.user.userId}`}>Order</Link>
                             </li>
                           </>
                         )}
@@ -173,6 +181,12 @@ function Navigation() {
           </ul>
         </div>
       </header>
+
+      {isLoading && (
+        <div className="loading-container">
+          <Loading />
+        </div>
+      )}
     </div>
   );
 }

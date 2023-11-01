@@ -6,6 +6,10 @@ import { faFacebook, faGithub, faTiktok, faYoutube } from '@fortawesome/free-bra
 import { faEnvelope, faPhone } from '@fortawesome/free-solid-svg-icons';
 
 function Footer() {
+  function scrollOnTop() {
+    window.scrollTo(0, 0);
+  }
+
   return (
     <div className="Footer">
       <footer>
@@ -19,22 +23,22 @@ function Footer() {
             </p>
             <ul className="sci">
               <li>
-                <Link to="#!">
+                <Link to="https://github.com/vanhuutoan27/4stu-swp-project" target="_blank">
                   <FontAwesomeIcon icon={faGithub} className="footer__icon" />
                 </Link>
               </li>
               <li>
-                <Link to="#!">
+                <Link to="https://www.facebook.com/vhtoan27" target="_blank">
                   <FontAwesomeIcon icon={faFacebook} className="footer__icon" />
                 </Link>
               </li>
               <li>
-                <Link to="#!">
+                <Link to="https://www.youtube.com/channel/UC0tyq8nPQYv0INoL5VIV6mA" target="_blank">
                   <FontAwesomeIcon icon={faYoutube} className="footer__icon" />
                 </Link>
               </li>
               <li>
-                <Link to="#!">
+                <Link to="#!" target="_blank">
                   <FontAwesomeIcon icon={faTiktok} className="footer__icon" />
                 </Link>
               </li>
@@ -54,7 +58,9 @@ function Footer() {
                 <Link to="#!">Help</Link>
               </li>
               <li>
-                <Link to="/contact">Contact</Link>
+                <Link to="/contact" onClick={scrollOnTop}>
+                  Contact
+                </Link>
               </li>
             </ul>
           </div>
@@ -62,13 +68,19 @@ function Footer() {
             <h2>Website</h2>
             <ul>
               <li>
-                <Link to="/">Home</Link>
+                <Link to="/" onClick={scrollOnTop}>
+                  Home
+                </Link>
               </li>
               <li>
-                <Link to="/service">Services</Link>
+                <Link to="/service" onClick={scrollOnTop}>
+                  Services
+                </Link>
               </li>
               <li>
-                <Link to="/service">Package Services</Link>
+                <Link to="/service" onClick={scrollOnTop}>
+                  Package Services
+                </Link>
               </li>
               <li>
                 <Link to="#!">News</Link>

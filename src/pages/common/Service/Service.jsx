@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faStar } from '@fortawesome/free-solid-svg-icons';
-import Cookies from 'js-cookie';
 import { Link } from 'react-router-dom';
 
 import Button from '@mui/material/Button';
@@ -19,7 +18,6 @@ function Service() {
   const [allServices, setAllServices] = useState([]);
   const [allPackageServices, setAllPackageServices] = useState([]);
   const [feedbackRatings, setFeedbackRatings] = useState({});
-  const [loggedIn, setLoggedIn] = useState(false);
   const [selectedService, setSelectedService] = useState(null);
   const [selectedPackageService, setSelectedPackageService] = useState(null);
   const [isDetailModalVisible, setDetailModalVisible] = useState(false);
@@ -65,11 +63,6 @@ function Service() {
         setAllPackageServices(packageServicesWithRating);
       })
       .catch((error) => console.log(error));
-
-    const accessToken = Cookies.get('accessToken');
-    if (accessToken) {
-      setLoggedIn(true);
-    }
 
     axios
       .get('/FeedbackManagements')
@@ -177,7 +170,7 @@ function Service() {
             variant="contained"
             className="btn"
             component={Link}
-            to={`/order?serviceName=${service.serviceName}&price=${service.price}&image=${service.longImage}`}
+            to={`/order?serviceId=${service.serviceId}&serviceName=${service.serviceName}`}
             onClick={() => handleOrderClick(service)}
           >
             Order Now
@@ -201,7 +194,7 @@ function Service() {
           variant="contained"
           className="btn"
           component={Link}
-          to={`/order?serviceName=${packageService.servicePackageName}&price=${packageService.price}&image=${packageService.longImage}`}
+          to={`/order?serviceId=${packageService.packageServiceId}&serviceName=${packageService.packageServiceName}`}
           onClick={() => handleOrderClick(packageService)}
         >
           Order Now
@@ -227,50 +220,74 @@ function Service() {
       <Navigation />
       <Hero />
 
-      <div className="about">
+      <div className="stats">
         <div className="content">
-          <div className="about_main">
-            <div className="image">
-              <img src="../assets/manypixels/hiking-20.svg" alt="Hiking" />
+          <div className="row">
+            <div className="img-block">
+              <img
+                className="image"
+                src="../assets/images/kate-laine-HyeztRmq6YE-unsplash.jpg"
+                alt="Discover the Benefits of 4Stu Services"
+                style={{ height: '90%', width: '440px', marginTop: '80px' }}
+              />
             </div>
-
-            <div className="about_text">
-              <h2>
-                Discover the Benefits of <span>4Stu Services</span>
+            <div className="info">
+              <h2 className="sub-title" style={{ fontSize: '40px' }}>
+                Discover the Benefits of
+                <span style={{ fontSize: '72px', color: 'var(--primary-color-1)' }}>
+                  {' '}
+                  4Stu Services
+                </span>
               </h2>
-              <ol>
-                <li>
-                  <span>Unmatched Convenience</span> <br />
-                  4Stu is dedicated to making the lives of students easier. We provide a wide range
-                  of daily services, including cleaning, sanitation, and water delivery, so you can
-                  focus on your studies and enjoy student life without worrying about chores.
-                </li>
-                <li>
-                  <span>High-Quality Service Packages</span> <br />
-                  Our service packages are tailor-made for student apartments. We are committed to
-                  delivering services that not only meet but exceed your expectations in terms of
-                  quality and reliability.
-                </li>
-                <li>
-                  <span>Reliable and Trustworthy</span> <br />
-                  At 4Stu, reliability and trust are at the core of our values. Our professional
-                  staff is always on hand to promptly and efficiently handle your requests, ensuring
-                  a seamless experience.
-                </li>
-                <li>
-                  <span>Customized Solutions</span> <br />
-                  We recognize that each student community is unique. That's why we offer
-                  customizable service packages, allowing you to select services that best suit your
-                  specific needs and preferences.
-                </li>
-              </ol>
+              <p className="desc">
+                <span
+                  style={{ fontSize: '24px', fontWeight: '600', color: 'var(--primary-color-4)' }}
+                >
+                  Unmatched Convenience
+                </span>
+                <br />
+                4Stu is dedicated to making the lives of students easier. We provide a wide range of
+                daily services, including cleaning, sanitation, and water delivery, so you can focus
+                on your studies and enjoy student life without worrying about chores.
+              </p>
+
+              <p className="desc">
+                <span
+                  style={{ fontSize: '24px', fontWeight: '600', color: 'var(--primary-color-4)' }}
+                >
+                  High-Quality Service Packages
+                </span>
+                <br />
+                Our service packages are tailor-made for student apartments. We are committed to
+                delivering services that not only meet but exceed your expectations in terms of
+                quality and reliability.
+              </p>
+
+              <p className="desc">
+                <span
+                  style={{ fontSize: '24px', fontWeight: '600', color: 'var(--primary-color-4)' }}
+                >
+                  Reliable and Trustworthy
+                </span>
+                <br />
+                At 4Stu, reliability and trust are at the core of our values. Our professional staff
+                is always on hand to promptly and efficiently handle your requests, ensuring a
+                seamless experience.
+              </p>
+
+              <p className="desc">
+                <span
+                  style={{ fontSize: '24px', fontWeight: '600', color: 'var(--primary-color-4)' }}
+                >
+                  Customized Solutions
+                </span>
+                <br />
+                We recognize that each student community is unique. That's why we offer customizable
+                service packages, allowing you to select services that best suit your specific needs
+                and preferences.
+              </p>
             </div>
           </div>
-          <Link to="#order-now">
-            <Button variant="contained" className="btn">
-              Order Now
-            </Button>
-          </Link>
         </div>
       </div>
 

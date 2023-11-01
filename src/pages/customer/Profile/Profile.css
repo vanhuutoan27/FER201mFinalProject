@@ -100,9 +100,3 @@
   margin: 0 0 12px 4px;
   text-transform: uppercase;
 }
-
-.card-info .card-info-box .btn {
-  position: absolute;
-  margin-top: 12px;
-  right: 12px;
-}

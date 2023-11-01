@@ -1,28 +1,40 @@
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faUsers, faCircleCheck, faClock } from '@fortawesome/free-solid-svg-icons';
 
 import Button from '@mui/material/Button';
+import CountUp from 'react-countup';
+import { Waypoint } from 'react-waypoint';
+import axios from '../../../config/axios';
 
 import Navigation from '../../../components/Navigation';
 import Hero from './Hero';
 import Footer from '../../../components/Footer';
 
 import './Home.css';
-import { Link } from 'react-router-dom';
 
 function Home() {
-  const [customerCount, setCustomerCount] = useState('100,000+');
+  const [customerCount, setCustomerCount] = useState(0);
+  const [startCountUp, setStartCountUp] = useState(false);
+
+  const handleWaypointEnter = () => {
+    setStartCountUp(true);
+  };
 
   useEffect(() => {
-    const randomCount = getRandomCustomerCount();
-    setCustomerCount(randomCount.toLocaleString());
+    axios
+      .get('/UserManagements')
+      .then((response) => {
+        const customerData = response.data;
+        const customerCount = customerData.length;
+        setCustomerCount(customerCount);
+      })
+      .catch((error) => console.error(error));
   }, []);
 
-  function getRandomCustomerCount() {
-    const randomNumber = Math.floor(Math.random() * (1000000 - 100000 + 1) + 100000);
-    const roundedNumber = Math.round(randomNumber / 100000) * 100000;
-    return roundedNumber.toLocaleString();
+  function scrollOnTop() {
+    window.scrollTo(0, 0);
   }
 
   return (
@@ -39,7 +51,7 @@ function Home() {
                 Experience the power of intensive stain treatment right in your home, with the
                 expertise of two or more of our skilled housekeeping professionals.
               </p>
-              <Link to="/service">
+              <Link to="/service" onClick={scrollOnTop}>
                 <Button
                   variant="contained"
                   className="btn hero-cta cta"
@@ -63,7 +75,7 @@ function Home() {
               <img
                 className="image"
                 src="../assets/images/laundry-service.svg"
-                alt="Complete House Cleaning"
+                alt="Laundry Service"
               />
             </div>
             <div className="info">
@@ -73,7 +85,7 @@ function Home() {
                 Furthermore, you have the option to publish a note to the internet and share the URL
                 with anyone you choose.
               </p>
-              <Link to="/service">
+              <Link to="/service" onClick={scrollOnTop}>
                 <Button
                   variant="contained"
                   className="btn hero-cta cta"
@@ -116,7 +128,7 @@ function Home() {
                 <Button
                   variant="contained"
                   className="btn hero-cta cta"
-                  style={{ marginTop: '24px' }}
+                  style={{ marginTop: '40px' }}
                 >
                   View Terms Of Use
                 </Button>
@@ -131,7 +143,12 @@ function Home() {
           <div className="content">
             <div className="row">
               <div className="img-block">
-                <img className="image" src="../assets/images/your-choice.svg" alt="Your Choice" />
+                <img
+                  className="image"
+                  src="../assets/images/your-choice.svg"
+                  alt="Your Choice"
+                  style={{ marginTop: '40px' }}
+                />
               </div>
               <div className="info">
                 <h2 className="sub-title">Feel Satisfied With Your Choice!</h2>
@@ -167,7 +184,7 @@ function Home() {
                   Ready to embark on your 4Stu journey? Let's get started with your very first
                   appointment today!
                 </p>
-                <Link to="/service">
+                <Link to="/service" onClick={scrollOnTop}>
                   <Button
                     variant="contained"
                     className="btn hero-cta cta"
@@ -250,43 +267,48 @@ function Home() {
         </div>
       </div>
 
-      <div className="one-millions">
-        <div className="content">
-          <div className="service-usage">
-            <div className="info">
-              <h1 className="title">
-                <span>{customerCount}+</span> Customers Use 4Stu
-              </h1>
-            </div>
-
-            <div className="service-datas">
-              <div className="service-item">
-                <h2 className="data">
-                  <FontAwesomeIcon icon={faUsers} className="custom-icon data-icon" />
-                  99%
-                </h2>
-                <h3 className="data-name">Customer Satisfaction</h3>
+      <Waypoint onEnter={handleWaypointEnter}>
+        <div className="one-millions">
+          <div className="content">
+            <div className="service-usage">
+              <div className="info">
+                <h1 className="title">
+                  <h3>
+                    <CountUp end={startCountUp ? customerCount * 10 : 0} duration={3} />+
+                  </h3>
+                  Customers Use 4Stu
+                </h1>
               </div>
 
-              <div className="service-item">
-                <h2 className="data">
-                  <FontAwesomeIcon icon={faCircleCheck} className="custom-icon data-icon" />
-                  1,000,000+
-                </h2>
-                <h3 className="data-name">Work Completed</h3>
-              </div>
+              <div className="service-datas">
+                <div className="service-item">
+                  <h2 className="data">
+                    <FontAwesomeIcon icon={faUsers} className="custom-icon data-icon" />
+                    <CountUp end={startCountUp ? 99 : 0} duration={3} />%
+                  </h2>
+                  <h3 className="data-name">Customer Satisfaction</h3>
+                </div>
 
-              <div className="service-item">
-                <h2 className="data">
-                  <FontAwesomeIcon icon={faClock} className="custom-icon data-icon" />
-                  4,500,000+
-                </h2>
-                <h3 className="data-name">Work Hours</h3>
+                <div className="service-item">
+                  <h2 className="data">
+                    <FontAwesomeIcon icon={faCircleCheck} className="custom-icon data-icon" />
+                    <CountUp end={startCountUp ? 1000000 : 0} duration={3} />+
+                  </h2>
+                  <h3 className="data-name">Work Completed</h3>
+                </div>
+
+                <div className="service-item">
+                  <h2 className="data">
+                    <FontAwesomeIcon icon={faClock} className="custom-icon data-icon" />
+                    <CountUp end={startCountUp ? 4500000 : 0} duration={3} />+
+                  </h2>
+                  <h3 className="data-name">Work Hours</h3>
+                </div>
               </div>
             </div>
           </div>
         </div>
-      </div>
+      </Waypoint>
 
       <div className="feedback">
         <div className="content">
@@ -299,16 +321,21 @@ function Home() {
               <div className="feedback-msg">
                 <img src="../assets/images/icon/quote-1.svg" alt="" />
                 <p>
-                  Lorem ipsum dolor sit amet consectetur adipisicing elit. Inventore laudantium
-                  alias aliquid, autem expedita tempora pariatur, mollitia rerum maxime dolorem.
+                  The service packages for our student apartment have been a game-changer. It
+                  provides us with convenient cleaning, sanitation, and water delivery services
+                  tailored to our needs.
                 </p>
                 <hr />
               </div>
               <div className="feedback-info">
-                <img src="../assets/images/avatar/picrew2.jpg" alt="" className="feedback-avatar" />
+                <img
+                  src="../assets/images/avatar/avatar-nobita.svg"
+                  alt="Le Duc Quang"
+                  className="feedback-avatar"
+                />
                 <div className="feedback-user">
-                  <h3 className="feedback-name">Van Huu Toan 1</h3>
-                  <p className="feedback-desc">FPTU Campus HCM</p>
+                  <h3 className="feedback-name">Le Duc Quang</h3>
+                  <p className="feedback-desc">quangld@gmail.com</p>
                 </div>
               </div>
             </div>
@@ -317,16 +344,21 @@ function Home() {
               <div className="feedback-msg">
                 <img src="../assets/images/icon/quote-1.svg" alt="" />
                 <p>
-                  Lorem ipsum dolor sit amet consectetur adipisicing elit. Inventore laudantium
-                  alias aliquid, autem expedita tempora pariatur, mollitia rerum maxime dolorem.
+                  I'm impressed with the service packages. The cleaning and sanitation are
+                  top-notch, and the water delivery is a lifesaver. Highly recommend it to all
+                  student apartments.
                 </p>
                 <hr />
               </div>
               <div className="feedback-info">
-                <img src="../assets/images/avatar/picrew1.jpg" alt="" className="feedback-avatar" />
+                <img
+                  src="../assets/images/avatar/avatar-nobita.svg"
+                  alt="Hoang Duc Huy"
+                  className="feedback-avatar"
+                />
                 <div className="feedback-user">
-                  <h3 className="feedback-name">Van Huu Toan 2</h3>
-                  <p className="feedback-desc">FPTU Campus HCM</p>
+                  <h3 className="feedback-name">Hoang Duc Huy</h3>
+                  <p className="feedback-desc">duchuyhoang@gmail.com</p>
                 </div>
               </div>
             </div>
@@ -335,16 +367,20 @@ function Home() {
               <div className="feedback-msg">
                 <img src="../assets/images/icon/quote-1.svg" alt="" />
                 <p>
-                  Lorem ipsum dolor sit amet consectetur adipisicing elit. Inventore laudantium
-                  alias aliquid, autem expedita tempora pariatur, mollitia rerum maxime dolorem.
+                  The service packages make our lives so much easier. We no longer have to worry
+                  about cleaning and water supply. It's a fantastic solution for student apartments.
                 </p>
                 <hr />
               </div>
               <div className="feedback-info">
-                <img src="../assets/images/avatar/picrew4.png" alt="" className="feedback-avatar" />
+                <img
+                  src="../assets/images/avatar/avatar-nobita.svg"
+                  alt="Le Thi Binh"
+                  className="feedback-avatar"
+                />
                 <div className="feedback-user">
-                  <h3 className="feedback-name">Van Huu Toan 3</h3>
-                  <p className="feedback-desc">FPTU Campus HCM</p>
+                  <h3 className="feedback-name">Le Thi Binh</h3>
+                  <p className="feedback-desc">ltbinh12@gmail.com</p>
                 </div>
               </div>
             </div>

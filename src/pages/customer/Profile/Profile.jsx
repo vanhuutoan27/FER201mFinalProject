@@ -5,20 +5,21 @@ import { faGithub } from '@fortawesome/free-brands-svg-icons';
 import Button from '@mui/material/Button';
 import { AuthContext } from '../../../App';
 import Navigation from '../../../components/Navigation';
-import { Link, useParams } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { formatDate } from '../../../utils/DateUtils';
 import { storage } from '../../../firebase';
 import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 import axios from '../../../config/axios';
-import { message } from 'antd';
+import Swal from 'sweetalert2';
 
 import './Profile.css';
+import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
 
 function Profile() {
   const session = useContext(AuthContext);
   const userInfo = session.user.user;
 
-  const { userId } = useParams();
+  // const { userId } = useParams();
 
   const [isLoading, setIsLoading] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
@@ -26,13 +27,28 @@ function Profile() {
   const [uploadingImage, setUploadingImage] = useState(false);
   const [isAvatarChanged, setIsAvatarChanged] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
+  const [initialUser, setInitialUser] = useState(userInfo);
 
-  const [messageApi, contextHolder] = message.useMessage();
-  const success = () => {
-    messageApi.success('User updated successfully');
-  };
-  const error = () => {
-    messageApi.error('Error updating user');
+  const handleReset = () => {
+    if (!isEditing) {
+      return;
+    }
+
+    Swal.fire({
+      title: 'Cancel Editing?',
+      text: 'Are you sure you want to cancel and discard your changes?',
+      icon: 'warning',
+      showCancelButton: true,
+      cancelButtonColor: 'var(--primary-color-2)',
+      confirmButtonColor: 'var(--primary-color-2)',
+      cancelButtonText: 'No',
+      confirmButtonText: 'Yes',
+    }).then((result) => {
+      if (result.isConfirmed) {
+        setUpdatedUser(initialUser);
+        setIsEditing(false);
+      }
+    });
   };
 
   const handleEdit = () => {
@@ -41,17 +57,27 @@ function Profile() {
 
   const handleSave = async () => {
     setIsLoading(true);
-
     setIsEditing(false);
 
     try {
       await axios.put(`/UserManagements/${updatedUser.userId}`, updatedUser);
-      success();
+      Swal.fire({
+        icon: 'success',
+        title: 'Success',
+        text: 'User updated successfully!',
+        confirmButtonColor: 'var(--primary-color-2)',
+      });
     } catch (err) {
-      error();
       console.error('Error updating user', err);
+      Swal.fire({
+        icon: 'error',
+        title: 'Error',
+        text: 'Error updating user',
+        confirmButtonColor: 'var(--primary-color-2)',
+      });
     } finally {
       setIsLoading(false);
+      setInitialUser(updatedUser);
     }
   };
 
@@ -93,7 +119,11 @@ function Profile() {
           <div className="card-avatar">
             <div className="card-avatar-header">
               <label htmlFor="imageUpload" className="image-upload-label">
-                <img src={updatedUser.avatar} alt="User Image" className="user-avatar" />
+                <img
+                  src={updatedUser.avatar}
+                  alt={updatedUser.firstName + ' ' + updatedUser.lastName}
+                  className="user-avatar"
+                />
               </label>
               <input
                 type="file"
@@ -120,8 +150,8 @@ function Profile() {
               <h2 className="title">User Information</h2>
               <Row>
                 <Col className="mr-8">
-                  <Form.Group>
-                    <Form.Label>ID</Form.Label>
+                  <Form.Group className="mb-3">
+                    <Form.Label className="mb-2 ms-3">ID</Form.Label>
                     <Form.Control
                       type="text"
                       value={
@@ -135,8 +165,8 @@ function Profile() {
                       readOnly
                     />
                   </Form.Group>
-                  <Form.Group>
-                    <Form.Label>First Name</Form.Label>
+                  <Form.Group className="mb-3">
+                    <Form.Label className="mb-2 ms-3">First Name</Form.Label>
                     <Form.Control
                       type="text"
                       value={updatedUser.firstName}
@@ -149,8 +179,8 @@ function Profile() {
                       readOnly={!isEditing}
                     />
                   </Form.Group>
-                  <Form.Group>
-                    <Form.Label>Date of Birth</Form.Label>
+                  <Form.Group className="mb-3">
+                    <Form.Label className="mb-2 ms-3">Date of Birth</Form.Label>
                     <Form.Control
                       type={isEditing ? 'date' : 'text'}
                       value={isEditing ? updatedUser.dob : formatDate(updatedUser.dob)}
@@ -164,8 +194,8 @@ function Profile() {
                     />
                   </Form.Group>
 
-                  <Form.Group>
-                    <Form.Label>Email</Form.Label>
+                  <Form.Group className="mb-3">
+                    <Form.Label className="mb-2 ms-3">Email</Form.Label>
                     <Form.Control
                       type="email"
                       value={updatedUser.email}
@@ -180,16 +210,16 @@ function Profile() {
                   </Form.Group>
                 </Col>
                 <Col className="ml-8">
-                  <Form.Group>
-                    <Form.Label>Date Created</Form.Label>
+                  <Form.Group className="mb-3">
+                    <Form.Label className="mb-2 ms-3">Date Created</Form.Label>
                     <Form.Control
                       type="text"
                       value={formatDate(updatedUser.dateCreated)}
                       readOnly
                     />
                   </Form.Group>
-                  <Form.Group>
-                    <Form.Label>Last Name</Form.Label>
+                  <Form.Group className="mb-3">
+                    <Form.Label className="mb-2 ms-3">Last Name</Form.Label>
                     <Form.Control
                       type="text"
                       value={updatedUser.lastName}
@@ -202,8 +232,8 @@ function Profile() {
                       readOnly={!isEditing}
                     />
                   </Form.Group>
-                  <Form.Group>
-                    <Form.Label>Phone</Form.Label>
+                  <Form.Group className="mb-3">
+                    <Form.Label className="mb-2 ms-3">Phone</Form.Label>
                     <Form.Control
                       type="text"
                       value={updatedUser.phone}
@@ -217,9 +247,9 @@ function Profile() {
                     />
                   </Form.Group>
 
-                  <Form.Group>
-                    <Form.Label>Password</Form.Label>
-                    <div className="password-input-container">
+                  <Form.Group className="mb-3">
+                    <Form.Label className="mb-2 ms-3">Password</Form.Label>
+                    <div className="password-input-container" style={{ position: 'relative' }}>
                       <Form.Control
                         type={isEditing ? 'text' : showPassword ? 'text' : 'password'}
                         value={updatedUser.password}
@@ -231,27 +261,51 @@ function Profile() {
                         }
                         readOnly={!isEditing}
                         className="password-toggle-icon"
-                        onClick={!isEditing ? () => setShowPassword(!showPassword) : undefined}
-                        style={{ cursor: !isEditing ? 'pointer' : 'text' }}
+                      />
+                      <FontAwesomeIcon
+                        icon={showPassword ? faEye : faEyeSlash}
+                        onClick={() => setShowPassword(!showPassword)}
+                        style={{
+                          position: 'absolute',
+                          top: '0',
+                          right: '8px',
+                          color: '#5a6473',
+                          padding: '16px 12px',
+                          cursor: 'pointer',
+                          userSelect: 'none',
+                        }}
                       />
                     </div>
                   </Form.Group>
                 </Col>
               </Row>
-              {isEditing || isAvatarChanged ? (
-                <Button variant="contained" className="btn" onClick={handleSave}>
-                  Save
+              <div style={{ display: 'flex', justifyContent: 'flex-end', marginTop: '20px' }}>
+                <Button
+                  variant="contained"
+                  className="btn"
+                  style={{
+                    marginRight: '24px',
+                    background: 'var(--primary-coor-0)',
+                    border: '2px solid var(--primary-color-2)',
+                  }}
+                  onClick={handleReset}
+                >
+                  Cancel
                 </Button>
-              ) : (
-                <Button variant="contained" className="btn" onClick={handleEdit}>
-                  Edit
-                </Button>
-              )}
+                {isEditing || isAvatarChanged ? (
+                  <Button variant="contained" className="btn" onClick={handleSave}>
+                    {isLoading ? 'Saving...' : 'Save'}
+                  </Button>
+                ) : (
+                  <Button variant="contained" className="btn" onClick={handleEdit}>
+                    {isLoading ? 'Editing...' : 'Edit'}
+                  </Button>
+                )}
+              </div>
             </div>
           </div>
         </div>
       </div>
-      {contextHolder}
     </div>
   );
 }

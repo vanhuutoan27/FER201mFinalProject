@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react';
 
-import CountUp from 'react-countup';
 import axios from '../../../config/axios';
+import CountUp from 'react-countup';
+import { Waypoint } from 'react-waypoint';
 
 import './About.css';
 
@@ -9,6 +10,11 @@ function Statistics() {
   const [customerCount, setCustomerCount] = useState(0);
   const [orderCount, setOrderCount] = useState(0);
   const [feedbackCount, setFeedbackCount] = useState(0);
+  const [startCountUp, setStartCountUp] = useState(false);
+
+  const handleWaypointEnter = () => {
+    setStartCountUp(true);
+  };
 
   useEffect(() => {
     axios
@@ -70,26 +76,28 @@ function Statistics() {
             </p>
           </div>
         </div>
-        <div className="row-qty">
-          <div className="qty-item">
-            <strong className="qty">
-              <CountUp end={customerCount} duration={3} />+
-            </strong>
-            <p className="qty-desc">Cutomers</p>
+        <Waypoint onEnter={handleWaypointEnter}>
+          <div className="row-qty">
+            <div className="qty-item">
+              <strong className="qty">
+                <CountUp end={startCountUp ? customerCount * 10 : 0} duration={3} />+
+              </strong>
+              <p className="qty-desc">Cutomers</p>
+            </div>
+            <div className="qty-item">
+              <strong className="qty">
+                <CountUp end={startCountUp ? orderCount * 100 : 0} duration={3} />+
+              </strong>
+              <p className="qty-desc">Orders</p>
+            </div>
+            <div className="qty-item">
+              <strong className="qty">
+                <CountUp end={startCountUp ? feedbackCount * 50 : 0} duration={3} />+
+              </strong>
+              <p className="qty-desc">Feedbacks</p>
+            </div>
           </div>
-          <div className="qty-item">
-            <strong className="qty">
-              <CountUp end={orderCount} duration={3} />+
-            </strong>
-            <p className="qty-desc">Orders</p>
-          </div>
-          <div className="qty-item">
-            <strong className="qty">
-              <CountUp end={feedbackCount} duration={3} />+
-            </strong>
-            <p className="qty-desc">Feedbacks</p>
-          </div>
-        </div>
+        </Waypoint>
       </div>
     </div>
   );

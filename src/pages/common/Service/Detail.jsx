@@ -1,19 +1,15 @@
 /* eslint-disable jsx-a11y/img-redundant-alt */
-import React, { useState } from 'react';
+import React from 'react';
 import { Modal, Form } from 'react-bootstrap';
 
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
+import Button from '@mui/material/Button';
+import { Link } from 'react-router-dom';
 
 import { formatPriceWithDot } from '../../../utils/PriceUtils';
 
 function Detail({ selectedService, selectedPackageService, rating, onClose }) {
-  const [clickedImage, setClickedImage] = useState(null);
-
-  const openImageInModal = (imageUrl) => {
-    setClickedImage(imageUrl);
-  };
-
   return (
     <div className="DetailPage">
       <Modal
@@ -35,11 +31,6 @@ function Detail({ selectedService, selectedPackageService, rating, onClose }) {
                       src={selectedService ? selectedService.image : selectedPackageService.image}
                       alt="Service Image"
                       className="service-image"
-                      onClick={() =>
-                        openImageInModal(
-                          selectedService ? selectedService.image : selectedPackageService.image
-                        )
-                      }
                     />
                   </Form.Group>
                 </Col>
@@ -135,17 +126,16 @@ function Detail({ selectedService, selectedPackageService, rating, onClose }) {
           )}
         </Modal.Body>
         <Modal.Footer>
-          <button className="button-modal" onClick={onClose}>
+          <Button
+            variant="contained"
+            className="btn"
+            onClick={onClose}
+            style={{ marginRight: '5%' }}
+          >
             Close
-          </button>
+          </Button>
         </Modal.Footer>
       </Modal>
-
-      {clickedImage && (
-        <div className="modal-image" onClick={() => setClickedImage(null)}>
-          <img src={clickedImage} alt="Service Image" className="service-image-large" />
-        </div>
-      )}
     </div>
   );
 }

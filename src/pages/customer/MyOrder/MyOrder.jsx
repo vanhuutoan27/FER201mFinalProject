@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { Pagination } from 'antd';
 import { AuthContext } from '../../../App';
-import { Link, useParams } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import StarIcon from '@mui/icons-material/Star';
 
 import axios from '../../../config/axios';
@@ -18,7 +18,7 @@ import '../../../components/Management.css';
 function MyOrder() {
   const session = useContext(AuthContext);
   const userInfo = session.user.user;
-  const { userId } = useParams();
+  // const { userId } = useParams();
 
   const [allOrders, setAllOrders] = useState([]);
   const [staffOrders, setStaffOrders] = useState([]);

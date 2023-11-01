@@ -8,6 +8,7 @@ import Col from 'react-bootstrap/Col';
 import { Link } from 'react-router-dom';
 import { AuthContext } from '../../../App';
 import Swal from 'sweetalert2';
+import unidecode from 'unidecode';
 
 import Navigation from '../../../components/Navigation';
 import Footer from '../../../components/Footer';
@@ -31,7 +32,6 @@ function Order() {
   const selectedService = JSON.parse(localStorage.getItem('selectedService'));
   const selectedPackageService = JSON.parse(localStorage.getItem('selectedPackageService'));
   const subTotalString = selectedService.price;
-  const [discountCode, setDiscountCode] = useState('');
   const [discountPercentage, setDiscountPercentage] = useState(0);
   const [isDiscountApplied, setIsDiscountApplied] = useState(false);
   const [currentDiscountCode, setCurrentDiscountCode] = useState('');
@@ -110,17 +110,19 @@ function Order() {
         text: 'Please select a payment method before placing your order!',
       });
     } else {
-      if (isDiscountApplied) {
-        shippingFormik.setValues({
-          ...shippingFormik.values,
-          price: formatPriceWithDot(total), // Sử dụng giá đã giảm nếu mã giảm giá đã được áp dụng
-        });
-      } else {
-        shippingFormik.setValues({
-          ...shippingFormik.values,
-          price: formatPriceWithDot(subTotal), // Sử dụng giá ban đầu nếu không có mã giảm giá
-        });
-      }
+      // Remove diacritics from the customer's full name, addres and note using unidecode
+      const fullNameWithoutDiacritics = unidecode(shippingFormik.values.fullName);
+      const noteWithoutDiacritics = unidecode(shippingFormik.values.note);
+      const addressWithoutDiacritics = unidecode(shippingFormik.values.address);
+
+      shippingFormik.setValues({
+        ...shippingFormik.values,
+        fullName: fullNameWithoutDiacritics, // Set the full name without diacritics
+        note: noteWithoutDiacritics, // Set the note without diacritics
+        address: addressWithoutDiacritics, // Set the address without diacritics
+        price: isDiscountApplied ? formatPriceWithDot(total) : formatPriceWithDot(subTotal),
+      });
+
       shippingFormik.handleSubmit();
     }
     sendOrderConfirmationEmail();
@@ -207,40 +209,16 @@ function Order() {
 
   const discountCodeRef = useRef(null);
 
-  const applyDiscount = () => {
-    const code = discountCodeRef.current.value;
-    if (code === 'Halo4Stu' || code === '4StuServices') {
-      setDiscountPercentage(20);
-      setIsDiscountApplied(true); // Đánh dấu rằng mã giảm giá đã được áp dụng
-      // Thêm class total-discounted để thay đổi màu của total thành màu đỏ
-      document.querySelector('.total').classList.add('total-discounted');
-
-      // Show a success message when the discount is applied
-      Swal.fire({
-        icon: 'success',
-        title: 'Discount Applied!',
-        text: 'Your discount code has been applied successfully.',
-      });
-    } else {
-      setDiscountPercentage(0);
-      setIsDiscountApplied(false); // Đánh dấu rằng mã giảm giá không được áp dụng
-      // Loại bỏ class total-discounted để trả lại màu mặc định
-      document.querySelector('.total').classList.remove('total-discounted');
-
-      // Show an error message when the discount code is not valid
-      Swal.fire({
-        icon: 'error',
-        title: 'Invalid Discount Code',
-        text: 'The discount code you entered is not valid. Please try again.',
-      });
-    }
-  };
-
   const handleDiscountCodeChange = (code) => {
     if (code === 'Halo4Stu' || code === '4StuServices') {
       setDiscountPercentage(20);
       setIsDiscountApplied(true);
       document.querySelector('.total').classList.add('total-discounted');
+      Swal.fire({
+        icon: 'success',
+        title: 'Discount Applied!',
+        text: 'Your discount code has been applied successfully.',
+      });
     } else {
       setDiscountPercentage(0);
       setIsDiscountApplied(false);
@@ -420,6 +398,7 @@ function Order() {
             >
               <div className="main-info-section">
                 <h2>Payment Details</h2>
+
                 <Row>
                   <Col sm={4}>
                     <div className="qr-payment">
@@ -447,6 +426,9 @@ function Order() {
                     readOnly
                   />
                 </Form.Group>
+                <h3 style={{ margin: '8px 0 0 8px', color: 'red' }}>
+                  NOTE: Please send the message content as above
+                </h3>
               </div>
               <hr />
             </div>
@@ -489,6 +471,7 @@ function Order() {
           ) : (
             <p>No service selected.</p>
           )}
+
           <div className="price-content">
             <div className="discount-section">
               <Form.Control
@@ -501,9 +484,6 @@ function Order() {
                 }}
                 ref={discountCodeRef}
               />
-              <Link to="#!" className="btn" onClick={applyDiscount}>
-                Apply
-              </Link>
             </div>
 
             <div className="sub-total">

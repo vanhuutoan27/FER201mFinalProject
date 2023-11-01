@@ -82,7 +82,7 @@ function Contact() {
                     <span>
                       <FontAwesomeIcon icon={faPhone} className="custom-icon-contact" />
                     </span>
-                    <span>+840123456789</span>
+                    <span>0792766979</span>
                   </li>
                 </ul>
               </div>
