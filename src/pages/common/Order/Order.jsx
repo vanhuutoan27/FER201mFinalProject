@@ -24,6 +24,8 @@ function Order() {
   const hasNoSession = !session || !session.user || !session.user.user;
   const [selectedPaymentMethod, setSelectedPaymentMethod] = useState('');
   const [isMomoPaymentSelected, setIsMomoPaymentSelected] = useState(false);
+  const [isCreditCardPaymentSelected, setIsCreditCardPaymentSelected] = useState(false);
+  const [isPOCSelected, setIsPOCSelected] = useState(false);
   const [randomCode, setRandomCode] = useState(generateRandomCode());
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [loginError, setLoginError] = useState(null);
@@ -51,8 +53,13 @@ function Order() {
 
     if (selectedMethod === 'momo') {
       setIsMomoPaymentSelected(true);
+      setIsCreditCardPaymentSelected(false);
+    } else if (selectedMethod === 'credit-card') {
+      setIsCreditCardPaymentSelected(true);
+      setIsMomoPaymentSelected(false);
     } else {
       setIsMomoPaymentSelected(false);
+      setIsCreditCardPaymentSelected(false);
     }
   };
 
@@ -63,8 +70,8 @@ function Order() {
 
   const accountFormik = useFormik({
     initialValues: {
-      email: 'user1@gmail.com',
-      password: '123456',
+      email: '',
+      password: '',
     },
 
     validationSchema: Yup.object({
@@ -74,34 +81,31 @@ function Order() {
         .required('Password is required'),
     }),
 
-    onSubmit: (values) => {
+    onSubmit: async (values) => {
       setIsSubmitting(true);
       setLoginError(null);
 
-      axios
-        .post('/CustomerManagements/Login', {
+      try {
+        const response = await axios.post('/CustomerManagements/Login', {
           email: values.email,
           password: values.password,
-        })
-        .then((response) => {
-          console.log(response.data);
-          localStorage.setItem('accessToken', response.data.accessToken);
-          Cookies.set('accessToken', response.data.accessToken);
-
-          window.location.reload();
-        })
-        .catch((error) => {
-          setLoginError('Invalid email or password. Please try again.');
-          console.error(error);
-          alert('Failed to login. Please try again');
-        })
-        .finally(() => {
-          setIsSubmitting(false);
         });
+        console.log(response.data);
+        localStorage.setItem('accessToken', response.data.accessToken);
+        Cookies.set('accessToken', response.data.accessToken);
+
+        window.location.reload();
+      } catch (error) {
+        setLoginError('Invalid email or password. Please try again.');
+        console.error(error);
+        alert('Failed to login. Please try again');
+      } finally {
+        setIsSubmitting(false);
+      }
     },
   });
 
-  const handleSubmitOrder = (e) => {
+  const handleSubmitOrder = async (e) => {
     e.preventDefault();
     if (!selectedPaymentMethod) {
       Swal.fire({
@@ -110,38 +114,65 @@ function Order() {
         text: 'Please select a payment method before placing your order!',
       });
     } else {
-      // Remove diacritics from the customer's full name, addres and note using unidecode
       const fullNameWithoutDiacritics = unidecode(shippingFormik.values.fullName);
       const noteWithoutDiacritics = unidecode(shippingFormik.values.note);
       const addressWithoutDiacritics = unidecode(shippingFormik.values.address);
 
       shippingFormik.setValues({
         ...shippingFormik.values,
-        fullName: fullNameWithoutDiacritics, // Set the full name without diacritics
-        note: noteWithoutDiacritics, // Set the note without diacritics
-        address: addressWithoutDiacritics, // Set the address without diacritics
+        fullName: fullNameWithoutDiacritics,
+        note: noteWithoutDiacritics,
+        address: addressWithoutDiacritics,
         price: isDiscountApplied ? formatPriceWithDot(total) : formatPriceWithDot(subTotal),
       });
 
-      shippingFormik.handleSubmit();
+      await shippingFormik.handleSubmit();
     }
     sendOrderConfirmationEmail();
   };
 
-  const sendOrderConfirmationEmail = () => {
-    const emailData = {
-      to: userInfo.email,
-      subject: 'Order Confirmation',
-      text: 'Your order has been confirmed. Thank you for your purchase!',
-    };
+  const sendOrderConfirmationEmail = async () => {
+    try {
+      const emailSubject = 'Order Confirmation';
+      const customerName = shippingFormik.values.fullName;
+      const customerEmail = userInfo.email;
+      const orderTotal = isDiscountApplied
+        ? formatPriceWithDot(total)
+        : formatPriceWithDot(subTotal);
+      const paymentMethodText =
+        selectedPaymentMethod === 'momo' ? 'Payment via Momo' : 'Payment via Credit Card';
 
-    sendEmail(emailData)
-      .then((response) => {
-        console.log('Email sent to:', userInfo.email);
-      })
-      .catch((error) => {
-        console.error('Error sending email:', error);
-      });
+      const selectedServiceInfo = selectedService || selectedPackageService;
+      const serviceName = selectedServiceInfo ? selectedServiceInfo.serviceName : '';
+
+      const emailContent = `
+        Hi ${customerName},
+
+        Thank you for your order of the service: ${serviceName}! Below are the details of your order:
+
+        Order Total: ${orderTotal} VND
+        Payment Method: ${paymentMethodText}
+        Address: ${shippingFormik.values.address}
+        Phone Number: ${shippingFormik.values.phoneNumber}
+        Note: ${shippingFormik.values.note}
+
+        Please pay attention to our phone number so our staff can contact you and schedule a specific date to perform the service.
+
+        Best regards,
+        From 4Stu With Love <3
+      `;
+
+      const emailData = {
+        to: customerEmail,
+        subject: emailSubject,
+        text: emailContent,
+      };
+
+      await sendEmail(emailData);
+      console.log('Email sent to:', customerEmail);
+    } catch (error) {
+      console.error('Error sending email:', error);
+    }
   };
 
   const selectedServiceInfo = selectedService || selectedPackageService;
@@ -378,9 +409,11 @@ function Order() {
                         value={selectedPaymentMethod}
                         onChange={handlePaymentMethodChange}
                         name="paymentMethod"
+                        style={{ cursor: 'pointer' }}
                       >
                         <option value=""></option>
                         <option value="momo">Payment via Momo</option>
+                        <option value="credit-card">Payment via Credit Card</option>
                         <option value="not-yet">Payment on Completion</option>
                       </Form.Control>
                     </Form.Group>
@@ -402,7 +435,7 @@ function Order() {
                 <Row>
                   <Col sm={4}>
                     <div className="qr-payment">
-                      <img src="../assets/images/QRPayment.jpg" alt="QR Payment" />
+                      <img src="../assets/images/QRMomo.jpg" alt="QR Payment" />
                     </div>
                   </Col>
 
@@ -414,6 +447,53 @@ function Order() {
                     <Form.Group>
                       <Form.Label className="mb-2 ms-3"></Form.Label>
                       <Form.Control type="text" value={'0792766979'} readOnly />
+                    </Form.Group>
+                  </Col>
+                </Row>
+
+                <Form.Group>
+                  <Form.Label className="mb-2 ms-3">Payment Content</Form.Label>
+                  <Form.Control
+                    type="text"
+                    value={`YOUR FULL NAME - YOUR PHONE - ${randomCode}`}
+                    readOnly
+                  />
+                </Form.Group>
+                <h3 style={{ margin: '8px 0 0 8px', color: 'red' }}>
+                  NOTE: Please send the message content as above
+                </h3>
+              </div>
+              <hr />
+            </div>
+          )}
+
+          {isCreditCardPaymentSelected && (
+            <div
+              id="payment-section"
+              className={`changeable-content ${isAccountSectionVisible ? 'hidden' : ''}`}
+            >
+              <div className="main-info-section">
+                <h2>Payment Details</h2>
+
+                <Row>
+                  <Col sm={5}>
+                    <div className="qr-payment">
+                      <img src="../assets/images/QRCredit.jpg" alt="QR Payment" />
+                    </div>
+                  </Col>
+
+                  <Col sm={7}>
+                    <Form.Group>
+                      <Form.Label className="mb-2 ms-3"></Form.Label>
+                      <Form.Control type="text" value={'Van Huu Toan'} readOnly />
+                    </Form.Group>
+                    <Form.Group>
+                      <Form.Label className="mb-2 ms-3"></Form.Label>
+                      <Form.Control type="text" value={'TP Bank'} readOnly />
+                    </Form.Group>
+                    <Form.Group>
+                      <Form.Label className="mb-2 ms-3"></Form.Label>
+                      <Form.Control type="text" value={'2849 7112 029'} readOnly />
                     </Form.Group>
                   </Col>
                 </Row>

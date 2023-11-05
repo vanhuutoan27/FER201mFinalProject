@@ -1007,7 +1007,7 @@ textarea {
 
 /* MODAL */
 .modal-content {
-  background-color: var(--primary-color-0);
+  background-color: #fff;
 }
 
 .chakra-ui-light .modal-open {

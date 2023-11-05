@@ -14,9 +14,7 @@ import '../../../components/Management.css';
 function StaffOrder() {
   const session = useContext(AuthContext);
   const user = session.user;
-  const [allOrders, setAllOrders] = useState([]);
   const [currentItems, setCurrentItems] = useState([]);
-  const [totalItems, setTotalItems] = useState(0);
   const [completedOrders, setCompletedOrders] = useState([]);
   const [selectedOrder, setSelectedOrder] = useState(null);
   const [staffEmail, setStaffEmail] = useState('');
@@ -47,7 +45,7 @@ function StaffOrder() {
         const staffData = response.data;
         if (staffData.length > 0) {
           setStaffEmail(user.user.email);
-          console.log('staffEmail:', user.user.email);
+          console.log('staffEmail:', staffEmail);
         }
       })
       .catch((error) => console.log(error));
@@ -80,7 +78,7 @@ function StaffOrder() {
         <StaffNavigation />
       </div>
 
-      <div className="table-content">
+      <div className="table-content" style={{ marginTop: '40px' }}>
         <div className="table-widget">
           <caption>
             <h2>All Orders Available</h2>

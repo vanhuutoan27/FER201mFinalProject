@@ -28,17 +28,20 @@ const fetchData = async (user, setAllEvents) => {
       const orderInfo = orderResponse.data;
       const staffInfo = staffResponse.data;
 
-      const combinedTask = {
-        serviceName: orderInfo.serviceName,
-        customerName: orderInfo.customerName,
-        phone: orderInfo.phone,
-        address: orderInfo.address,
-        staffInfo,
-        dateShipping,
-        type: 'success',
-      };
+      if (orderInfo.status === 'Processing') {
+        // Lọc sự kiện có trạng thái "Processing"
+        const combinedTask = {
+          serviceName: orderInfo.serviceName,
+          customerName: orderInfo.customerName,
+          phone: orderInfo.phone,
+          address: orderInfo.address,
+          staffInfo,
+          dateShipping,
+          type: 'success',
+        };
 
-      events.push(combinedTask);
+        events.push(combinedTask);
+      }
     }
 
     setAllEvents(events);

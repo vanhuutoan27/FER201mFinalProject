@@ -146,7 +146,7 @@ function OrderManagement() {
                   <th
                     className="sort-button"
                     onClick={handleSortStatus}
-                    style={{ cursor: 'pointer' }}
+                    style={{ cursor: 'pointer', userSelect: 'none' }}
                   >
                     Status
                     {sortOrder === 'asc' ? (

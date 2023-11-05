@@ -19,7 +19,7 @@ function Navigation() {
 
     // Simulate a delay of 2 seconds using setTimeout
     setTimeout(() => {
-      session.setUser(null);
+      // session.setUser(null);
       localStorage.removeItem('accessToken');
       Cookies.remove('accessToken');
       window.location.href = '/';

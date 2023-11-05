@@ -150,7 +150,11 @@ function StaffProfile() {
             </div>
             <div className="card-avatar-body">
               <h2 className="title">About</h2>
-              <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolores dolorem ipsum.</p>
+              <p>
+                I am a dedicated cleaning professional at 4Stu Services, committed to providing high
+                quality cleaning and maintenance solutions to our valued customers. Let's make your
+                space shine together!
+              </p>
             </div>
           </div>
           <div className="card-info">
@@ -158,7 +162,7 @@ function StaffProfile() {
               <h2 className="title">Staff Information</h2>
               <Row>
                 <Col className=" mr-8">
-                  <Form.Group className="mb-3">
+                  <Form.Group className="mb-4">
                     <Form.Label className="mb-2 ms-3">ID</Form.Label>
                     <Form.Control
                       type="text"
@@ -173,7 +177,7 @@ function StaffProfile() {
                       readOnly
                     />
                   </Form.Group>
-                  <Form.Group className="mb-3">
+                  <Form.Group className="mb-4">
                     <Form.Label className="mb-2 ms-3">Date of Birth</Form.Label>
                     <Form.Control
                       type={isEditing ? 'date' : 'text'}
@@ -188,7 +192,7 @@ function StaffProfile() {
                     />
                   </Form.Group>
 
-                  <Form.Group className="mb-3">
+                  <Form.Group className="mb-4">
                     <Form.Label className="mb-2 ms-3">Password</Form.Label>
                     <div className="password-input-container" style={{ position: 'relative' }}>
                       <Form.Control
@@ -220,7 +224,7 @@ function StaffProfile() {
                   </Form.Group>
                 </Col>
                 <Col className="ml-8">
-                  <Form.Group className="mb-3">
+                  <Form.Group className="mb-4">
                     <Form.Label className="mb-2 ms-3">Date Created</Form.Label>
                     <Form.Control
                       type="text"
@@ -228,7 +232,7 @@ function StaffProfile() {
                       readOnly
                     />
                   </Form.Group>
-                  <Form.Group className="mb-3">
+                  <Form.Group className="mb-4">
                     <Form.Label className="mb-2 ms-3">Phone</Form.Label>
                     <Form.Control
                       type="text"
@@ -238,13 +242,13 @@ function StaffProfile() {
                     />
                   </Form.Group>
 
-                  <Form.Group className="mb-3">
+                  <Form.Group className="mb-4">
                     <Form.Label className="mb-2 ms-3">Total Orders</Form.Label>
                     <Form.Control type="text" value={totalOrders} readOnly />
                   </Form.Group>
                 </Col>
               </Row>
-              <div style={{ display: 'flex', justifyContent: 'flex-end', marginTop: '20px' }}>
+              <div style={{ display: 'flex', justifyContent: 'flex-end', marginTop: '100px' }}>
                 <Button
                   variant="contained"
                   className="btn"

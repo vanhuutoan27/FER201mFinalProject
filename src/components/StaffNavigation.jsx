@@ -15,20 +15,25 @@ import {
   faRightFromBracket,
   faUser,
 } from '@fortawesome/free-solid-svg-icons';
+import Loading from './Loading';
 
 function StaffNavigation() {
   const session = useContext(AuthContext);
   const userInfo = session.user.user;
-
+  const [isLoading, setIsLoading] = useState(false); // Thêm biến state isLoading
   const [allStaffs, setAllStaffs] = useState([]);
   const location = useLocation();
 
   const handleLogout = (e) => {
     e.preventDefault();
-    session.setUser(null);
-    localStorage.removeItem('accessToken');
-    Cookies.remove('accessToken');
-    window.location.href = '/';
+    setIsLoading(true); // Khi nhấn Logout, set isLoading thành true
+
+    setTimeout(() => {
+      // session.setUser(null);
+      localStorage.removeItem('accessToken');
+      Cookies.remove('accessToken');
+      window.location.href = '/';
+    }, 1000);
   };
 
   useEffect(() => {
@@ -141,6 +146,9 @@ function StaffNavigation() {
             </Link>
           </div>
         </div>
+      ) : // Hiển thị trang Loading khi isLoading là true
+      isLoading ? (
+        <Loading />
       ) : null}
     </div>
   );

@@ -219,7 +219,13 @@ function UpdateOrder({ selectedOrder, onClose }) {
                     <Form.Label className="mb-2 ms-3">Payment Method</Form.Label>
                     <Form.Control
                       type="text"
-                      value={selectedOrder.paymentMethod === 'momo' ? 'Momo' : 'POC'}
+                      value={
+                        selectedOrder.paymentMethod === 'momo'
+                          ? 'Momo'
+                          : 'credit-card'
+                          ? 'Credit Card'
+                          : 'POC'
+                      }
                       readOnly
                     />
                   </Form.Group>

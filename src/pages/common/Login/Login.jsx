@@ -280,8 +280,8 @@ function Login() {
               onClick={() => setShowPassword(!showPassword)}
               style={{
                 position: 'absolute',
-                top: '234px',
-                right: '50px',
+                top: '240px',
+                right: '54px',
                 color: '#5a6473',
                 padding: '16px 12px',
                 cursor: 'pointer',

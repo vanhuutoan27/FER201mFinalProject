@@ -54,6 +54,13 @@ function StaffTask() {
         tasks.push(combinedTask);
       }
 
+      // Sắp xếp theo trạng thái "Processing" trước, sau đó là "Completed"
+      tasks.sort((a, b) => {
+        if (a.orderInfo.status === 'Processing' && b.orderInfo.status === 'Completed') return -1;
+        if (a.orderInfo.status === 'Completed' && b.orderInfo.status === 'Processing') return 1;
+        return 0;
+      });
+
       setAllTasks(tasks);
     } catch (error) {
       console.error(error);
@@ -89,7 +96,7 @@ function StaffTask() {
         <StaffNavigation />
       </div>
 
-      <div className="table-content">
+      <div className="table-content" style={{ marginTop: '40px' }}>
         <div className="table-widget">
           <caption>
             <h2>

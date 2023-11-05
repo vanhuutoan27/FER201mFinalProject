@@ -7,6 +7,9 @@ import { AuthContext } from '../../../App';
 import axios from '../../../config/axios';
 import { formatDate } from '../../../utils/DateUtils';
 import { formatPriceWithDot } from '../../../utils/PriceUtils';
+import { Button } from '@mui/material';
+import Swal from 'sweetalert2';
+import { sendEmail } from '../../../components/emailService';
 
 function ViewOrder({ selectedOrder, onClose }) {
   const session = useContext(AuthContext);
@@ -38,15 +41,38 @@ function ViewOrder({ selectedOrder, onClose }) {
         });
 
         console.log(postResponse.data);
+
+        // Gửi email xác nhận đến khách hàng
+        const emailData = {
+          to: selectedOrder.email,
+          subject: 'Order Confirmation',
+          text: `Dear ${selectedOrder.customerName},\n\nYour order with ID: O${String(
+            selectedOrder.orderId
+          ).padStart(
+            3,
+            '0'
+          )} has been accepted and is now in processing.\n\nPlease pay attention to our phone number so our staff can contact you and schedule a specific date to perform the service.\n\nBest regards,\nFrom 4Stu With Love <3`,
+        };
+
+        await sendEmail(emailData);
       } else {
         alert('User is not authorized to accept this order.');
       }
 
       await axios.put(`/OrderManagements/${selectedOrder.orderId}`, updatedOrder);
 
-      alert('Order status updated to Processing successfully');
-      onClose();
-      window.location.reload();
+      // Hiển thị SweetAlert sau khi cập nhật thành công
+      Swal.fire({
+        icon: 'success',
+        title: 'Order Status Updated',
+        text: 'The order status has been updated to Processing successfully.',
+        showConfirmButton: true,
+      }).then((result) => {
+        if (result.isConfirmed) {
+          onClose();
+          window.location.reload();
+        }
+      });
     } catch (error) {
       alert('Error updating order');
       console.error('Error updating order status', error);
@@ -56,7 +82,7 @@ function ViewOrder({ selectedOrder, onClose }) {
   };
 
   return (
-    <Modal show={!!selectedOrder} onHide={onClose} size="lg">
+    <Modal show={!!selectedOrder} onHide={onClose} size="lg" style={{ marginTop: '40px' }}>
       <Modal.Header closeButton>
         <Modal.Title>View Order Details</Modal.Title>
       </Modal.Header>
@@ -64,9 +90,9 @@ function ViewOrder({ selectedOrder, onClose }) {
         {selectedOrder && (
           <Form>
             <Row>
-              <Col sm={4}>
-                <Form.Group className="mb-2">
-                  <Form.Label>Order ID</Form.Label>
+              <Col sm={6}>
+                <Form.Group className="mb-3">
+                  <Form.Label className="mb-2 ms-3">Order ID</Form.Label>
                   <Form.Control
                     type="text"
                     value={`O${
@@ -79,9 +105,9 @@ function ViewOrder({ selectedOrder, onClose }) {
                 </Form.Group>
               </Col>
 
-              <Col sm={4}>
-                <Form.Group className="mb-2">
-                  <Form.Label>Date Created</Form.Label>
+              <Col sm={6}>
+                <Form.Group className="mb-3">
+                  <Form.Label className="mb-2 ms-3">Date Created</Form.Label>
                   <Form.Control
                     type="text"
                     value={formatDate(selectedOrder.dateCreated)}
@@ -93,15 +119,15 @@ function ViewOrder({ selectedOrder, onClose }) {
 
             <Row>
               <Col>
-                <Form.Group className="mb-2">
-                  <Form.Label>Full Name</Form.Label>
+                <Form.Group className="mb-3">
+                  <Form.Label className="mb-2 ms-3">Full Name</Form.Label>
                   <Form.Control type="text" value={selectedOrder.customerName} readOnly />
                 </Form.Group>
               </Col>
 
               <Col>
-                <Form.Group className="mb-2">
-                  <Form.Label>Phone</Form.Label>
+                <Form.Group className="mb-3">
+                  <Form.Label className="mb-2 ms-3">Phone</Form.Label>
                   <Form.Control type="text" value={selectedOrder.phone} readOnly />
                 </Form.Group>
               </Col>
@@ -110,14 +136,14 @@ function ViewOrder({ selectedOrder, onClose }) {
             <Row>
               <Col>
                 <Form.Group className="mb-3 form-name">
-                  <Form.Label>Email</Form.Label>
+                  <Form.Label className="mb-2 ms-3">Email</Form.Label>
                   <Form.Control type="email" value={selectedOrder.email} readOnly />
                 </Form.Group>
               </Col>
 
               <Col>
-                <Form.Group className="mb-2">
-                  <Form.Label>Note</Form.Label>
+                <Form.Group className="mb-3">
+                  <Form.Label className="mb-2 ms-3">Note</Form.Label>
                   <Form.Control type="text" value={selectedOrder.note} readOnly />
                 </Form.Group>
               </Col>
@@ -125,8 +151,8 @@ function ViewOrder({ selectedOrder, onClose }) {
 
             <Row>
               <Col>
-                <Form.Group className="mb-2">
-                  <Form.Label>Address</Form.Label>
+                <Form.Group className="mb-3">
+                  <Form.Label className="mb-2 ms-3">Address</Form.Label>
                   <Form.Control type="text" value={selectedOrder.address} readOnly />
                 </Form.Group>
               </Col>
@@ -134,15 +160,15 @@ function ViewOrder({ selectedOrder, onClose }) {
 
             <Row>
               <Col sm={6}>
-                <Form.Group className="mb-2">
-                  <Form.Label>Service Name</Form.Label>
+                <Form.Group className="mb-3">
+                  <Form.Label className="mb-2 ms-3">Service Name</Form.Label>
                   <Form.Control type="text" value={selectedOrder.serviceName} readOnly />
                 </Form.Group>
               </Col>
 
               <Col>
-                <Form.Group className="mb-2">
-                  <Form.Label>Total</Form.Label>
+                <Form.Group className="mb-3">
+                  <Form.Label className="mb-2 ms-3">Total</Form.Label>
                   <Form.Control
                     type="text"
                     value={`${formatPriceWithDot(selectedOrder.price)} VND`}
@@ -152,9 +178,19 @@ function ViewOrder({ selectedOrder, onClose }) {
               </Col>
 
               <Col>
-                <Form.Group className="mb-2">
-                  <Form.Label>Payment Method</Form.Label>
-                  <Form.Control type="text" value={selectedOrder.paymentMethod} readOnly />
+                <Form.Group className="mb-3">
+                  <Form.Label className="mb-2 ms-3">Payment Method</Form.Label>
+                  <Form.Control
+                    type="text"
+                    value={
+                      selectedOrder.paymentMethod === 'momo'
+                        ? 'Momo'
+                        : selectedOrder.paymentMethod === 'credit-card'
+                        ? 'Credit Card'
+                        : 'POC'
+                    }
+                    readOnly
+                  />
                 </Form.Group>
               </Col>
             </Row>
@@ -162,13 +198,19 @@ function ViewOrder({ selectedOrder, onClose }) {
         )}
       </Modal.Body>
       <Modal.Footer>
-        <button className="button-modal close-btn" onClick={onClose}>
+        <Button variant="contained" className="btn close-btn" onClick={onClose}>
           Close
-        </button>
+        </Button>
 
-        <button className="button-modal" onClick={updateOrderStatus} disabled={isLoading}>
+        <Button
+          variant="contained"
+          className="btn"
+          onClick={updateOrderStatus}
+          disabled={isLoading}
+          style={{ marginRight: '6%' }}
+        >
           {isLoading ? 'Accepting...' : 'Accept'}
-        </button>
+        </Button>
       </Modal.Footer>
     </Modal>
   );

@@ -6,6 +6,8 @@ import Col from 'react-bootstrap/Col';
 import axios from '../../../config/axios';
 import { formatDate } from '../../../utils/DateUtils';
 import { formatPriceWithDot } from '../../../utils/PriceUtils';
+import { Button } from '@mui/material';
+import Swal from 'sweetalert2';
 
 function ViewTask({ task, onClose, user }) {
   const [isLoading, setIsLoading] = useState(false);
@@ -20,11 +22,24 @@ function ViewTask({ task, onClose, user }) {
 
       await axios.put(`/OrderManagements/${selectedOrder.orderId}`, updatedOrder);
 
-      alert('Order status updated to Completed successfully');
-      onClose();
-      window.location.reload();
+      Swal.fire({
+        icon: 'success',
+        title: 'Order Completed',
+        text: 'The order status has been updated to Completed successfully.',
+        showConfirmButton: true,
+      }).then((result) => {
+        if (result.isConfirmed) {
+          onClose();
+          window.location.reload();
+        }
+      });
     } catch (error) {
-      alert('Error updating order');
+      Swal.fire({
+        icon: 'error',
+        title: 'Error',
+        text: 'Failed to complete the order. Please try again.',
+        showConfirmButton: true,
+      });
       console.error('Error updating order status', error);
     } finally {
       setIsLoading(false);
@@ -38,7 +53,7 @@ function ViewTask({ task, onClose, user }) {
   }, [task]);
 
   return (
-    <Modal show={task !== null} onHide={onClose} size="lg">
+    <Modal show={task !== null} onHide={onClose} size="lg" style={{ marginTop: '40px' }}>
       <Modal.Header closeButton>
         <Modal.Title>View Task Details</Modal.Title>
       </Modal.Header>
@@ -47,8 +62,8 @@ function ViewTask({ task, onClose, user }) {
           <Form>
             <Row>
               <Col sm={4}>
-                <Form.Group className="mb-2">
-                  <Form.Label>Task ID</Form.Label>
+                <Form.Group className="mb-3">
+                  <Form.Label className="mb-2 ms-3">Task ID</Form.Label>
                   <Form.Control
                     type="text"
                     value={`T${
@@ -62,8 +77,8 @@ function ViewTask({ task, onClose, user }) {
               </Col>
 
               <Col sm={4}>
-                <Form.Group className="mb-2">
-                  <Form.Label>Date Created</Form.Label>
+                <Form.Group className="mb-3">
+                  <Form.Label className="mb-2 ms-3">Date Created</Form.Label>
                   <Form.Control
                     type="text"
                     value={formatDate(task.orderInfo.dateCreated)}
@@ -73,8 +88,8 @@ function ViewTask({ task, onClose, user }) {
               </Col>
 
               <Col sm={4}>
-                <Form.Group className="mb-2">
-                  <Form.Label>Status</Form.Label>
+                <Form.Group className="mb-3">
+                  <Form.Label className="mb-2 ms-3">Status</Form.Label>
                   <Form.Control type="text" value={task.orderInfo.status} readOnly />
                 </Form.Group>
               </Col>
@@ -82,15 +97,15 @@ function ViewTask({ task, onClose, user }) {
 
             <Row>
               <Col>
-                <Form.Group className="mb-2">
-                  <Form.Label>Full Name</Form.Label>
+                <Form.Group className="mb-3">
+                  <Form.Label className="mb-2 ms-3">Full Name</Form.Label>
                   <Form.Control type="text" value={task.orderInfo.customerName} readOnly />
                 </Form.Group>
               </Col>
 
               <Col>
-                <Form.Group className="mb-2">
-                  <Form.Label>Phone</Form.Label>
+                <Form.Group className="mb-3">
+                  <Form.Label className="mb-2 ms-3">Phone</Form.Label>
                   <Form.Control type="text" value={task.orderInfo.phone} readOnly />
                 </Form.Group>
               </Col>
@@ -99,14 +114,14 @@ function ViewTask({ task, onClose, user }) {
             <Row>
               <Col>
                 <Form.Group className="mb-3 form-name">
-                  <Form.Label>Email</Form.Label>
+                  <Form.Label className="mb-2 ms-3">Email</Form.Label>
                   <Form.Control type="email" value={task.orderInfo.email} readOnly />
                 </Form.Group>
               </Col>
 
               <Col>
-                <Form.Group className="mb-2">
-                  <Form.Label>Note</Form.Label>
+                <Form.Group className="mb-3">
+                  <Form.Label className="mb-2 ms-3">Note</Form.Label>
                   <Form.Control type="text" value={task.orderInfo.note} readOnly />
                 </Form.Group>
               </Col>
@@ -114,8 +129,8 @@ function ViewTask({ task, onClose, user }) {
 
             <Row>
               <Col>
-                <Form.Group className="mb-2">
-                  <Form.Label>Address</Form.Label>
+                <Form.Group className="mb-3">
+                  <Form.Label className="mb-2 ms-3">Address</Form.Label>
                   <Form.Control type="text" value={task.orderInfo.address} readOnly />
                 </Form.Group>
               </Col>
@@ -123,15 +138,15 @@ function ViewTask({ task, onClose, user }) {
 
             <Row>
               <Col sm={6}>
-                <Form.Group className="mb-2">
-                  <Form.Label>Service Name</Form.Label>
+                <Form.Group className="mb-3">
+                  <Form.Label className="mb-2 ms-3">Service Name</Form.Label>
                   <Form.Control type="text" value={task.orderInfo.serviceName} readOnly />
                 </Form.Group>
               </Col>
 
               <Col>
-                <Form.Group className="mb-2">
-                  <Form.Label>Total</Form.Label>
+                <Form.Group className="mb-3">
+                  <Form.Label className="mb-2 ms-3">Total</Form.Label>
                   <Form.Control
                     type="text"
                     value={`${formatPriceWithDot(task.orderInfo.price)} VND`}
@@ -141,9 +156,19 @@ function ViewTask({ task, onClose, user }) {
               </Col>
 
               <Col>
-                <Form.Group className="mb-2">
-                  <Form.Label>Payment Method</Form.Label>
-                  <Form.Control type="text" value={task.orderInfo.paymentMethod} readOnly />
+                <Form.Group className="mb-3">
+                  <Form.Label className="mb-2 ms-3">Payment Method</Form.Label>
+                  <Form.Control
+                    type="text"
+                    value={
+                      task.orderInfo.paymentMethod === 'momo'
+                        ? 'Momo'
+                        : task.orderInfo.paymentMethod === 'credit-card'
+                        ? 'Credit Card'
+                        : 'POC'
+                    }
+                    readOnly
+                  />
                 </Form.Group>
               </Col>
             </Row>
@@ -151,13 +176,19 @@ function ViewTask({ task, onClose, user }) {
         )}
       </Modal.Body>
       <Modal.Footer>
-        <button className="button-modal close-btn" onClick={onClose}>
+        <Button variant="contained" className="btn close-btn" onClick={onClose}>
           Close
-        </button>
+        </Button>
 
-        <button className="button-modal" onClick={updateOrderStatus} disabled={isLoading}>
+        <Button
+          variant="contained"
+          className="btn"
+          onClick={updateOrderStatus}
+          disabled={isLoading}
+          style={{ marginRight: '6%' }}
+        >
           {isLoading ? 'Completing...' : 'Complete'}
-        </button>
+        </Button>
       </Modal.Footer>
     </Modal>
   );
