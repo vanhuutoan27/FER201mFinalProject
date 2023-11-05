@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Modal, Form } from 'react-bootstrap';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
+import Button from '@mui/material/Button';
 
 import { formatDate } from '../../../utils/DateUtils';
 import { formatPriceWithDot } from '../../../utils/PriceUtils';
@@ -179,9 +180,9 @@ function ViewOrder({ selectedOrder, onClose }) {
         )}
       </Modal.Body>
       <Modal.Footer>
-        <button className="button-modal" onClick={onClose}>
+        <Button variant="contained" className="btn" onClick={onClose} style={{ marginRight: '8%' }}>
           Close
-        </button>
+        </Button>
       </Modal.Footer>
     </Modal>
   );

@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import { Modal, Form, Button } from 'react-bootstrap';
+import { Modal, Form } from 'react-bootstrap';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
+import Button from '@mui/material/Button';
 
 import { formatDate } from '../../../utils/DateUtils';
 import { formatPriceWithDot } from '../../../utils/PriceUtils';
@@ -229,12 +230,18 @@ function UpdateOrder({ selectedOrder, onClose }) {
         )}
       </Modal.Body>
       <Modal.Footer>
-        <button className="button-modal close-btn" onClick={onClose}>
+        <Button variant="contained" className="btn close-btn" onClick={onClose}>
           Close
-        </button>
-        <button className="button-modal" onClick={handleSave} disabled={isLoading}>
+        </Button>
+        <Button
+          variant="contained"
+          className="btn"
+          onClick={handleSave}
+          disabled={isLoading}
+          style={{ marginRight: '8%' }}
+        >
           {isLoading ? 'Saving...' : 'Save'}
-        </button>
+        </Button>
       </Modal.Footer>
     </Modal>
   );

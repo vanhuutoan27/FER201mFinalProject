@@ -4,6 +4,7 @@ import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 
 import { formatPriceWithDot } from '../../../utils/PriceUtils';
+import { Button } from '@mui/material';
 
 function ViewService({ selectedService, onClose }) {
   return (
@@ -88,9 +89,9 @@ function ViewService({ selectedService, onClose }) {
         )}
       </Modal.Body>
       <Modal.Footer>
-        <button className="button-modal" onClick={onClose}>
+        <Button variant="contained" className="btn" onClick={onClose} style={{ marginRight: '6%' }}>
           Close
-        </button>
+        </Button>
       </Modal.Footer>
     </Modal>
   );

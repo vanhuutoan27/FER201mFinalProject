@@ -11,9 +11,9 @@ import { storage } from '../../../firebase';
 import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 import axios from '../../../config/axios';
 import Swal from 'sweetalert2';
+import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
 
 import './Profile.css';
-import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
 
 function Profile() {
   const session = useContext(AuthContext);

@@ -5,6 +5,7 @@ import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 
 import { formatDate } from '../../../utils/DateUtils';
+import { Button } from '@mui/material';
 
 function ViewStaff({ selectedStaff, onClose }) {
   return (
@@ -116,9 +117,9 @@ function ViewStaff({ selectedStaff, onClose }) {
         )}
       </Modal.Body>
       <Modal.Footer>
-        <button className="button-modal" onClick={onClose}>
+        <Button variant="contained" className="btn" onClick={onClose} style={{ marginRight: '6%' }}>
           Close
-        </button>
+        </Button>
       </Modal.Footer>
     </Modal>
   );

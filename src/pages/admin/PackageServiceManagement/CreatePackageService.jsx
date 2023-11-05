@@ -187,19 +187,25 @@ function CreatePackageService() {
           </Form>
         </Modal.Body>
         <Modal.Footer>
-          <button className="button-modal close-btn" onClick={handleClose}>
+          <Button
+            variant="contained"
+            className="btn close-btn"
+            onClick={handleClose}
+            style={{ marginRight: '6%' }}
+          >
             Close
-          </button>
-          <button
-            className="button-modal"
-            type="submit"
+          </Button>
+          <Button
+            variant="contained"
+            className="btn"
             disabled={isLoading}
             onClick={() => {
               formik.handleSubmit();
             }}
+            style={{ marginRight: '6%' }}
           >
             {isLoading ? 'Adding...' : 'Add'}
-          </button>
+          </Button>
         </Modal.Footer>
       </Modal>
     </>

@@ -8,6 +8,7 @@ import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 
 import axios from '../../../config/axios';
 import { formatPriceWithDot } from '../../../utils/PriceUtils';
+import { Button } from '@mui/material';
 
 function AdminUpdateService({ selectedService, onClose }) {
   const [updatedService, setUpdatedService] = useState(selectedService);
@@ -196,12 +197,23 @@ function AdminUpdateService({ selectedService, onClose }) {
         )}
       </Modal.Body>
       <Modal.Footer>
-        <button className="button-modal close-btn" onClick={onClose}>
+        <Button
+          variant="contained"
+          className="btn close-btn"
+          onClick={onClose}
+          style={{ marginRight: '6%' }}
+        >
           Close
-        </button>
-        <button className="button-modal" onClick={handleSave} disabled={isLoading}>
+        </Button>
+        <Button
+          variant="contained"
+          className="btn"
+          onClick={handleSave}
+          disabled={isLoading}
+          style={{ marginRight: '6%' }}
+        >
           {isLoading ? 'Saving...' : 'Save'}
-        </button>
+        </Button>
       </Modal.Footer>
     </Modal>
   );

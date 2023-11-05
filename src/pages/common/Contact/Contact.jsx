@@ -30,12 +30,12 @@ function Contact() {
   });
 
   const handleSubmit = (values, { resetForm }) => {
-    sendOrderConfirmationEmail(values);
+    sendContact(values);
     console.log('Form data:', values);
     resetForm();
   };
 
-  const sendOrderConfirmationEmail = (formData) => {
+  const sendContact = (formData) => {
     const emailData = {
       to: '4stu.contact@gmail.com',
       subject: '4Stu Contact',

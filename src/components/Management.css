@@ -101,6 +101,7 @@
 .close-btn {
   background-color: #eeedff !important;
   border: 2px solid var(--primary-color-2) !important;
+  margin-right: 24px !important;
 }
 
 button {

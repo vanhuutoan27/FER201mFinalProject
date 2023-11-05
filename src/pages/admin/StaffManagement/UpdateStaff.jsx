@@ -8,6 +8,7 @@ import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 
 import axios from '../../../config/axios';
 import { formatDate } from '../../../utils/DateUtils';
+import { Button } from '@mui/material';
 
 function UpdateStaff({ selectedStaff, onClose }) {
   const [updatedStaff, setUpdatedStaff] = useState(selectedStaff);
@@ -216,12 +217,18 @@ function UpdateStaff({ selectedStaff, onClose }) {
         )}
       </Modal.Body>
       <Modal.Footer>
-        <button className="button-modal close-btn" onClick={onClose}>
+        <Button variant="contained" className="btn close-btn" onClick={onClose}>
           Close
-        </button>
-        <button className="button-modal" onClick={handleSave} disabled={isLoading}>
+        </Button>
+        <Button
+          variant="contained"
+          className="btn"
+          onClick={handleSave}
+          disabled={isLoading}
+          style={{ marginRight: '6%' }}
+        >
           {isLoading ? 'Saving...' : 'Save'}
-        </button>
+        </Button>
       </Modal.Footer>
     </Modal>
   );

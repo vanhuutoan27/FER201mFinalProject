@@ -4,7 +4,7 @@ import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import Swal from 'sweetalert2';
 import Cookies from 'js-cookie';
-
+import { jwtDecode } from 'jwt-decode';
 import Button from '@mui/material/Button';
 
 import { sendEmail } from '../../../components/emailService';
@@ -16,26 +16,78 @@ import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
 
 function Login() {
   // const session = useContext(AuthContext);
-
+  const [user, setUser] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
 
+  useEffect(() => {
+    const handleCredentialResponse = (response) => {
+      if (response.credential && typeof response.credential === 'string') {
+        console.log('Encoded JWT ID token: ' + response.credential);
+        const decoded = jwtDecode(response.credential);
+        setUser(decoded);
+        localStorage.setItem('jwtToken', response.credential);
+        localStorage.setItem('email', decoded.email); // Lưu email người dùng vào localStorage
+        console.log('Email:', decoded.email);
+        window.location.href = '/';
+        document.getElementById('buttonDiv').hidden = true;
+      } else {
+        console.error('Token không hợp lệ hoặc không tồn tại.');
+      }
+    };
+
+    const loadGoogleScript = () => {
+      // Check if the token exists in localStorage and remove them if found
+      if (localStorage.getItem('jwtToken')) {
+        localStorage.removeItem('jwtToken');
+      }
+
+      if (localStorage.getItem('AccessToken')) {
+        localStorage.removeItem('AccessToken');
+      }
+
+      const script = document.createElement('script');
+      script.src = 'https://accounts.google.com/gsi/client';
+      script.async = true;
+      script.defer = true;
+      script.onload = () => {
+        google.accounts.id.initialize({
+          client_id: '519808391389-hfehje3s840t09nonkah43no65n0mq8r.apps.googleusercontent.com',
+          callback: handleCredentialResponse,
+        });
+        google.accounts.id.renderButton(document.getElementById('buttonDiv'), {
+          theme: 'outline',
+          size: 'large',
+        });
+        google.accounts.id.prompt();
+      };
+      document.head.appendChild(script);
+    };
+
+    if (window.google && window.google.accounts) {
+      loadGoogleScript();
+    } else {
+      setTimeout(() => {
+        if (window.google && window.google.accounts) {
+          loadGoogleScript();
+        } else {
+          console.error('Không thể tải Google Identity API.');
+        }
+      }, 1000);
+    }
+  }, []);
+
   const formik = useFormik({
-    //! Giá trị khởi tạo của form
     initialValues: {
       email: 'admin1@gmail.com',
       password: '123456',
     },
-
-    //! Xác định các phần Validation
     validationSchema: Yup.object({
       email: Yup.string().email('Invalid email address').required('Email is required'),
       password: Yup.string()
         .min(6, 'Password must be at least 6 characters')
         .required('Password is required'),
     }),
-
-    //! Cái hàm sẽ xử lý nhấn Submit
     onSubmit: (values) => {
       setIsLoading(true);
 
@@ -47,16 +99,20 @@ function Login() {
         .then((response) => {
           console.log(response.data);
           localStorage.setItem('accessToken', response.data.accessToken);
-
           Cookies.set('accessToken', response.data.accessToken);
-
+          const userEmail = localStorage.getItem('email'); // Lấy email từ localStorage
           Swal.fire({
             icon: 'success',
             title: 'Login Successful!',
             showConfirmButton: false,
             timer: 1500,
           }).then(() => {
-            window.location.href = '/';
+            if (userEmail) {
+              // Kiểm tra nếu có email trong localStorage, thì điều hướng đến trang tương ứng
+              if (userEmail) {
+                window.location.href = '/';
+              }
+            }
           });
         })
         .catch((error) => {
@@ -245,7 +301,8 @@ function Login() {
             </Button>
             <hr />
             <span>Or Use Another Account</span>
-            <GoogleSignIn />
+            <div id="buttonDiv"></div>
+            {/* <GoogleSignIn /> */}
           </form>
         </div>
 
