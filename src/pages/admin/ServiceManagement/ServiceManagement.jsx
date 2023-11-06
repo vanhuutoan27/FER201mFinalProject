@@ -67,6 +67,17 @@ function ServiceManagement() {
   const endIndex = startIndex + itemsPerPage;
   const displayedServices = filteredServices.slice(startIndex, endIndex);
 
+  const handleUpdateServiceComplete = (updatedService) => {
+    setAllServices((prevServices) => {
+      return prevServices.map((service) => {
+        if (service.serviceId === updatedService.serviceId) {
+          return updatedService;
+        }
+        return service;
+      });
+    });
+  };
+
   return (
     <div className="service-management-content">
       <div className="admin-navbar">
@@ -175,7 +186,11 @@ function ServiceManagement() {
       )}
 
       {updatingService && (
-        <UpdateService selectedService={updatingService} onClose={() => setUpdatingService(null)} />
+        <UpdateService
+          selectedService={updatingService}
+          onClose={() => setUpdatingService(null)}
+          handleUpdateServiceComplete={handleUpdateServiceComplete}
+        />
       )}
     </div>
   );

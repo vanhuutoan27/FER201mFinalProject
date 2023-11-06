@@ -5,12 +5,13 @@ import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import { storage } from '../../../firebase';
 import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
+import Swal from 'sweetalert2';
 
 import axios from '../../../config/axios';
 import { formatPriceWithDot } from '../../../utils/PriceUtils';
 import { Button } from '@mui/material';
 
-function UpdatePackageService({ selectedPackageService, onClose }) {
+function UpdatePackageService({ selectedPackageService, onClose, handleUpdateServiceComplete }) {
   const [updatedPackageService, setUpdatedPackageService] = useState(selectedPackageService);
   const [isLoading, setIsLoading] = useState(false);
 
@@ -27,11 +28,26 @@ function UpdatePackageService({ selectedPackageService, onClose }) {
         `/PackageServiceManagements/${updatedPackageService.packageServiceId}`,
         updatedPackageService
       );
-      alert('Package updated successfully');
+
+      // Show success notification using Swal
+      Swal.fire({
+        icon: 'success',
+        title: 'Success',
+        text: 'Package Service updated successfully',
+      });
+
+      // Call the callback to pass data after the update
+      handleUpdateServiceComplete(updatedPackageService);
+
       onClose();
-      window.location.reload();
     } catch (error) {
-      alert('Error updating package');
+      // Show error notification using Swal
+      Swal.fire({
+        icon: 'error',
+        title: 'Error updating package',
+        text: 'An error occurred while updating the package.',
+      });
+
       console.error('Error updating package', error);
     } finally {
       setIsLoading(false);
@@ -70,7 +86,7 @@ function UpdatePackageService({ selectedPackageService, onClose }) {
   };
 
   return (
-    <Modal show={!!selectedPackageService} onHide={onClose} size="lg" style={{ margin: '52px' }}>
+    <Modal show={!!selectedPackageService} onHide={onClose} size="lg" style={{ margin: '25px' }}>
       <Modal.Header closeButton>
         <Modal.Title>Update Package Service</Modal.Title>
       </Modal.Header>
@@ -160,7 +176,7 @@ function UpdatePackageService({ selectedPackageService, onClose }) {
                 <Form.Label className="mb-2 ms-3">Description</Form.Label>
                 <Form.Control
                   as="textarea"
-                  rows={3}
+                  rows={4}
                   value={updatedPackageService.packageServiceDesc}
                   onChange={(e) =>
                     setUpdatedPackageService({

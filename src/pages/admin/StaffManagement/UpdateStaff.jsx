@@ -9,8 +9,9 @@ import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 import axios from '../../../config/axios';
 import { formatDate } from '../../../utils/DateUtils';
 import { Button } from '@mui/material';
+import Swal from 'sweetalert2';
 
-function UpdateStaff({ selectedStaff, onClose }) {
+function UpdateStaff({ selectedStaff, onClose, onUpdateUser }) {
   const [updatedStaff, setUpdatedStaff] = useState(selectedStaff);
   const [isLoading, setIsLoading] = useState(false);
 
@@ -19,11 +20,24 @@ function UpdateStaff({ selectedStaff, onClose }) {
 
     try {
       await axios.put(`/UserManagements/${updatedStaff.userId}`, updatedStaff);
-      alert('Staff updated successfully');
+      onUpdateUser(updatedStaff);
+
+      // Show a success message using SweetAlert2
+      Swal.fire({
+        title: 'Success',
+        text: 'Staff updated successfully',
+        icon: 'success',
+      });
+
       onClose();
-      window.location.reload();
     } catch (error) {
-      alert('Error updating staff');
+      // Show an error message using SweetAlert2
+      Swal.fire({
+        title: 'Error',
+        text: 'Error updating user',
+        icon: 'error',
+      });
+
       console.error('Error updating staff', error);
     } finally {
       setIsLoading(false);

@@ -86,6 +86,14 @@ function UserManagement() {
   const endIndex = startIndex + itemsPerPage;
   const displayedUsers = filteredUsers.slice(startIndex, endIndex);
 
+  // Tạo một callback function để cập nhật thông tin người dùng
+  const handleUpdateUser = (updatedUser) => {
+    const updatedUsers = allUsers.map((user) =>
+      user.userId === updatedUser.userId ? updatedUser : user
+    );
+    setAllUsers(updatedUsers);
+  };
+
   return (
     <div className="user-management-content">
       <div className="admin-navbar">
@@ -198,7 +206,11 @@ function UserManagement() {
       )}
 
       {updatingUser && (
-        <UpdateUser selectedUser={updatingUser} onClose={() => setUpdatingUser(null)} />
+        <UpdateUser
+          selectedUser={updatingUser}
+          onClose={() => setUpdatingUser(null)}
+          onUpdateUser={handleUpdateUser}
+        />
       )}
     </div>
   );

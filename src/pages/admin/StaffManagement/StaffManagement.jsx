@@ -73,6 +73,14 @@ function StaffManagement() {
   const endIndex = startIndex + itemsPerPage;
   const displayedServices = filteredStaffs.slice(startIndex, endIndex);
 
+  // Tạo một callback function để cập nhật thông tin người dùng
+  const handleUpdateUser = (updatedUser) => {
+    const updatedStaffs = allStaffs.map((staff) =>
+      staff.userId === updatedUser.userId ? updatedUser : staff
+    );
+    setAllStaffs(updatedStaffs);
+  };
+
   return (
     <div className="user-management-content">
       <div className="admin-navbar">
@@ -184,7 +192,11 @@ function StaffManagement() {
       )}
 
       {updatingStaff && (
-        <UpdateStaff selectedStaff={updatingStaff} onClose={() => setUpdatingStaff(null)} />
+        <UpdateStaff
+          selectedStaff={updatingStaff}
+          onClose={() => setUpdatingStaff(null)}
+          onUpdateUser={handleUpdateUser}
+        />
       )}
     </div>
   );

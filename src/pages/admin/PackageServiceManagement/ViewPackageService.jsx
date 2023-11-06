@@ -10,7 +10,7 @@ import { Button } from '@mui/material';
 
 function ViewPackageService({ selectedPackageService, onClose }) {
   return (
-    <Modal show={!!selectedPackageService} onHide={onClose} size="lg" style={{ margin: '52px' }}>
+    <Modal show={!!selectedPackageService} onHide={onClose} size="lg" style={{ margin: '25px' }}>
       <Modal.Header closeButton>
         <Modal.Title>View Package</Modal.Title>
       </Modal.Header>
@@ -75,7 +75,7 @@ function ViewPackageService({ selectedPackageService, onClose }) {
                 <Form.Label className="mb-2 ms-3">Description</Form.Label>
                 <Form.Control
                   as="textarea"
-                  rows={3}
+                  rows={4}
                   value={selectedPackageService.packageServiceDesc}
                   readOnly
                 />

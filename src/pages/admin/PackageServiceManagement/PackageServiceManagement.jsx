@@ -67,6 +67,18 @@ function PackageServiceManagement() {
   const endIndex = startIndex + itemsPerPage;
   const displayedServices = filteredPackageServices.slice(startIndex, endIndex);
 
+  const handleUpdateServiceComplete = (updatedService) => {
+    // Cập nhật trạng thái sau khi cập nhật thành công
+    setAllPackageServices((prevPackageServices) => {
+      return prevPackageServices.map((service) => {
+        if (service.packageServiceId === updatedService.packageServiceId) {
+          return updatedService;
+        }
+        return service;
+      });
+    });
+  };
+
   return (
     <div className="package-service-management-content">
       <div className="admin-navbar">
@@ -117,7 +129,12 @@ function PackageServiceManagement() {
                     </td>
 
                     <td>
-                      <span className="service-name">{packageService.packageServiceDesc}</span>
+                      <span className="service-name">
+                        {packageService.isDescriptionOpen
+                          ? packageService.packageServiceDesc
+                          : packageService.packageServiceDesc.substring(0, 60)}
+                      </span>
+                      {packageService.packageServiceDesc.length > 100 && <span>...</span>}
                     </td>
 
                     <td>
@@ -184,6 +201,7 @@ function PackageServiceManagement() {
         <UpdatePackageService
           selectedPackageService={updatingPackageService}
           onClose={() => setUpdatingPackageService(null)}
+          handleUpdateServiceComplete={handleUpdateServiceComplete}
         />
       )}
     </div>

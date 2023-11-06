@@ -36,6 +36,8 @@ function StaffTask() {
       // Tải thông tin đơn hàng và người dùng từ API
       for (const task of userTasks) {
         const { orderId, staffId, dateShipping } = task;
+        console.log("Staff ID:", staffId); 
+        console.log("Order ID:", orderId); 
 
         const [orderResponse, staffResponse] = await Promise.all([
           axios.get(`/OrderManagements/${orderId}`),

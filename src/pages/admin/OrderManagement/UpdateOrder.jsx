@@ -7,16 +7,20 @@ import Button from '@mui/material/Button';
 import { formatDate } from '../../../utils/DateUtils';
 import { formatPriceWithDot } from '../../../utils/PriceUtils';
 import axios from '../../../config/axios';
+import Swal from 'sweetalert2'; // Import SweetAlert2.
 
-function UpdateOrder({ selectedOrder, onClose }) {
+function UpdateOrder({ selectedOrder, onClose, onOrderUpdate }) {
+  // Define state variables to manage the selected order, updated order, loading state, and order ratings.
   const [updatedOrder, setUpdatedOrder] = useState(selectedOrder);
   const [isLoading, setIsLoading] = useState(false);
   const [orderRatings, setOrderRatings] = useState({});
 
+  // Output some console logs for debugging purposes.
   console.log(selectedOrder);
   console.log('Selected Order Date Shipping:', selectedOrder.dateShipping);
   console.log('Staff Name:', `${selectedOrder.firstName} ${selectedOrder.lastName}`);
 
+  // Fetch order ratings using an HTTP request when the component mounts.
   useEffect(() => {
     axios
       .get('/FeedbackManagements')
@@ -32,24 +36,39 @@ function UpdateOrder({ selectedOrder, onClose }) {
       .catch((error) => console.log(error));
   }, []);
 
+  // Handle the save button click event.
   const handleSave = async () => {
     setIsLoading(true);
 
     try {
-      // Gửi yêu cầu cập nhật đơn hàng với thông tin trong updatedOrder
+      // Send a request to update the order with the information in updatedOrder.
       await axios.put(`/OrderManagements/${updatedOrder.orderId}`, updatedOrder);
-      alert('Order updated successfully');
+      // Show a success alert using SweetAlert2 when the order is updated successfully.
+      await Swal.fire({
+        icon: 'success',
+        title: 'Success',
+        text: 'Order updated successfully',
+      });
+      
+      // Call the onOrderUpdate callback to update the local state.
+      onOrderUpdate(updatedOrder);
+      // Close the modal.
       onClose();
-      window.location.reload(); // Tải lại trang để cập nhật dữ liệu
     } catch (error) {
-      alert('Error updating order');
+      // Show an error alert using SweetAlert2 when there's an error updating the order.
+      Swal.fire({
+        icon: 'error',
+        title: 'Error',
+        text: 'Error updating order',
+      });
       console.error('Error updating order', error);
     } finally {
+      // Reset the loading state when the process is completed.
       setIsLoading(false);
     }
   };
 
-  // Xử lý thay đổi giá trị trong trường nhập liệu và cập nhật updatedOrder
+  // Handle input changes in the form fields and update the updatedOrder state.
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setUpdatedOrder({
@@ -122,13 +141,9 @@ function UpdateOrder({ selectedOrder, onClose }) {
                   <Form.Group className="mb-3">
                     <Form.Label className="mb-2 ms-3">Date Shipping</Form.Label>
                     <Form.Control
-                      type="text"
+                      type="date"
                       name="dateShipping"
-                      value={
-                        updatedOrder.dateShipping
-                          ? formatDate(selectedOrder.dateShipping)
-                          : '--/--/----'
-                      }
+                      value={updatedOrder.dateShipping || ''}
                       onChange={handleInputChange}
                     />
                   </Form.Group>
@@ -137,13 +152,9 @@ function UpdateOrder({ selectedOrder, onClose }) {
                   <Form.Group className="mb-3">
                     <Form.Label className="mb-2 ms-3">Date Completed</Form.Label>
                     <Form.Control
-                      type="text"
+                      type="date"
                       name="dateCompleted"
-                      value={
-                        updatedOrder.dateCompleted
-                          ? formatDate(selectedOrder.dateCompleted)
-                          : '--/--/----'
-                      }
+                      value={updatedOrder.dateCompleted || ''}
                       onChange={handleInputChange}
                     />
                   </Form.Group>

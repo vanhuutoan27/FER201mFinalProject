@@ -1,7 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { Pagination } from 'antd';
 import { AuthContext } from '../../../App';
-import { Link } from 'react-router-dom';
 import StarIcon from '@mui/icons-material/Star';
 
 import axios from '../../../config/axios';
@@ -14,11 +13,12 @@ import Navigation from '../../../components/Navigation';
 import Footer from '../../../components/Footer';
 import './MyOrder.css';
 import '../../../components/Management.css';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faStar } from '@fortawesome/free-solid-svg-icons';
 
 function MyOrder() {
   const session = useContext(AuthContext);
   const userInfo = session.user.user;
-  // const { userId } = useParams();
 
   const [allOrders, setAllOrders] = useState([]);
   const [staffOrders, setStaffOrders] = useState([]);
@@ -28,11 +28,18 @@ function MyOrder() {
   const itemsPerPage = 6;
   const [currentPage, setCurrentPage] = useState(1);
   const [searchQuery, setSearchQuery] = useState('');
+  const [feedbackData, setFeedbackData] = useState({});
+  const [feedbackModalData, setFeedbackModalData] = useState({
+    isOpen: false,
+    orderId: null,
+    customerId: null,
+    serviceId: null,
+  });
+
   useEffect(() => {
     axios
       .get('/OrderManagements')
       .then((response) => {
-        // Lọc ra các đơn hàng của người dùng hiện tại
         const userOrders = response.data.filter((order) => order.customerId === userInfo.userId);
         setAllOrders(userOrders);
       })
@@ -122,6 +129,21 @@ function MyOrder() {
     setCurrentPage(page);
   };
 
+  const handleFeedbackButtonClick = (orderId, customerId, serviceId) => {
+    setFeedbackModalData({ isOpen: true, orderId, customerId, serviceId });
+  };
+
+  const closeFeedbackModal = () => {
+    setFeedbackModalData({ isOpen: false, orderId: null, customerId: null, serviceId: null });
+  };
+
+  // Function to update the feedback data in the local state
+  const updateFeedbackData = (orderId, rating, comment) => {
+    const updatedFeedbackData = { ...feedbackData };
+    updatedFeedbackData[orderId] = { rating, comment };
+    setFeedbackData(updatedFeedbackData);
+  };
+
   return (
     <div className="MyOrderPage">
       <Navigation />
@@ -147,72 +169,76 @@ function MyOrder() {
                     <th>Service</th>
                     <th>Price</th>
                     <th>Note</th>
-                    <th>Feedback</th>
                     <th>Status</th>
+                    <th>Action</th>
                   </tr>
                 </thead>
                 <tbody>
-                  {displayedOrders.map((order, index) => (
-                    <tr key={index}>
-                      <td>
-                        <span className={`serviceID`}>
-                          O{order.orderId < 10 ? '00' + order.orderId : '0' + order.orderId}
-                        </span>
-                      </td>
-
-                      <td>
-                        <span className="customer-name">{formatDate(order.dateCreated)}</span>
-                      </td>
-
-                      <td>
-                        <span className="service-name">
-                          {order.dateComplete ? formatDate(order.dateComplete) : '--/--/----'}
-                        </span>
-                      </td>
-
-                      <td>
-                        <span className="service-name">{order.serviceName}</span>
-                      </td>
-
-                      <td>
-                        <span className="service-name">{formatPriceWithDot(order.price)} VND</span>
-                      </td>
-
-                      <td>
-                        <span className="service-name">{order.note}</span>
-                      </td>
-
-                      <td>
-                        <span className="service-name">
-                          {orderRatings[order.orderId] ? (
-                            <>
-                              {orderRatings[order.orderId]}{' '}
-                              <StarIcon
+                  {displayedOrders.map((order, index) => {
+                    const isFeedbackButtonDisabled = order.status === 'Pending';
+                    return (
+                      <tr key={index}>
+                        <td>
+                          <span className={`serviceID`}>
+                            O{order.orderId < 10 ? '00' + order.orderId : '0' + order.orderId}
+                          </span>
+                        </td>
+                        <td>
+                          <span className="customer-name">{formatDate(order.dateCreated)}</span>
+                        </td>
+                        <td>
+                          <span className="service-name">
+                            {order.dateComplete ? formatDate(order.dateComplete) : '--/--/----'}
+                          </span>
+                        </td>
+                        <td>
+                          <span className="service-name">{order.serviceName}</span>
+                        </td>
+                        <td>
+                          <span className="service-name">
+                            {formatPriceWithDot(order.price)} VND
+                          </span>
+                        </td>
+                        <td>
+                          <span className="service-name">{order.note}</span>
+                        </td>
+                        <td>
+                          <span className="statuss">
+                            <span className={`status status--${order.status}`}>{order.status}</span>
+                          </span>
+                        </td>
+                        <td>
+                          <span className="service-name">
+                            {orderRatings[order.orderId] ? (
+                              <>
+                                {orderRatings[order.orderId]}{' '}
+                                <StarIcon
+                                  style={{
+                                    fontSize: '20px',
+                                    marginBottom: '3px',
+                                    color: 'var(--primary-color-1)',
+                                  }}
+                                />
+                              </>
+                            ) : (
+                              <Button
+                                variant="contained"
+                                className="btn"
                                 style={{
-                                  fontSize: '16px',
-                                  marginBottom: '3px',
-                                  color: 'var(--primary-color-1)',
+                                  minWidth: '20px',
+                                  padding: '12px 16px',
                                 }}
-                              />
-                              {orderComments[order.orderId] || 'Null'}
-                            </>
-                          ) : (
-                            <Link to="/feedback">
-                              <Button variant="contained" className="btn feedback">
-                                Feedback
+                                onClick={() => handleFeedbackButtonClick(order.orderId)}
+                                disabled={isFeedbackButtonDisabled}
+                              >
+                                <FontAwesomeIcon icon={faStar} />
                               </Button>
-                            </Link>
-                          )}
-                        </span>
-                      </td>
-
-                      <td>
-                        <span className="statuss">
-                          <span className={`status status--${order.status}`}>{order.status}</span>
-                        </span>
-                      </td>
-                    </tr>
-                  ))}
+                            )}
+                          </span>
+                        </td>
+                      </tr>
+                    );
+                  })}
                 </tbody>
               </table>
               <div className="pagination">
@@ -228,6 +254,15 @@ function MyOrder() {
         </div>
       </div>
       <Footer />
+
+      <Feedback
+        isOpen={feedbackModalData.isOpen}
+        onClose={closeFeedbackModal}
+        orderId={feedbackModalData.orderId}
+        customerId={feedbackModalData.customerId}
+        serviceId={feedbackModalData.serviceId}
+        updateFeedbackData={updateFeedbackData} // Pass the updateFeedbackData function
+      />
     </div>
   );
 }

@@ -9,8 +9,9 @@ import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 import axios from '../../../config/axios';
 import { formatPriceWithDot } from '../../../utils/PriceUtils';
 import { Button } from '@mui/material';
+import Swal from 'sweetalert2';
 
-function AdminUpdateService({ selectedService, onClose }) {
+function UpdateService({ selectedService, onClose, handleUpdateServiceComplete }) {
   const [updatedService, setUpdatedService] = useState(selectedService);
   const [isLoading, setIsLoading] = useState(false);
 
@@ -24,11 +25,26 @@ function AdminUpdateService({ selectedService, onClose }) {
     try {
       // Send the request to update the service through axios
       await axios.put(`/ServiceManagements/${updatedService.serviceId}`, updatedService);
-      alert('Service updated successfully');
+
+      // Show success notification using Swal
+      Swal.fire({
+        icon: 'success',
+        title: 'Success',
+        text: 'Service updated successfully',
+      });
+
+      // Call the callback to pass data after the update
+      handleUpdateServiceComplete(updatedService);
+
       onClose();
-      window.location.reload();
     } catch (error) {
-      alert('Error updating service');
+      // Show error notification using Swal
+      Swal.fire({
+        icon: 'error',
+        title: 'Error updating service',
+        text: 'An error occurred while updating the service.',
+      });
+
       console.error('Error updating service', error);
     } finally {
       setIsLoading(false);
@@ -64,7 +80,7 @@ function AdminUpdateService({ selectedService, onClose }) {
   };
 
   return (
-    <Modal show={!!selectedService} onHide={onClose} size="lg" style={{ margin: '52px' }}>
+    <Modal show={!!selectedService} onHide={onClose} size="lg" style={{ margin: '24px' }}>
       <Modal.Header closeButton>
         <Modal.Title>Update Service</Modal.Title>
       </Modal.Header>
@@ -219,4 +235,4 @@ function AdminUpdateService({ selectedService, onClose }) {
   );
 }
 
-export default AdminUpdateService;
+export default UpdateService;

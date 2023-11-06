@@ -45,7 +45,6 @@ function StaffOrder() {
         const staffData = response.data;
         if (staffData.length > 0) {
           setStaffEmail(user.user.email);
-          console.log('staffEmail:', staffEmail);
         }
       })
       .catch((error) => console.log(error));

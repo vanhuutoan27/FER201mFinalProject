@@ -11,6 +11,7 @@ import { formatDate } from '../../../utils/DateUtils';
 import '../../../components/Management.css';
 
 function OrderManagement() {
+  // Define state variables to manage orders, pagination, filtering, and sorting.
   const [allOrders, setAllOrders] = useState([]);
   const [selectedOrder, setSelectedOrder] = useState(null);
   const [updatingOrder, setUpdatingOrder] = useState(null);
@@ -22,6 +23,7 @@ function OrderManagement() {
   const [sortOrder, setSortOrder] = useState('asc');
   const [filteredOrders, setFilteredOrders] = useState([]);
 
+  // Fetch data for orders, staff orders, and users when the component mounts.
   useEffect(() => {
     axios
       .get('/OrderManagements')
@@ -39,11 +41,13 @@ function OrderManagement() {
       .catch((error) => console.log(error));
   }, []);
 
+  // Create a map to associate staff order date shipping with order IDs.
   const staffOrderDateShippingMap = new Map();
   staffOrders.forEach((staffOrder) => {
     staffOrderDateShippingMap.set(staffOrder.orderId, staffOrder.dateShipping);
   });
 
+  // Update filteredOrders with additional information about orders and staff.
   useEffect(() => {
     const updatedOrders = allOrders.map((order) => {
       const dateShipping = staffOrderDateShippingMap.get(order.orderId);
@@ -70,23 +74,28 @@ function OrderManagement() {
     setFilteredOrders(updatedOrders);
   }, [allOrders, staffOrders, allUsers]);
 
+  // Handle clicking the "View" button for a specific order.
   const handleViewServiceClick = (order) => {
     setSelectedOrder(order);
   };
 
+  // Handle clicking the "Update" button for a specific order.
   const handleUpdateServiceClick = (order) => {
     setUpdatingOrder(order);
   };
 
+  // Handle search input field changes.
   const handleSearchChange = (event) => {
     setSearchQuery(event.target.value);
     setCurrentPage(1);
   };
 
+  // Handle pagination page changes.
   const handlePageChange = (page) => {
     setCurrentPage(page);
   };
 
+  // Sort orders by status in ascending or descending order.
   const handleSortStatus = () => {
     const sortedOrders = [...filteredOrders];
     sortedOrders.sort((a, b) => {
@@ -109,9 +118,18 @@ function OrderManagement() {
     setFilteredOrders(sortedOrders);
   };
 
+  // Determine the range of orders to display on the current page.
   const startIndex = (currentPage - 1) * itemsPerPage;
   const endIndex = startIndex + itemsPerPage;
   const displayedOrders = filteredOrders.slice(startIndex, endIndex);
+
+  // Handle updating an order and updating the state.
+  const handleOrderUpdate = (updatedOrder) => {
+    const updatedOrders = filteredOrders.map((order) =>
+      order.orderId === updatedOrder.orderId ? updatedOrder : order
+    );
+    setFilteredOrders(updatedOrders);
+  };
 
   return (
     <div className="order-management-content">
@@ -253,6 +271,7 @@ function OrderManagement() {
           selectedOrder={updatingOrder}
           allUsers={allUsers}
           onClose={() => setUpdatingOrder(null)}
+          onOrderUpdate={handleOrderUpdate}
         />
       )}
     </div>

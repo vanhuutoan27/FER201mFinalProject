@@ -9,33 +9,51 @@ import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 import axios from '../../../config/axios';
 import { formatDate } from '../../../utils/DateUtils';
 import { Button } from '@mui/material';
+import Swal from 'sweetalert2';
 
-function UpdateUser({ selectedUser, onClose }) {
+function UpdateUser({ selectedUser, onClose, onUpdateUser }) {
+  // Initialize state variables
   const [updatedUser, setUpdatedUser] = useState(selectedUser);
   const [isLoading, setIsLoading] = useState(false);
 
+  // Function to handle the save button click
   const handleSave = async () => {
     setIsLoading(true);
 
     try {
+      // Make a PUT request to update the user
       await axios.put(`/UserManagements/${updatedUser.userId}`, updatedUser);
-      alert('User updated successfully');
+      onUpdateUser(updatedUser);
+
+      // Show a success message using SweetAlert2
+      Swal.fire({
+        title: 'Success',
+        text: 'User updated successfully',
+        icon: 'success',
+      });
+      
       onClose();
-      window.location.reload();
     } catch (error) {
-      alert('Error updating user');
+      // Show an error message using SweetAlert2
+      Swal.fire({
+        title: 'Error',
+        text: 'Error updating user',
+        icon: 'error',
+      });
+
       console.error('Error updating user', error);
-    } finally {
       setIsLoading(false);
     }
   };
 
   useEffect(() => {
+    // When selectedUser changes, update the form with the selected user's data
     if (selectedUser) {
       setUpdatedUser({ ...selectedUser });
     }
   }, [selectedUser]);
 
+  // Function to handle file input change
   const handleFileChange = async (e) => {
     const file = e.target.files[0];
 

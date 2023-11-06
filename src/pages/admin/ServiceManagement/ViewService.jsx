@@ -8,7 +8,7 @@ import { Button } from '@mui/material';
 
 function ViewService({ selectedService, onClose }) {
   return (
-    <Modal show={!!selectedService} onHide={onClose} size="lg" style={{ margin: '52px' }}>
+    <Modal show={!!selectedService} onHide={onClose} size="lg" style={{ margin: '24px' }}>
       <Modal.Header closeButton>
         <Modal.Title>View Service</Modal.Title>
       </Modal.Header>

@@ -172,7 +172,13 @@ function AdminDashboard() {
                     </td>
                     <td>{order.serviceName}</td>
                     <td>{formatPriceWithDot(order.price)}</td>
-                    <td>{order.paymentMethod === 'momo' ? 'Momo' : 'POC'}</td>
+                    <td>
+                      {order.paymentMethod === 'momo'
+                        ? 'Momo'
+                        : order.paymentMethod === 'credit-card'
+                        ? 'Credit Card'
+                        : 'POC'}
+                    </td>
                     <td>
                       <span className={`status--${order.status}`}>{order.status}</span>
                     </td>

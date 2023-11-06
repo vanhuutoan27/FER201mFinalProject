@@ -100,16 +100,16 @@ function Login() {
           console.log(response.data);
           localStorage.setItem('accessToken', response.data.accessToken);
           Cookies.set('accessToken', response.data.accessToken);
-          const userEmail = localStorage.getItem('email'); // Lấy email từ localStorage
+          const accessToken = localStorage.getItem('accessToken'); // Lấy email từ localStorage
           Swal.fire({
             icon: 'success',
             title: 'Login Successful!',
             showConfirmButton: false,
             timer: 1500,
           }).then(() => {
-            if (userEmail) {
+            if (accessToken) {
               // Kiểm tra nếu có email trong localStorage, thì điều hướng đến trang tương ứng
-              if (userEmail) {
+              if (accessToken) {
                 window.location.href = '/';
               }
             }
