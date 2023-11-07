@@ -100,7 +100,7 @@ function Login() {
           console.log(response.data);
           localStorage.setItem('accessToken', response.data.accessToken);
           Cookies.set('accessToken', response.data.accessToken);
-          const accessToken = localStorage.getItem('accessToken'); // Lấy email từ localStorage
+          const accessToken = localStorage.getItem('accessToken');
           Swal.fire({
             icon: 'success',
             title: 'Login Successful!',

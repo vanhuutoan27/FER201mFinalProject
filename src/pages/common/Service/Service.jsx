@@ -187,9 +187,8 @@ function Service() {
         key={index}
         onClick={() => handleViewPackageServiceDetailClick(packageService)}
       >
-        <img src="../assets/images/4Stu-Logo.svg" alt="4Stu Logo" />
+        <img src={packageService.image} alt={packageService.packageServiceName} />
         <h3>{packageService.packageServiceName}</h3>
-        <p>{packageService.packageServiceDesc}</p>
         <Button
           variant="contained"
           className="btn"
@@ -204,15 +203,19 @@ function Service() {
   };
 
   function filterActiveServices(services) {
-    return services.map((service) => ({
-      ...service,
-    }));
+    return services
+      .filter((service) => service.status === 'Active')
+      .map((service) => ({
+        ...service,
+      }));
   }
 
   function filterActivePackageServices(packageServices) {
-    return packageServices.map((packageService) => ({
-      ...packageService,
-    }));
+    return packageServices
+      .filter((packageService) => packageService.status === 'Active')
+      .map((packageService) => ({
+        ...packageService,
+      }));
   }
 
   return (

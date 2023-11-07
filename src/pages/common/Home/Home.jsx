@@ -274,7 +274,7 @@ function Home() {
               <div className="info">
                 <h1 className="title">
                   <h3>
-                    <CountUp end={startCountUp ? customerCount * 10 : 0} duration={3} />+
+                    <CountUp end={startCountUp ? customerCount : 0} duration={3} />+
                   </h3>
                   Customers Use 4Stu
                 </h1>
