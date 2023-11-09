@@ -136,7 +136,11 @@ function StaffProfile() {
           <div className="card-avatar">
             <div className="card-avatar-header">
               <label htmlFor="imageUpload" className="image-upload-label">
-                <img src={updatedUser.avatar} alt="User Image" className="user-avatar" />
+                <img
+                  src={updatedUser.avatar}
+                  alt={updatedUser.firstName + ' ' + updatedUser.lastName}
+                  className="user-avatar"
+                />
               </label>
               <input
                 type="file"

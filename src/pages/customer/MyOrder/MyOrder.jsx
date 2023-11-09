@@ -8,7 +8,7 @@ import { formatPriceWithDot } from '../../../utils/PriceUtils';
 import { formatDate } from '../../../utils/DateUtils';
 import Button from '@mui/material/Button';
 
-import Feedback from './Feedback';
+import Feedback from '../../common/Login/GooglePassword';
 import Navigation from '../../../components/Navigation';
 import Footer from '../../../components/Footer';
 import './MyOrder.css';

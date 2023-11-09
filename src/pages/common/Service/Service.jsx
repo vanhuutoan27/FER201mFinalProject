@@ -24,18 +24,32 @@ function Service() {
   const [staffOrders, setStaffOrders] = useState([]);
   const [combinedData, setCombinedData] = useState([]);
 
-  const handleOrderClick = (service) => {
+  useEffect(() => {
+    localStorage.removeItem('selectedService');
+    localStorage.removeItem('selectedPackageService');
+  }, []);
+
+  const handleOrderServiceClick = (service) => {
     localStorage.setItem('selectedService', JSON.stringify(service));
+    setSelectedService(service);
+    window.scrollTo(0, 0);
+  };
+
+  const handleOrderPackageServiceClick = (packageService) => {
+    localStorage.setItem('selectedPackageService', JSON.stringify(packageService));
+    setSelectedPackageService(packageService);
     window.scrollTo(0, 0);
   };
 
   const handleViewServiceDetailClick = (service) => {
     setSelectedService(service);
+    setSelectedPackageService(null);
     setDetailModalVisible(true);
     document.body.style.overflow = 'hidden';
   };
 
   const handleViewPackageServiceDetailClick = (packageService) => {
+    setSelectedService(null);
     setSelectedPackageService(packageService);
     setDetailModalVisible(true);
     document.body.style.overflow = 'hidden';
@@ -171,7 +185,7 @@ function Service() {
             className="btn"
             component={Link}
             to={`/order?serviceId=${service.serviceId}&serviceName=${service.serviceName}`}
-            onClick={() => handleOrderClick(service)}
+            onClick={() => handleOrderServiceClick(service)}
           >
             Order Now
           </Button>
@@ -194,7 +208,7 @@ function Service() {
           className="btn"
           component={Link}
           to={`/order?serviceId=${packageService.packageServiceId}&serviceName=${packageService.packageServiceName}`}
-          onClick={() => handleOrderClick(packageService)}
+          onClick={() => handleOrderPackageServiceClick(packageService)}
         >
           Order Now
         </Button>

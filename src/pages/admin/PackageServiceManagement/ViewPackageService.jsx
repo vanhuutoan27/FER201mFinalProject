@@ -25,6 +25,7 @@ function ViewPackageService({ selectedPackageService, onClose }) {
                     src={selectedPackageService.image}
                     alt={selectedPackageService.packageServiceName}
                     className="service-image"
+                    style={{ top: '10px' }}
                   />
                 </Form.Group>
               </Col>

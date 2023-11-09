@@ -1,10 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import { GoogleSignIn } from '../../../components/Google';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import Swal from 'sweetalert2';
 import Cookies from 'js-cookie';
-import { jwtDecode } from 'jwt-decode';
 import Button from '@mui/material/Button';
 
 import { sendEmail } from '../../../components/emailService';
@@ -14,68 +12,13 @@ import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
 
+import ForgotPassword from './ForgotPassword';
+
 function Login() {
   // const session = useContext(AuthContext);
-  const [user, setUser] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
-
-  useEffect(() => {
-    const handleCredentialResponse = (response) => {
-      if (response.credential && typeof response.credential === 'string') {
-        console.log('Encoded JWT ID token: ' + response.credential);
-        const decoded = jwtDecode(response.credential);
-        setUser(decoded);
-        localStorage.setItem('jwtToken', response.credential);
-        localStorage.setItem('email', decoded.email); // Lưu email người dùng vào localStorage
-        console.log('Email:', decoded.email);
-        window.location.href = '/';
-        document.getElementById('buttonDiv').hidden = true;
-      } else {
-        console.error('Token không hợp lệ hoặc không tồn tại.');
-      }
-    };
-
-    const loadGoogleScript = () => {
-      // Check if the token exists in localStorage and remove them if found
-      if (localStorage.getItem('jwtToken')) {
-        localStorage.removeItem('jwtToken');
-      }
-
-      if (localStorage.getItem('AccessToken')) {
-        localStorage.removeItem('AccessToken');
-      }
-
-      const script = document.createElement('script');
-      script.src = 'https://accounts.google.com/gsi/client';
-      script.async = true;
-      script.defer = true;
-      script.onload = () => {
-        google.accounts.id.initialize({
-          client_id: '519808391389-hfehje3s840t09nonkah43no65n0mq8r.apps.googleusercontent.com',
-          callback: handleCredentialResponse,
-        });
-        google.accounts.id.renderButton(document.getElementById('buttonDiv'), {
-          theme: 'outline',
-          size: 'large',
-        });
-        google.accounts.id.prompt();
-      };
-      document.head.appendChild(script);
-    };
-
-    if (window.google && window.google.accounts) {
-      loadGoogleScript();
-    } else {
-      setTimeout(() => {
-        if (window.google && window.google.accounts) {
-          loadGoogleScript();
-        } else {
-          console.error('Không thể tải Google Identity API.');
-        }
-      }, 1000);
-    }
-  }, []);
+  const [isForgotPasswordModalOpen, setIsForgotPasswordModalOpen] = useState(false);
 
   const formik = useFormik({
     initialValues: {
@@ -224,6 +167,10 @@ function Login() {
     }
   }, []);
 
+  const openForgotPasswordModal = () => {
+    setIsForgotPasswordModalOpen(true);
+  };
+
   return (
     <div className="body">
       <div className="bg-animation">
@@ -280,7 +227,7 @@ function Login() {
               onClick={() => setShowPassword(!showPassword)}
               style={{
                 position: 'absolute',
-                top: '240px',
+                top: '275px',
                 right: '54px',
                 color: '#5a6473',
                 padding: '16px 12px',
@@ -293,16 +240,14 @@ function Login() {
             ) : null}
 
             <div className="pass-link">
-              <Link to="#!">Forgot password?</Link>
+              <Link to="#!" onClick={openForgotPasswordModal}>
+                Forgot password?
+              </Link>
             </div>
 
             <Button variant="contained" className="btn" type="submit">
               {isLoading ? 'Logging in...' : 'Login'}
             </Button>
-            <hr />
-            <span>Or Use Another Account</span>
-            <div id="buttonDiv"></div>
-            {/* <GoogleSignIn /> */}
           </form>
         </div>
 
@@ -427,6 +372,13 @@ function Login() {
           </div>
         </div>
       </div>
+
+      {isForgotPasswordModalOpen && (
+        <ForgotPassword
+          isOpen={isForgotPasswordModalOpen}
+          onClose={() => setIsForgotPasswordModalOpen(false)}
+        />
+      )}
     </div>
   );
 }

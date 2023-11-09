@@ -102,6 +102,7 @@ function UpdatePackageService({ selectedPackageService, onClose, handleUpdateSer
                       src={updatedPackageService.image}
                       alt="Service Image"
                       className="service-image"
+                      style={{ top: '10px' }}
                       onClick={() => {
                         document.getElementById('imageUpload');
                       }}

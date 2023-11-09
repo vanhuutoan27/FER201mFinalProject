@@ -25,7 +25,6 @@ function Order() {
   const [selectedPaymentMethod, setSelectedPaymentMethod] = useState('');
   const [isMomoPaymentSelected, setIsMomoPaymentSelected] = useState(false);
   const [isCreditCardPaymentSelected, setIsCreditCardPaymentSelected] = useState(false);
-  const [isPOCSelected, setIsPOCSelected] = useState(false);
   const [randomCode, setRandomCode] = useState(generateRandomCode());
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [loginError, setLoginError] = useState(null);
@@ -33,7 +32,7 @@ function Order() {
 
   const selectedService = JSON.parse(localStorage.getItem('selectedService'));
   const selectedPackageService = JSON.parse(localStorage.getItem('selectedPackageService'));
-  const subTotalString = selectedService.price;
+  const subTotalString = selectedService ? selectedService.price : selectedPackageService.price;
   const [discountPercentage, setDiscountPercentage] = useState(0);
   const [isDiscountApplied, setIsDiscountApplied] = useState(false);
   const [currentDiscountCode, setCurrentDiscountCode] = useState('');
@@ -86,7 +85,7 @@ function Order() {
       setLoginError(null);
 
       try {
-        const response = await axios.post('/CustomerManagements/Login', {
+        const response = await axios.post('/UserManagements/Login', {
           email: values.email,
           password: values.password,
         });

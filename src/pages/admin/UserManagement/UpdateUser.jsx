@@ -31,7 +31,7 @@ function UpdateUser({ selectedUser, onClose, onUpdateUser }) {
         text: 'User updated successfully',
         icon: 'success',
       });
-      
+
       onClose();
     } catch (error) {
       // Show an error message using SweetAlert2

@@ -5,7 +5,6 @@ import { Modal, Form } from 'react-bootstrap';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Button from '@mui/material/Button';
-import { Link } from 'react-router-dom';
 
 import { formatPriceWithDot } from '../../../utils/PriceUtils';
 
@@ -16,7 +15,7 @@ function Detail({ selectedService, selectedPackageService, rating, onClose }) {
         show={!!selectedService || !!selectedPackageService}
         onHide={onClose}
         size="lg"
-        style={{ marginTop: '60px' }}
+        style={{ marginTop: '20px' }}
       >
         <Modal.Header closeButton>
           <Modal.Title>View Details</Modal.Title>
@@ -29,8 +28,13 @@ function Detail({ selectedService, selectedPackageService, rating, onClose }) {
                   <Form.Group className="mb-3 service-image-container">
                     <img
                       src={selectedService ? selectedService.image : selectedPackageService.image}
-                      alt="Service Image"
+                      alt={
+                        selectedService
+                          ? selectedService.serviceName
+                          : selectedPackageService.packageServiceName
+                      }
                       className="service-image"
+                      style={{ top: '16px' }}
                     />
                   </Form.Group>
                 </Col>
@@ -52,7 +56,7 @@ function Detail({ selectedService, selectedPackageService, rating, onClose }) {
                     <Form.Label className="mb-2 ms-3">Description</Form.Label>
                     <Form.Control
                       as="textarea"
-                      rows={3}
+                      rows={4}
                       value={
                         selectedService
                           ? selectedService.serviceDesc
