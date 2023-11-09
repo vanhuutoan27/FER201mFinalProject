@@ -14,7 +14,7 @@ import '../../../components/Management.css';
 function StaffOrder() {
   const session = useContext(AuthContext);
   const user = session.user;
-  const [currentItems, setCurrentItems] = useState([]);
+  // const [currentItems, setCurrentItems] = useState([]);
   const [completedOrders, setCompletedOrders] = useState([]);
   const [selectedOrder, setSelectedOrder] = useState(null);
   const [staffEmail, setStaffEmail] = useState('');
@@ -64,7 +64,7 @@ function StaffOrder() {
     const startIndex = (currentPage - 1) * itemsPerPage;
     const endIndex = startIndex + itemsPerPage;
     const itemsToDisplay = completedOrders.slice(startIndex, endIndex);
-    setCurrentItems(itemsToDisplay);
+    // setCurrentItems(itemsToDisplay);
   };
 
   useEffect(() => {

@@ -27,7 +27,7 @@ function Order() {
   const [isCreditCardPaymentSelected, setIsCreditCardPaymentSelected] = useState(false);
   const [randomCode, setRandomCode] = useState(generateRandomCode());
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [loginError, setLoginError] = useState(null);
+  // const [loginError, setLoginError] = useState(null);
   const isAccountSectionVisible = hasNoSession;
 
   const selectedService = JSON.parse(localStorage.getItem('selectedService'));
@@ -82,7 +82,7 @@ function Order() {
 
     onSubmit: async (values) => {
       setIsSubmitting(true);
-      setLoginError(null);
+      // setLoginError(null);
 
       try {
         const response = await axios.post('/UserManagements/Login', {
@@ -95,7 +95,7 @@ function Order() {
 
         window.location.reload();
       } catch (error) {
-        setLoginError('Invalid email or password. Please try again.');
+        // setLoginError('Invalid email or password. Please try again.');
         console.error(error);
         alert('Failed to login. Please try again');
       } finally {

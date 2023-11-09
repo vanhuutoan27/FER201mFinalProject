@@ -24,7 +24,6 @@ function Profile() {
   const [isLoading, setIsLoading] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
   const [updatedUser, setUpdatedUser] = useState(userInfo);
-  const [uploadingImage, setUploadingImage] = useState(false);
   const [isAvatarChanged, setIsAvatarChanged] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [initialUser, setInitialUser] = useState(userInfo);
@@ -58,6 +57,7 @@ function Profile() {
   const handleSave = async () => {
     setIsLoading(true);
     setIsEditing(false);
+    setIsAvatarChanged(false);
 
     try {
       await axios.put(`/UserManagements/${updatedUser.userId}`, updatedUser);
@@ -100,11 +100,9 @@ function Profile() {
     const storageRef = ref(storage, `/images/${file.name}`);
 
     try {
-      setUploadingImage(true);
       const snapshot = await uploadBytes(storageRef, file, metadata);
       const downloadURL = await getDownloadURL(snapshot.ref);
       setUpdatedUser({ ...updatedUser, avatar: downloadURL });
-      setUploadingImage(false);
       setIsAvatarChanged(true);
     } catch (error) {
       console.error('Error uploading image to Firebase', error);

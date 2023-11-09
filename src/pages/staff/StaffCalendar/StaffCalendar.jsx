@@ -57,7 +57,7 @@ function StaffCalendar() {
 
   useEffect(() => {
     fetchData(user, setEventsData);
-  }, []);
+  }, [user]);
 
   const cellRender = (current, info) => {
     if (info.type === 'date') {

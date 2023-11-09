@@ -84,7 +84,7 @@ function RecoverPassword({ isOpen, onClose }) {
           firstName: foundUser.firstName,
           lastName: foundUser.lastName,
           phone: foundUser.phone,
-          avtar: foundUser.avatar,
+          avatar: foundUser.avatar,
           dob: foundUser.dob,
           sex: foundUser.sex,
           status: foundUser.status,

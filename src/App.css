@@ -1010,6 +1010,10 @@ textarea {
   background-color: #fff;
 }
 
+.modal-open {
+  padding-right: 0 !important;
+}
+
 .chakra-ui-light .modal-open {
   padding-right: 0 !important;
 }

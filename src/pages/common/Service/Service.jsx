@@ -21,25 +21,12 @@ function Service() {
   const [selectedService, setSelectedService] = useState(null);
   const [selectedPackageService, setSelectedPackageService] = useState(null);
   const [isDetailModalVisible, setDetailModalVisible] = useState(false);
-  const [staffOrders, setStaffOrders] = useState([]);
   const [combinedData, setCombinedData] = useState([]);
 
   useEffect(() => {
     localStorage.removeItem('selectedService');
     localStorage.removeItem('selectedPackageService');
   }, []);
-
-  const handleOrderServiceClick = (service) => {
-    localStorage.setItem('selectedService', JSON.stringify(service));
-    setSelectedService(service);
-    window.scrollTo(0, 0);
-  };
-
-  const handleOrderPackageServiceClick = (packageService) => {
-    localStorage.setItem('selectedPackageService', JSON.stringify(packageService));
-    setSelectedPackageService(packageService);
-    window.scrollTo(0, 0);
-  };
 
   const handleViewServiceDetailClick = (service) => {
     setSelectedService(service);
@@ -53,6 +40,18 @@ function Service() {
     setSelectedPackageService(packageService);
     setDetailModalVisible(true);
     document.body.style.overflow = 'hidden';
+  };
+
+  const handleOrderServiceClick = (service) => {
+    localStorage.setItem('selectedService', JSON.stringify(service));
+    setSelectedService(service);
+    window.scrollTo(0, 0);
+  };
+
+  const handleOrderPackageServiceClick = (packageService) => {
+    localStorage.setItem('selectedPackageService', JSON.stringify(packageService));
+    setSelectedPackageService(packageService);
+    window.scrollTo(0, 0);
   };
 
   useEffect(() => {
@@ -100,7 +99,7 @@ function Service() {
 
     axios
       .get('/StaffOrderManagements')
-      .then((response) => setStaffOrders(response.data))
+      .then((response) => console.log(response.data))
       .catch((error) => console.log(error));
   }, []);
 

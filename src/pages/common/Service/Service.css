@@ -85,6 +85,7 @@
   display: flex;
   flex-wrap: wrap;
   gap: 30px;
+  margin-left: 20px;
 }
 
 .menu .menu_box .menu_card {
@@ -115,7 +116,7 @@
 }
 
 .menu .menu_box .menu_card .menu_image:hover {
-  transform: translateY(-10px);
+  transform: translateY(-8px);
 }
 
 .menu .menu_box .menu_card .menu_info h2 {
@@ -406,7 +407,7 @@
 
 .team .team_box .profile:hover {
   border-radius: 20px;
-  height: 275px;
+  height: 225px;
 }
 
 .team .team_box .profile img {
@@ -424,7 +425,7 @@
 
 .team .team_box .profile:hover img {
   border-radius: 20px;
-  margin-top: -230px;
+  margin-top: -200px;
 }
 
 .team .team_box .profile .info {

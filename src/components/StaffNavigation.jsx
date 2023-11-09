@@ -21,7 +21,6 @@ function StaffNavigation() {
   const session = useContext(AuthContext);
   const userInfo = session.user.user;
   const [isLoading, setIsLoading] = useState(false); // Thêm biến state isLoading
-  const [allStaffs, setAllStaffs] = useState([]);
   const location = useLocation();
 
   const handleLogout = (e) => {
@@ -46,7 +45,7 @@ function StaffNavigation() {
   useEffect(() => {
     axios
       .get('/UserManagements')
-      .then((response) => setAllStaffs(response.data))
+      .then((response) => console.log(response.data))
       .catch((error) => console.log(error));
   }, []);
 
