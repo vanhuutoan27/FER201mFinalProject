@@ -27,7 +27,7 @@ function Completion() {
                     2
                   </Link>
                   <Link to="" className="progress-label">
-                    Shipping
+                    Processing
                   </Link>
                 </li>
 

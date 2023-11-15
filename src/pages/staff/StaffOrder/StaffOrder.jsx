@@ -30,9 +30,7 @@ function StaffOrder() {
       .get('/OrderManagements')
       .then((response) => {
         const orders = response.data;
-
         const pendingOrders = orders.filter((order) => order.status === 'Pending');
-
         pendingOrders.sort((a, b) => b.orderId - a.orderId);
 
         setCompletedOrders(pendingOrders);

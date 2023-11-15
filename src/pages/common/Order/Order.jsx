@@ -280,7 +280,7 @@ function Order() {
                     2
                   </Link>
                   <Link to="" className="progress-label">
-                    Shipping
+                    Processing
                   </Link>
                 </li>
 
@@ -346,7 +346,7 @@ function Order() {
               className={`changeable-content ${isAccountSectionVisible ? 'hidden' : ''}`}
             >
               <div className="main-info-section">
-                <h2>Shipping Details</h2>
+                <h2>Processing Details</h2>
                 <Row>
                   <Col sm={7}>
                     <Form.Group>

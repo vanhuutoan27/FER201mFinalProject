@@ -9,6 +9,8 @@ import axios from '../../../config/axios';
 import Swal from 'sweetalert2';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
+import CountUp from 'react-countup';
+import { Waypoint } from 'react-waypoint';
 
 import StaffNavigation from '../../../components/StaffNavigation';
 // import Footer from '../../'
@@ -25,8 +27,13 @@ function StaffProfile() {
   const [isAvatarChanged, setIsAvatarChanged] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [initialUser, setInitialUser] = useState(userInfo);
+  const [startCountUp, setStartCountUp] = useState(false);
 
   const [totalOrders, setTotalOrders] = useState(0);
+
+  const handleWaypointEnter = () => {
+    setStartCountUp(true);
+  };
 
   const handleReset = () => {
     if (!isEditing) {
@@ -151,14 +158,14 @@ function StaffProfile() {
               <h3 className="title">{`${userInfo.firstName} ${userInfo.lastName}`}</h3>
               <p>{userInfo.email}</p>
             </div>
-            <div className="card-avatar-body">
-              <h2 className="title">About</h2>
-              <p>
-                I am a dedicated cleaning professional at 4Stu Services, committed to providing high
-                quality cleaning and maintenance solutions to our valued customers. Let's make your
-                space shine together!
-              </p>
-            </div>
+            <Waypoint onEnter={handleWaypointEnter}>
+              <div className="card-avatar-body">
+                <h2 className="title">Total Orders</h2>
+                <h2 className="title" style={{ fontSize: '60px', color: 'var(--primary-color-5)' }}>
+                  <CountUp end={startCountUp ? totalOrders : 0} duration={2} />
+                </h2>
+              </div>
+            </Waypoint>
           </div>
           <div className="card-info">
             <div className="card-info-box">
@@ -180,6 +187,29 @@ function StaffProfile() {
                       readOnly
                     />
                   </Form.Group>
+
+                  <Form.Group className="mb-4">
+                    <Form.Label className="mb-2 ms-3">First Name</Form.Label>
+                    <Form.Control
+                      type="text"
+                      value={updatedUser.firstName}
+                      onChange={(e) =>
+                        setUpdatedUser({ ...updatedUser, firstName: e.target.value })
+                      }
+                      readOnly={!isEditing}
+                    />
+                  </Form.Group>
+
+                  <Form.Group className="mb-4">
+                    <Form.Label className="mb-2 ms-3">Email</Form.Label>
+                    <Form.Control
+                      type="text"
+                      value={updatedUser.email}
+                      onChange={(e) => setUpdatedUser({ ...updatedUser, email: e.target.value })}
+                      readOnly={!isEditing}
+                    />
+                  </Form.Group>
+
                   <Form.Group className="mb-4">
                     <Form.Label className="mb-2 ms-3">Date of Birth</Form.Label>
                     <Form.Control
@@ -191,6 +221,37 @@ function StaffProfile() {
                           dob: isEditing ? e.target.value : convertToRequiredFormat(e.target.value),
                         })
                       }
+                      readOnly={!isEditing}
+                    />
+                  </Form.Group>
+                </Col>
+
+                <Col className="ml-8">
+                  <Form.Group className="mb-4">
+                    <Form.Label className="mb-2 ms-3">Date Created</Form.Label>
+                    <Form.Control
+                      type="text"
+                      value={formatDate(updatedUser.dateCreated)}
+                      readOnly
+                    />
+                  </Form.Group>
+
+                  <Form.Group className="mb-4">
+                    <Form.Label className="mb-2 ms-3">Last Name</Form.Label>
+                    <Form.Control
+                      type="text"
+                      value={updatedUser.lastName}
+                      onChange={(e) => setUpdatedUser({ ...updatedUser, lastName: e.target.value })}
+                      readOnly={!isEditing}
+                    />
+                  </Form.Group>
+
+                  <Form.Group className="mb-4">
+                    <Form.Label className="mb-2 ms-3">Phone</Form.Label>
+                    <Form.Control
+                      type="text"
+                      value={updatedUser.phone}
+                      onChange={(e) => setUpdatedUser({ ...updatedUser, phone: e.target.value })}
                       readOnly={!isEditing}
                     />
                   </Form.Group>
@@ -226,32 +287,8 @@ function StaffProfile() {
                     </div>
                   </Form.Group>
                 </Col>
-                <Col className="ml-8">
-                  <Form.Group className="mb-4">
-                    <Form.Label className="mb-2 ms-3">Date Created</Form.Label>
-                    <Form.Control
-                      type="text"
-                      value={formatDate(updatedUser.dateCreated)}
-                      readOnly
-                    />
-                  </Form.Group>
-                  <Form.Group className="mb-4">
-                    <Form.Label className="mb-2 ms-3">Phone</Form.Label>
-                    <Form.Control
-                      type="text"
-                      value={updatedUser.phone}
-                      onChange={(e) => setUpdatedUser({ ...updatedUser, phone: e.target.value })}
-                      readOnly={!isEditing}
-                    />
-                  </Form.Group>
-
-                  <Form.Group className="mb-4">
-                    <Form.Label className="mb-2 ms-3">Total Orders</Form.Label>
-                    <Form.Control type="text" value={totalOrders} readOnly />
-                  </Form.Group>
-                </Col>
               </Row>
-              <div style={{ display: 'flex', justifyContent: 'flex-end', marginTop: '100px' }}>
+              <div style={{ display: 'flex', justifyContent: 'flex-end', marginTop: '16px' }}>
                 <Button
                   variant="contained"
                   className="btn"

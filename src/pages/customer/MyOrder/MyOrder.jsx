@@ -109,9 +109,9 @@ function MyOrder() {
 
   filteredOrders.sort((a, b) => {
     const orderStatusOrder = {
-      Completed: 1,
+      Completed: 3,
       Processing: 2,
-      Pending: 3,
+      Pending: 1,
     };
 
     return orderStatusOrder[a.status] - orderStatusOrder[b.status] || b.orderId - a.orderId;

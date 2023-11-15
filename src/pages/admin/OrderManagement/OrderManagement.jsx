@@ -71,8 +71,12 @@ function OrderManagement() {
       return { ...order, ...staffInfo };
     });
 
-    setFilteredOrders(updatedOrders);
-  }, [allOrders, staffOrders, allUsers]);
+    const filtered = updatedOrders.filter((order) =>
+      order.serviceName.toLowerCase().includes(searchQuery.toLowerCase())
+    );
+
+    setFilteredOrders(filtered);
+  }, [allOrders, staffOrders, allUsers, searchQuery]);
 
   // Handle clicking the "View" button for a specific order.
   const handleViewServiceClick = (order) => {

@@ -49,7 +49,7 @@ function UpdateOrder({ selectedOrder, onClose, onOrderUpdate }) {
         title: 'Success',
         text: 'Order updated successfully',
       });
-      
+
       // Call the onOrderUpdate callback to update the local state.
       onOrderUpdate(updatedOrder);
       // Close the modal.
@@ -103,6 +103,7 @@ function UpdateOrder({ selectedOrder, onClose, onOrderUpdate }) {
                     <Form.Control
                       type="text"
                       value={orderRatings[selectedOrder.orderId] || 'Null'}
+                      readOnly
                     />
                   </Form.Group>
                 </Col>
@@ -169,6 +170,7 @@ function UpdateOrder({ selectedOrder, onClose, onOrderUpdate }) {
                       name="customerName"
                       value={updatedOrder.customerName || ''}
                       onChange={handleInputChange}
+                      readOnly
                     />
                   </Form.Group>
                 </Col>
@@ -191,6 +193,7 @@ function UpdateOrder({ selectedOrder, onClose, onOrderUpdate }) {
                       name="email"
                       value={updatedOrder.email || ''}
                       onChange={handleInputChange}
+                      readOnly
                     />
                   </Form.Group>
                 </Col>

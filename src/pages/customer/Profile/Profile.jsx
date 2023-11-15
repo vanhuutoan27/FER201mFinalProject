@@ -135,7 +135,11 @@ function Profile() {
             </div>
             <div className="card-avatar-body">
               <h2 className="title">About</h2>
-              <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolores dolorem ipsum.</p>
+              <p style={{ fontSize: '15px', color: 'gray' }}>
+                Hello everyone! I am {`${userInfo.firstName} ${userInfo.lastName}`}, a person who
+                pursues a passion for research and science. With the desire to discover the
+                mysteries of the world.
+              </p>
             </div>
             <div className="card-avatar-footer">
               <Link to="#!">
@@ -145,7 +149,7 @@ function Profile() {
           </div>
           <div className="card-info">
             <div className="card-info-box">
-              <h2 className="title">User Information</h2>
+              <h2 className="title">Customer Information</h2>
               <Row>
                 <Col className="mr-8">
                   <Form.Group className="mb-3">

@@ -80,19 +80,19 @@ function Statistics() {
           <div className="row-qty">
             <div className="qty-item">
               <strong className="qty">
-                <CountUp end={startCountUp ? customerCount * 10 : 0} duration={3} />+
+                <CountUp end={startCountUp ? customerCount : 0} duration={3} />+
               </strong>
-              <p className="qty-desc">Cutomers</p>
+              <p className="qty-desc">Customers</p>
             </div>
             <div className="qty-item">
               <strong className="qty">
-                <CountUp end={startCountUp ? orderCount * 100 : 0} duration={3} />+
+                <CountUp end={startCountUp ? orderCount : 0} duration={3} />+
               </strong>
               <p className="qty-desc">Orders</p>
             </div>
             <div className="qty-item">
               <strong className="qty">
-                <CountUp end={startCountUp ? feedbackCount * 50 : 0} duration={3} />+
+                <CountUp end={startCountUp ? feedbackCount : 0} duration={3} />+
               </strong>
               <p className="qty-desc">Feedbacks</p>
             </div>
